@@ -24,8 +24,13 @@ export function DonorPortal() {
       <div className="relative">
         <img src="/donor-hero.jpg" alt="Donor Portal" className="w-full h-[260px] sm:h-[320px] object-cover" />
         <div className="bg-secondary-solid text-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
             <h1 className="text-xl sm:text-2xl font-semibold">Donor portal</h1>
+            <Button asChild className="bg-white text-secondary-color hover:opacity-90">
+              <Link to={isLoggedIn ? "/donor-portal" : "/donor-portal/login"}>
+                {isLoggedIn ? "Open Dashboard" : "Login to Donor Portal"}
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
