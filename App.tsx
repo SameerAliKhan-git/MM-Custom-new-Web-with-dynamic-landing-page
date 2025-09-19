@@ -12,6 +12,7 @@ import { Sitemap } from "./components/Sitemap"
 import { Disclaimer } from "./components/Disclaimer"
 import { Contact } from "./components/Contact"
 import { Privacy } from "./components/Privacy"
+import { DonorPortal } from "./components/DonorPortal"
 import { Toaster } from "./components/ui/sonner"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
@@ -66,6 +67,14 @@ export default function App() {
             element={
               <main className="relative z-0">
                 <Contact />
+              </main>
+            }
+          />
+          <Route
+            path="/donor-portal"
+            element={
+              <main className="relative z-0">
+                <DonorPortal />
               </main>
             }
           />

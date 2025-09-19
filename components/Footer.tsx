@@ -32,6 +32,7 @@ const footerLinks = {
     { name: "News & Updates", href: "/news" },
     { name: "Events", href: "/events" },
     { name: "Photo Gallery", href: "/gallery" },
+    { name: "Donor portal", href: "/donor-portal" },
     { name: "Contact Us", href: "/contact" },
     { name: "Sitemap", href: "/sitemap" }
   ]
