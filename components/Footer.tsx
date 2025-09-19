@@ -1,8 +1,9 @@
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Separator } from "./ui/separator"
-import { Heart, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react"
+import { Heart, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, MessageCircle } from "lucide-react"
 import { ImageWithFallback } from "./figma/ImageWithFallback"
+import { Label } from "./ui/label"
 
 const footerLinks = {
   "About": [
@@ -44,14 +45,18 @@ const socialLinks = [
 ]
 
 const contactInfo = [
-  { icon: Mail, text: "info@mahimaministries.org" },
-  { icon: Phone, text: "+91 98765 43210" },
-  { icon: MapPin, text: "Mahima Complex, Service Road, New Delhi 110001" }
+  { icon: Mail, text: "mahimaministriesindia@gmail.com" },
+  { icon: Phone, text: "+91 9246502264"  },
+  { icon: MessageCircle, text: "+91 9246272675" },
+  { icon : Phone, text: "040-23032675" },
+  { icon: MapPin, text: "H.No: 2-38/8/2/9/4/1 Mahima Ministries, NTR Nagar colony, Ameenpur(Mandal), Sangareddy(District), Telangana. Postal Code : 502032" }
 ]
 
 export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10">
+      {/* Teal top bar for brand balance */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-secondary-solid z-20" />
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <ImageWithFallback
@@ -85,7 +90,7 @@ export function Footer() {
                 const IconComponent = contact.icon
                 return (
                   <div key={index} className="flex items-center gap-2 text-sm text-white/80">
-                    <IconComponent className="h-4 w-4 opacity-80" />
+                    <IconComponent className={`${contact.icon === MapPin ? "h-8 w-8" : "h-4 w-4"} opacity-80`} />
                     <span>{contact.text}</span>
                   </div>
                 )
@@ -100,7 +105,7 @@ export function Footer() {
                   <a
                     key={index}
                     href={social.href}
-                    className="text-white/80 hover:text-primary transition-colors p-2 hover:bg-white/10 rounded-lg"
+                    className="text-white/80 hover:text-secondary-color transition-colors p-2 hover:bg-white/10 rounded-lg"
                     aria-label={social.label}
                   >
                     <IconComponent className="h-5 w-5" />
@@ -119,7 +124,7 @@ export function Footer() {
                   <li key={index}>
                     <a
                       href={link.href}
-                      className="text-white/80 hover:text-primary transition-colors text-sm"
+                      className="text-white/80 hover:text-secondary-color transition-colors text-sm"
                     >
                       {link.name}
                     </a>
@@ -143,7 +148,7 @@ export function Footer() {
                 placeholder="Enter your email"
                 className="flex-1 bg-white/10 border-white/20 text-white placeholder-white/60 focus-visible:ring-white/40"
               />
-              <Button className="bg-primary hover:bg-primary/90 shrink-0 text-white">
+              <Button className="bg-secondary-solid hover:opacity-90 shrink-0 text-white">
                 Subscribe
               </Button>
             </div>
@@ -153,7 +158,7 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-8 bg-white/20" />
+        <Separator className="my-8 bg-transparent" />
 
         {/* Bottom section */}
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 text-sm text-white/70">
@@ -162,16 +167,19 @@ export function Footer() {
             <p>Registered NGO • 20 Years of Creating Lasting Change</p>
           </div>
           <div className="flex space-x-6">
-            <a href="/sitemap" className="hover:text-primary transition-colors">
+            <a href="/sitemap" className="hover:text-secondary-color transition-colors">
               Sitemap
             </a>
-            <a href="/privacy" className="hover:text-primary transition-colors">
+            <a href="/disclaimer" className="hover:text-secondary-color transition-colors">
+              Disclaimer
+            </a>
+            <a href="/privacy" className="hover:text-secondary-color transition-colors">
               Privacy Policy
             </a>
-            <a href="/terms" className="hover:text-primary transition-colors">
+            <a href="/terms" className="hover:text-secondary-color transition-colors">
               Terms of Service
             </a>
-            <a href="/transparency" className="hover:text-primary transition-colors">
+            <a href="/transparency" className="hover:text-secondary-color transition-colors">
               Transparency
             </a>
           </div>

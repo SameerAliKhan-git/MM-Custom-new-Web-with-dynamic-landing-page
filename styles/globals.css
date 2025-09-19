@@ -262,4 +262,18 @@ html {
   /* Solid primary section background + readable text color */
   .bg-primary-solid { background-color: var(--primary); }
   .text-primary-foreground-color { color: var(--primary-foreground); }
+
+  /* Secondary token helpers */
+  .bg-secondary-solid { background-color: var(--secondary); }
+  .text-secondary-color { color: var(--secondary); }
+  .hover\:text-secondary-color:hover { color: var(--secondary); }
+  .hover\:bg-secondary-solid:hover { background-color: var(--secondary); }
+
+  /* SVG helpers */
+  .stroke-primary-deep { stroke: color-mix(in oklab, var(--primary) 70%, black); }
+
+  /* Animation duration helpers */
+  .anim-duration-3000 { animation-duration: 3s; }
+  .anim-duration-4000 { animation-duration: 4s; }
+  .anim-duration-5000 { animation-duration: 5s; }
 }

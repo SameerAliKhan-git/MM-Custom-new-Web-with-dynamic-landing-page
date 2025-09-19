@@ -123,15 +123,15 @@ export function DonationTypes() {
         </div>
       </div>
       {/* Donation legal/info text */}
-      <div className="mt-10 text-center px-4">
+      <div className="mt-10 text-center px-4 space-y-3">
         {/* Bright, eye-catching pill for 80G notice */}
-        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-300 text-black font-medium shadow-md shadow-black/10 text-sm">
-          <div className="h-2 w-2 bg-black/70 rounded-full"></div>
-          Tax-deductible donations under Section 80G
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-teal-100 text-teal-800 font-medium shadow-lg shadow-teal-500/10 text-sm border border-teal-200">
+          <div className="h-2 w-2 bg-teal-500 rounded-full"></div>
+          Tax-deductible donations under Section 80G(5) of the Income Tax Act,1961
         </div>
         {/* Blurred bar for transparency message */}
-        <div className="mt-3 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/20 backdrop-blur-md text-primary-foreground-color">
-          <div className="h-2 w-2 bg-white rounded-full"></div>
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-sky-100 text-sky-800 font-medium shadow-lg shadow-sky-500/10 text-sm border border-sky-200">
+          <div className="h-2 w-2 bg-sky-500 rounded-full"></div>
           All donations are secure, transparent, and directly support our beneficiaries.
         </div>
       </div>

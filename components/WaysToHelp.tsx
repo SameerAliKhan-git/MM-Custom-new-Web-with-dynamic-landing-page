@@ -98,8 +98,8 @@ export function WaysToHelp() {
 
         {/* Additional info */}
         <div className="mt-16 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm">
-            <div className="h-2 w-2 bg-green-500 rounded-full"></div>
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-teal-100 text-teal-800 font-medium shadow-lg shadow-teal-500/10 text-sm border border-teal-200">
+            <div className="h-2 w-2 bg-teal-500 rounded-full"></div>
             Tax-deductible donations under Section 80G
           </div>
           <p className="text-muted-foreground">

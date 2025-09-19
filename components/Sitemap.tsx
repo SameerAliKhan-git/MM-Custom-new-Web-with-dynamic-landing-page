@@ -104,7 +104,7 @@ function CardLink({ item }: { item: Item }) {
   )
 }
 
-function GroupColumn({ group }: { group: Group }) {
+function GroupColumn({ group, outerRef }: { group: Group; outerRef?: (el: HTMLDivElement | null) => void }) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const pillRef = useRef<HTMLDivElement | null>(null)
   const listRef = useRef<HTMLDivElement | null>(null)
@@ -214,7 +214,13 @@ function GroupColumn({ group }: { group: Group }) {
   }, [])
 
   return (
-    <div ref={containerRef} className="relative flex flex-col items-center">
+    <div
+      ref={(el) => {
+        containerRef.current = el
+        outerRef?.(el)
+      }}
+      className="relative flex flex-col items-center"
+    >
       <div ref={pillRef} className="relative inline-block z-10">
         {/* Blue tap from top horizontal into CENTER of parent pill */}
   <div className="absolute -top-6 left-1/2 -translate-x-[1px] h-6 w-[2px] bg-primary" />
@@ -323,6 +329,41 @@ function GroupColumn({ group }: { group: Group }) {
 }
 
 export function Sitemap() {
+  const rowRef = React.useRef<HTMLDivElement | null>(null)
+  const groupRefs = React.useRef<Array<HTMLDivElement | null>>([])
+  const [topSpan, setTopSpan] = React.useState<{ left: number; width: number }>({ left: 0, width: 0 })
+
+  useLayoutEffect(() => {
+    const recalc = () => {
+      const rowEl = rowRef.current
+      if (!rowEl) return
+      const rowRect = rowEl.getBoundingClientRect()
+      // Filter valid refs
+      const rects = groupRefs.current
+        .filter((el): el is HTMLDivElement => !!el)
+        .map((el) => el.getBoundingClientRect())
+      if (rects.length === 0) return
+      let minLeft = Math.min(...rects.map((r) => r.left))
+      let maxRight = Math.max(...rects.map((r) => r.right))
+      // Convert to row-local coordinates
+      let left = Math.round(minLeft - rowRect.left)
+      let right = Math.round(maxRight - rowRect.left)
+      // Snap to even pixels for crisp 2px stroke
+      if (left % 2 !== 0) left += 1
+      if (right % 2 !== 0) right -= 1
+      const width = Math.max(0, right - left)
+      setTopSpan({ left, width })
+    }
+    recalc()
+    const onResize = () => recalc()
+    window.addEventListener("resize", onResize)
+    const t = setTimeout(recalc, 50)
+    return () => {
+      window.removeEventListener("resize", onResize)
+      clearTimeout(t)
+    }
+  }, [])
+
   return (
     <section id="sitemap" className="py-12 bg-secondary-tint">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -338,13 +379,29 @@ export function Sitemap() {
           <div className="h-8 w-[2px] bg-primary" />
 
           {/* Horizontal connector under Home across all groups (root -> parents) */}
-          <div className="relative w-full max-w-7xl pt-6">
-            <div className="absolute left-0 right-0 top-0 h-[2px] bg-primary" />
+          <div ref={rowRef} className="relative w-full max-w-7xl pt-6">
+            {/* Measured horizontal: only spans between leftmost and rightmost group columns (SVG to avoid inline styles) */}
+            <svg className="pointer-events-none absolute left-0 top-0 h-[2px] w-full" aria-hidden="true" shapeRendering="crispEdges">
+              <line
+                x1={topSpan.left}
+                x2={topSpan.left + topSpan.width}
+                y1={1}
+                y2={1}
+                stroke="#ff7518"
+                strokeWidth={2}
+                strokeLinecap="square"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
 
             {/* Category row */}
             <div className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-12 justify-items-center z-10">
-              {groups.map((g) => (
-                <GroupColumn key={g.title} group={g} />
+              {groups.map((g, idx) => (
+                <GroupColumn
+                  key={g.title}
+                  group={g}
+                  outerRef={(el) => (groupRefs.current[idx] = el)}
+                />
               ))}
             </div>
           </div>

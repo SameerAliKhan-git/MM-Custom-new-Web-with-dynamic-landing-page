@@ -3,12 +3,15 @@ import { Hero } from "./components/Hero"
 import { About } from "./components/About"
 import { CoreInitiatives } from "./components/CoreInitiatives"
 import { ImpactNumbers } from "./components/ImpactNumbers"
-import { OurReach } from "./components/OurReach"
+// import { OurReach } from "./components/OurReach" // Temporarily disabled per user request
 import { StoriesOfImpact } from "./components/StoriesOfImpact"
 import { Footer } from "./components/Footer"
 import { CommitmentSection } from "./components/CommitmentSection"
 import { DonationTypes } from "./components/DonationTypes"
 import { Sitemap } from "./components/Sitemap"
+import { Disclaimer } from "./components/Disclaimer"
+import { Contact } from "./components/Contact"
+import { Toaster } from "./components/ui/sonner"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 function HomeMain() {
@@ -18,7 +21,7 @@ function HomeMain() {
       <About />
       <CoreInitiatives />
       <ImpactNumbers />
-      <OurReach />
+  {/* <OurReach /> */}
       <CommitmentSection />
       <StoriesOfImpact />
       <DonationTypes />
@@ -41,8 +44,25 @@ export default function App() {
               </main>
             }
           />
+          <Route
+            path="/disclaimer"
+            element={
+              <main className="relative z-0">
+                <Disclaimer />
+              </main>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <main className="relative z-0">
+                <Contact />
+              </main>
+            }
+          />
         </Routes>
         <Footer />
+        <Toaster richColors position="top-center" />
       </div>
     </BrowserRouter>
   )
