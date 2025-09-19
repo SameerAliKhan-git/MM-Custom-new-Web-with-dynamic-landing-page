@@ -17,11 +17,15 @@ export function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <div className="space-y-6">
-              <Badge variant="outline" className="w-fit">About Us</Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold">
+              {/* Stripe + heading to match Sitemap styling */}
+              <div className="flex items-center gap-3">
+                <span className="inline-block h-1.5 w-16 bg-[#e74c3c] rounded-full" />
+                <h2 className="text-2xl sm:text-3xl font-semibold text-[#e74c3c]">About Us</h2>
+              </div>
+              <h3 className="text-3xl sm:text-4xl font-bold">
                 We believe every person deserves 
                 <span className="text-primary"> hope and dignity</span>
-              </h2>
+              </h3>
               <p className="text-lg text-muted-foreground">
                 Founded in 2005, Mahima Ministries has been dedicated to creating lasting change through comprehensive programs in child welfare & education, old-aged welfare, disabled care, skilling youth, and social activities across India.
               </p>

@@ -87,10 +87,10 @@ export function ImpactNumbers() {
         <div className="container mx-auto">
           {/* Header section */}
           <div className="mb-12">
-            <div className="w-16 h-1 bg-primary-foreground mb-4"></div>
-            <h2 className="text-3xl lg:text-4xl font-semibold mb-2">
-              Our Impact: transforming lives
-            </h2>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="inline-block h-1.5 w-16 bg-primary-foreground rounded-full" />
+              <h2 className="text-3xl lg:text-4xl font-semibold text-primary-foreground">Our Impact: transforming lives</h2>
+            </div>
             <p className="text-lg opacity-80">2024-25</p>
           </div>
 

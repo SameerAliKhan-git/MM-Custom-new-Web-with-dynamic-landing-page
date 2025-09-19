@@ -24,9 +24,10 @@ export function CommitmentSection() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-8">
-          Our Commitment to Every Child
-        </h2>
+        <div className="flex items-center gap-3 mb-8">
+          <span className="inline-block h-1.5 w-16 bg-white rounded-full" />
+          <h2 className="text-2xl sm:text-3xl font-semibold text-white">Our Commitment to Every Child</h2>
+        </div>
 
         {/* Pills grid: two rows on lg like in the screenshot */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">

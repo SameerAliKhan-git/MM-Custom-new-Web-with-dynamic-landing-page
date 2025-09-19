@@ -43,11 +43,14 @@ export function CoreInitiatives() {
   return (
     <section className="py-20 bg-white">
       <div className="w-full">
-        {/* Blue header section */}
-        <div className="bg-primary text-primary-foreground py-6 px-8">
-          <h1 className="text-2xl lg:text-3xl font-semibold">
-            Mahima Ministries: Caring for Communities
-          </h1>
+        {/* Header section with stripe + heading to match Sitemap */}
+        <div className="py-6 px-8">
+          <div className="flex items-center gap-3">
+            <span className="inline-block h-1.5 w-16 bg-[#e74c3c] rounded-full" />
+            <h1 className="text-2xl lg:text-3xl font-semibold text-[#e74c3c]">
+              Mahima Ministries: Caring for Communities
+            </h1>
+          </div>
         </div>
 
         {/* Main content section */}
@@ -57,50 +60,50 @@ export function CoreInitiatives() {
               <h2 className="text-2xl lg:text-3xl font-semibold text-foreground mb-2">
                 Our key areas of focus
               </h2>
-              <div className="w-16 h-1 bg-primary"></div>
+              <div className="w-16 h-1 bg-[#e74c3c]"></div>
             </div>
 
             {/* Focus area cards */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
                 <div className="flex justify-center mb-3">
-                  <GraduationCap className="h-12 w-12 text-primary" />
+                  <GraduationCap className="h-12 w-12 text-[#e74c3c]" />
                 </div>
                 <div className="text-sm font-medium text-card-foreground">
                   Child Welfare & Education
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
                 <div className="flex justify-center mb-3">
-                  <Heart className="h-12 w-12 text-primary" />
+                  <Heart className="h-12 w-12 text-[#e74c3c]" />
                 </div>
                 <div className="text-sm font-medium text-card-foreground">
                   Old-Aged Welfare
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
                 <div className="flex justify-center mb-3">
-                  <Wrench className="h-12 w-12 text-primary" />
+                  <Wrench className="h-12 w-12 text-[#e74c3c]" />
                 </div>
                 <div className="text-sm font-medium text-card-foreground">
                   Youth Skilling
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
                 <div className="flex justify-center mb-3">
-                  <HandHeart className="h-12 w-12 text-primary" />
+                  <HandHeart className="h-12 w-12 text-[#e74c3c]" />
                 </div>
                 <div className="text-sm font-medium text-card-foreground">
                   Disabled Care
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
                 <div className="flex justify-center mb-3">
-                  <TreePine className="h-12 w-12 text-primary" />
+                  <TreePine className="h-12 w-12 text-[#e74c3c]" />
                 </div>
                 <div className="text-sm font-medium text-card-foreground">
                   Social Activities

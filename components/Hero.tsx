@@ -1,23 +1,86 @@
+import React, { useEffect, useRef, useState } from "react"
+import useEmblaCarousel from "embla-carousel-react"
 import { Button } from "./ui/button"
 import { ArrowRight, Play, Heart } from "lucide-react"
-import { ImageWithFallback } from "./figma/ImageWithFallback"
+
+const heroImages = [
+  "https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1606761568499-6d2451b23c07?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
+]
 
 export function Hero() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 20 })
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [inView, setInView] = useState(false)
+
+  const start = () => {
+    if (!emblaApi || !inView || timerRef.current) return
+    timerRef.current = setInterval(() => emblaApi.scrollNext(), 3500)
+  }
+  const stop = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
+  }
+
+  useEffect(() => {
+    if (!emblaApi) return
+    const onPointerDown = () => stop()
+    const onPointerUp = () => start()
+    emblaApi.on("pointerDown", onPointerDown)
+    emblaApi.on("pointerUp", onPointerUp)
+    return () => {
+      emblaApi.off("pointerDown", onPointerDown)
+      emblaApi.off("pointerUp", onPointerUp)
+    }
+  }, [emblaApi])
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries[0].isIntersecting
+        setInView(visible)
+      },
+      { threshold: 0.4 }
+    )
+    io.observe(sectionRef.current)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    stop()
+    if (inView) start()
+    return () => stop()
+  }, [inView, emblaApi])
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
-        <ImageWithFallback
-          src="https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMGxlYXJuaW5nJTIwY2xhc3Nyb29tJTIwZWR1Y2F0aW9ufGVufDF8fHx8MTc1ODAzMjQ4Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-          alt="Children learning in classroom"
-          className="w-full h-full object-cover"
-        />
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/50"></div>
+    <section
+      ref={sectionRef as any}
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      onMouseEnter={stop}
+      onMouseLeave={start}
+    >
+      {/* Background slider */}
+      <div ref={emblaRef} className="absolute inset-0 z-0 overflow-hidden">
+        <div className="flex h-full">
+          {heroImages.map((src, i) => (
+            <div key={i} className="relative h-full flex-[0_0_100%] min-w-0">
+              <img src={src} alt="" className="h-full w-full object-cover" />
+            </div>
+          ))}
+        </div>
       </div>
 
+      {/* Readability overlay */}
+      <div className="absolute inset-0 z-10 bg-black/50" />
+
       {/* Content overlay */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="space-y-6">
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white">
@@ -69,9 +132,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Floating impact stat */}
-
     </section>
   )
 }

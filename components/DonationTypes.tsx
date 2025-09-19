@@ -88,7 +88,10 @@ export function DonationTypes() {
   return (
     <section ref={sectionRef} className="bg-primary-solid py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-primary-foreground-color text-center mb-8 sm:mb-12">How You Can Support</h2>
+        <div className="flex items-center gap-3 mb-8 sm:mb-12">
+          <span className="inline-block h-1.5 w-16 bg-white rounded-full" />
+          <h2 className="text-3xl sm:text-4xl font-bold text-white">How You Can Support</h2>
+        </div>
 
         <div className="relative">
           <Carousel opts={{ align: "start" }} setApi={setApi} className="mx-auto max-w-7xl">

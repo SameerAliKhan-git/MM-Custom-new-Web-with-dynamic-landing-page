@@ -31,7 +31,8 @@ const footerLinks = {
     { name: "News & Updates", href: "/news" },
     { name: "Events", href: "/events" },
     { name: "Photo Gallery", href: "/gallery" },
-    { name: "Contact Us", href: "/contact" }
+    { name: "Contact Us", href: "/contact" },
+    { name: "Sitemap", href: "/sitemap" }
   ]
 }
 
@@ -161,6 +162,9 @@ export function Footer() {
             <p>Registered NGO • 20 Years of Creating Lasting Change</p>
           </div>
           <div className="flex space-x-6">
+            <a href="/sitemap" className="hover:text-primary transition-colors">
+              Sitemap
+            </a>
             <a href="/privacy" className="hover:text-primary transition-colors">
               Privacy Policy
             </a>
