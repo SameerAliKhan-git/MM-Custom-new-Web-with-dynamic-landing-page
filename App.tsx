@@ -11,6 +11,7 @@ import { DonationTypes } from "./components/DonationTypes"
 import { Sitemap } from "./components/Sitemap"
 import { Disclaimer } from "./components/Disclaimer"
 import { Contact } from "./components/Contact"
+import { Privacy } from "./components/Privacy"
 import { Toaster } from "./components/ui/sonner"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
@@ -49,6 +50,14 @@ export default function App() {
             element={
               <main className="relative z-0">
                 <Disclaimer />
+              </main>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <main className="relative z-0">
+                <Privacy />
               </main>
             }
           />
