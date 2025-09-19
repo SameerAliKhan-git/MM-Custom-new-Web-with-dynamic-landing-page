@@ -2,8 +2,13 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { CheckCircle2, FileDown, History, Settings, Mail, Shield, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export function DonorPortal() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("donorLoggedIn") === "true");
+  }, []);
   const features = [
     { icon: FileDown, title: "View / Save Donation Receipts", desc: "Download receipts for each donation for your records and tax purposes." },
     { icon: History, title: "View Donation History", desc: "See a timeline of your past donations with amounts, dates, and modes of payment." },
@@ -15,10 +20,13 @@ export function DonorPortal() {
 
   return (
     <section id="donor-portal" className="relative bg-accent">
-      {/* Teal banner */}
-      <div className="bg-secondary-solid text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-xl sm:text-2xl font-semibold">Donor portal</h1>
+      {/* Hero image with teal band */}
+      <div className="relative">
+        <img src="/donor-hero.jpg" alt="Donor Portal" className="w-full h-[260px] sm:h-[320px] object-cover" />
+        <div className="bg-secondary-solid text-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <h1 className="text-xl sm:text-2xl font-semibold">Donor portal</h1>
+          </div>
         </div>
       </div>
 
@@ -34,6 +42,14 @@ export function DonorPortal() {
           to access your dashboard. Child-related profile or progress items are not included here; this portal focuses on
           donor-specific actions only.
         </p>
+
+        {!isLoggedIn && (
+          <div className="mt-4">
+            <Button asChild className="bg-secondary-solid hover:opacity-90">
+              <Link to="/donor-portal/login">Login to Donor Portal</Link>
+            </Button>
+          </div>
+        )}
 
         {/* Feature cards */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -63,9 +79,7 @@ export function DonorPortal() {
               <p>Use your registered email or phone to log in and download your receipts and statements.</p>
               <div className="flex flex-wrap gap-3">
                 <Button asChild className="bg-secondary-solid hover:opacity-90">
-                  <a href="#" aria-disabled>
-                    Login to Donor Portal
-                  </a>
+                  <Link to="/donor-portal/login">Login to Donor Portal</Link>
                 </Button>
                 <Button asChild variant="outline" className="border-secondary/30 text-secondary-color hover:bg-secondary-solid hover:text-white">
                   <Link to="/contact">Contact Support</Link>
@@ -94,6 +108,42 @@ export function DonorPortal() {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* How to download receipts */}
+        <div className="mt-10">
+          <div className="mb-3 flex items-center gap-3">
+            <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
+            <h3 className="text-lg sm:text-xl font-medium">How to download receipts</h3>
+          </div>
+          <ol className="list-decimal pl-6 space-y-2 text-foreground/90">
+            <li>Click "Login to Donor Portal" and sign in using your registered email or phone.</li>
+            <li>Open "Donation History" to view your past donations.</li>
+            <li>Click the receipt icon next to a donation to "View / Save Donation Receipt".</li>
+            <li>For a consolidated year, go to "Annual Donation Statement" and choose the financial year.</li>
+          </ol>
+        </div>
+
+        {/* FAQs */}
+        <div className="mt-10">
+          <div className="mb-3 flex items-center gap-3">
+            <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
+            <h3 className="text-lg sm:text-xl font-medium">Frequently Asked Questions</h3>
+          </div>
+          <div className="space-y-4 text-foreground/90">
+            <div>
+              <p className="font-medium">I can’t log in. What should I do?</p>
+              <p className="text-sm text-foreground/80">Use the “Unable to login?” card above to email us your registered details. We’ll verify and enable portal access.</p>
+            </div>
+            <div>
+              <p className="font-medium">Can I change my recurring donation amount?</p>
+              <p className="text-sm text-foreground/80">Yes. Use “Manage Recurring Donations” to update amount/frequency or pause your plan.</p>
+            </div>
+            <div>
+              <p className="font-medium">Are my payments secure?</p>
+              <p className="text-sm text-foreground/80">All payments are processed via a secure, PCI-compliant gateway over SSL.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
