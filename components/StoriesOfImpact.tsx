@@ -42,8 +42,8 @@ export function StoriesOfImpact({ showAll = false, className }: StoriesOfImpactP
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-3">
-            <span className="inline-block h-1.5 w-16 bg-[#e74c3c] rounded-full" />
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#e74c3c]">Stories of Hope & Transformation</h2>
+            <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
+            <h2 className="text-3xl sm:text-4xl font-bold text-primary">Stories of Hope & Transformation</h2>
           </div>
           <p className="text-xl text-muted-foreground max-w-3xl">
             Behind every statistic is a human story. Meet the individuals whose lives have been transformed through our programs and the communities that supported them.

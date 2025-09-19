@@ -81,12 +81,12 @@ function Pill({ children, href }: { children: React.ReactNode; href?: string }) 
     href ? (
       <a
         href={href}
-        className="rounded-md border border-[#e74c3c] bg-[#e74c3c] text-white shadow-sm px-4 py-2 text-sm font-medium transition-all duration-200 hover:brightness-95 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e74c3c]/60"
+        className="rounded-md border border-primary bg-primary text-primary-foreground shadow-sm px-4 py-2 text-sm font-medium transition-all duration-200 hover:brightness-95 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
       >
         {children}
       </a>
     ) : (
-      <div className="rounded-md border border-[#e74c3c] bg-[#e74c3c] text-white shadow-sm px-4 py-2 text-sm font-medium transition-all duration-200 hover:brightness-95 hover:shadow-md focus:outline-none">
+      <div className="rounded-md border border-primary bg-primary text-primary-foreground shadow-sm px-4 py-2 text-sm font-medium transition-all duration-200 hover:brightness-95 hover:shadow-md focus:outline-none">
         {children}
       </div>
     )
@@ -97,7 +97,7 @@ function CardLink({ item }: { item: Item }) {
   return (
     <a
       href={item.href}
-      className="inline-block rounded-md border border-[#e74c3c] bg-white text-[#0a0a0a] shadow-sm px-3 py-2 text-sm transition-all duration-200 hover:shadow-md hover:border-[#e74c3c] hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e74c3c]/30"
+      className="inline-block rounded-md border border-primary/60 bg-white text-[#0a0a0a] shadow-sm px-3 py-2 text-sm transition-all duration-200 hover:shadow-md hover:border-primary hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
     >
       {item.label}
     </a>
@@ -217,7 +217,7 @@ function GroupColumn({ group }: { group: Group }) {
     <div ref={containerRef} className="relative flex flex-col items-center">
       <div ref={pillRef} className="relative inline-block z-10">
         {/* Blue tap from top horizontal into CENTER of parent pill */}
-        <div className="absolute -top-6 left-1/2 -translate-x-[1px] h-6 w-[2px] bg-[#e74c3c]" />
+  <div className="absolute -top-6 left-1/2 -translate-x-[1px] h-6 w-[2px] bg-primary" />
         <Pill href={`/${toSlug(group.title)}`}>{group.title}</Pill>
       </div>
       {group.items.length > 0 && (
@@ -242,7 +242,7 @@ function GroupColumn({ group }: { group: Group }) {
                 >
                   {/* Rail -> card connector on each child midline */}
                   {!((it.children && it.children.length > 0)) && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-[2px] bg-[#e74c3c]" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-[2px] bg-primary" />
                   )}
                   <div className="ml-4 inline-block" ref={it.children && it.children.length > 0 ? nestedParentRef : undefined}>
                     <CardLink item={it} />
@@ -255,7 +255,7 @@ function GroupColumn({ group }: { group: Group }) {
                       <div className="flex flex-col gap-4">
                         {it.children.map((child, idx) => (
                           <div key={child.href} className="relative" ref={idx === 0 ? nestedFirstRef : idx === it.children!.length - 1 ? nestedLastRef : undefined}>
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-[2px] bg-[#e74c3c]" />
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-[2px] bg-primary" />
                             <div className="ml-4 inline-block">
                               <CardLink item={child} />
                             </div>
@@ -279,22 +279,22 @@ function GroupColumn({ group }: { group: Group }) {
               return (
                 <>
                   {/* Attach from parent left edge to rail under the pill (avoids top right-turn) */}
-                  <line x1={coords.parentLeftX} x2={coords.railX} y1={parentTapY} y2={parentTapY} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                  <line x1={coords.parentLeftX} x2={coords.railX} y1={parentTapY} y2={parentTapY} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                   {/* Straight vertical at railX from pill to the connection Y; if last item has children, stop at its center */}
                   {(() => {
                     const lastHasChildren = !!(group.items[group.items.length - 1]?.children && group.items[group.items.length - 1]!.children!.length > 0)
                     const stopY = lastHasChildren && coords.nestedParentMidY > 0 ? coords.nestedParentMidY : coords.railBottom
                     return (
-                      <line x1={coords.railX} x2={coords.railX} y1={parentTapY} y2={stopY} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                      <line x1={coords.railX} x2={coords.railX} y1={parentTapY} y2={stopY} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                     )
                   })()}
                   {/* Bracket caps at top and (optionally) bottom of the children span */}
                   {coords.railBottom - coords.railTop > 1 && (
                     <>
-                      <line x1={coords.railX} x2={coords.railX + 10} y1={coords.railTop} y2={coords.railTop} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                      <line x1={coords.railX} x2={coords.railX + 10} y1={coords.railTop} y2={coords.railTop} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                       {/* Skip bottom cap if the last item has nested children (e.g., 'Other ways to give') */}
                       {!(group.items[group.items.length - 1]?.children && group.items[group.items.length - 1]!.children!.length > 0) && (
-                        <line x1={coords.railX} x2={coords.railX + 10} y1={coords.railBottom} y2={coords.railBottom} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                        <line x1={coords.railX} x2={coords.railX + 10} y1={coords.railBottom} y2={coords.railBottom} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                       )}
                     </>
                   )}
@@ -303,13 +303,13 @@ function GroupColumn({ group }: { group: Group }) {
                   {coords.nestedBottom > 0 && coords.nestedParentBottomY > 0 && (
                     <>
                       {/* Main rail to the exact center of the parent card */}
-                      <line x1={coords.railX} x2={coords.nestedParentLeftX} y1={coords.nestedParentMidY} y2={coords.nestedParentMidY} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                      <line x1={coords.railX} x2={coords.nestedParentLeftX} y1={coords.nestedParentMidY} y2={coords.nestedParentMidY} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                       {/* Short attach from card center into nested vertical rail just right of it */}
-                      <line x1={coords.nestedParentLeftX} x2={coords.nestedX} y1={coords.nestedParentMidY} y2={coords.nestedParentMidY} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                      <line x1={coords.nestedParentLeftX} x2={coords.nestedX} y1={coords.nestedParentMidY} y2={coords.nestedParentMidY} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                       {/* Nested vertical rail starting under the parent card and spanning all grandchildren */}
-                      <line x1={coords.nestedX} x2={coords.nestedX} y1={coords.nestedParentMidY} y2={coords.nestedBottom} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                      <line x1={coords.nestedX} x2={coords.nestedX} y1={coords.nestedParentMidY} y2={coords.nestedBottom} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                       {/* Bottom cap for nested rail */}
-                      <line x1={coords.nestedX} x2={coords.nestedX + 10} y1={coords.nestedBottom} y2={coords.nestedBottom} stroke="#e74c3c" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
+                      <line x1={coords.nestedX} x2={coords.nestedX + 10} y1={coords.nestedBottom} y2={coords.nestedBottom} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                     </>
                   )}
                 </>
@@ -327,19 +327,19 @@ export function Sitemap() {
     <section id="sitemap" className="py-12 bg-secondary-tint">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center gap-3">
-          <span className="inline-block h-1.5 w-16 bg-[#e74c3c] rounded-full" />
-          <h2 className="text-2xl sm:text-3xl font-semibold text-left text-[#e74c3c]">Sitemap</h2>
+          <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
+          <h2 className="text-2xl sm:text-3xl font-semibold text-left text-primary">Sitemap</h2>
         </div>
 
         <div className="relative flex flex-col items-center">
           {/* Top: Home */}
           <Pill href="/">Home</Pill>
           {/* Connector down from Home (root -> parents) */}
-          <div className="h-8 w-[2px] bg-[#e74c3c]" />
+          <div className="h-8 w-[2px] bg-primary" />
 
           {/* Horizontal connector under Home across all groups (root -> parents) */}
           <div className="relative w-full max-w-7xl pt-6">
-            <div className="absolute left-0 right-0 top-0 h-[2px] bg-[#e74c3c]" />
+            <div className="absolute left-0 right-0 top-0 h-[2px] bg-primary" />
 
             {/* Category row */}
             <div className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 md:gap-12 justify-items-center z-10">

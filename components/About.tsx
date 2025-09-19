@@ -19,8 +19,8 @@ export function About() {
             <div className="space-y-6">
               {/* Stripe + heading to match Sitemap styling */}
               <div className="flex items-center gap-3">
-                <span className="inline-block h-1.5 w-16 bg-[#e74c3c] rounded-full" />
-                <h2 className="text-2xl sm:text-3xl font-semibold text-[#e74c3c]">About Us</h2>
+                <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
+                <h2 className="text-2xl sm:text-3xl font-semibold text-primary">About Us</h2>
               </div>
               <h3 className="text-3xl sm:text-4xl font-bold">
                 We believe every person deserves 

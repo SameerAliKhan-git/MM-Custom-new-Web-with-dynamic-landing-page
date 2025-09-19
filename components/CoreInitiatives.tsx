@@ -46,8 +46,8 @@ export function CoreInitiatives() {
         {/* Header section with stripe + heading to match Sitemap */}
         <div className="py-6 px-8">
           <div className="flex items-center gap-3">
-            <span className="inline-block h-1.5 w-16 bg-[#e74c3c] rounded-full" />
-            <h1 className="text-2xl lg:text-3xl font-semibold text-[#e74c3c]">
+            <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
+            <h1 className="text-2xl lg:text-3xl font-semibold text-primary">
               Mahima Ministries: Caring for Communities
             </h1>
           </div>
@@ -60,52 +60,52 @@ export function CoreInitiatives() {
               <h2 className="text-2xl lg:text-3xl font-semibold text-foreground mb-2">
                 Our key areas of focus
               </h2>
-              <div className="w-16 h-1 bg-[#e74c3c]"></div>
+              <div className="w-16 h-1 bg-primary"></div>
             </div>
 
             {/* Focus area cards */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(0,0,0,0.25)] hover:bg-primary">
                 <div className="flex justify-center mb-3">
-                  <GraduationCap className="h-12 w-12 text-[#e74c3c]" />
+                  <GraduationCap className="h-12 w-12 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
-                <div className="text-sm font-medium text-card-foreground">
+                <div className="text-sm font-medium text-card-foreground group-hover:text-primary-foreground transition-colors">
                   Child Welfare & Education
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(0,0,0,0.25)] hover:bg-primary">
                 <div className="flex justify-center mb-3">
-                  <Heart className="h-12 w-12 text-[#e74c3c]" />
+                  <Heart className="h-12 w-12 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
-                <div className="text-sm font-medium text-card-foreground">
+                <div className="text-sm font-medium text-card-foreground group-hover:text-primary-foreground transition-colors">
                   Old-Aged Welfare
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(0,0,0,0.25)] hover:bg-primary">
                 <div className="flex justify-center mb-3">
-                  <Wrench className="h-12 w-12 text-[#e74c3c]" />
+                  <Wrench className="h-12 w-12 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
-                <div className="text-sm font-medium text-card-foreground">
+                <div className="text-sm font-medium text-card-foreground group-hover:text-primary-foreground transition-colors">
                   Youth Skilling
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(0,0,0,0.25)] hover:bg-primary">
                 <div className="flex justify-center mb-3">
-                  <HandHeart className="h-12 w-12 text-[#e74c3c]" />
+                  <HandHeart className="h-12 w-12 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
-                <div className="text-sm font-medium text-card-foreground">
+                <div className="text-sm font-medium text-card-foreground group-hover:text-primary-foreground transition-colors">
                   Disabled Care
                 </div>
               </div>
 
-              <div className="bg-card rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-200">
+              <div className="bg-card rounded-xl p-6 text-center shadow-sm transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(0,0,0,0.25)] hover:bg-primary">
                 <div className="flex justify-center mb-3">
-                  <TreePine className="h-12 w-12 text-[#e74c3c]" />
+                  <TreePine className="h-12 w-12 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
-                <div className="text-sm font-medium text-card-foreground">
+                <div className="text-sm font-medium text-card-foreground group-hover:text-primary-foreground transition-colors">
                   Social Activities
                 </div>
               </div>
