@@ -19,6 +19,7 @@ import { AdminDashboard } from "./components/AdminDashboard"
 import { VisionMissionValues } from "./components/VisionMissionValues"
 import { Governance } from "./components/Governance"
 import { Programmes } from "./components/Programmes"
+import DonationPage from "./components/DonationPage"
 import { isLoggedIn, getRole } from "./components/auth"
 import { Toaster } from "./components/ui/sonner"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
@@ -104,6 +105,14 @@ export default function App() {
             element={
               <main className="relative z-0">
                 <Contact />
+              </main>
+            }
+          />
+          <Route
+            path="/donate"
+            element={
+              <main className="relative z-0">
+                <DonationPage />
               </main>
             }
           />

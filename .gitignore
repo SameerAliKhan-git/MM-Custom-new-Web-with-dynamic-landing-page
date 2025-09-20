@@ -31,3 +31,10 @@ Thumbs.db
 *.tsbuildinfo
 coverage/
 .cache/
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
+
+# Local data
+prisma/dev.db
+.data/

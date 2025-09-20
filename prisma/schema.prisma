@@ -1,0 +1,86 @@
+// Prisma schema for the site backend
+// Default to SQLite; can be swapped to PostgreSQL/MySQL by changing the provider and url
+// Keep referential actions safe and enforce constraints.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // Default to SQLite for local development. To switch to PostgreSQL or MySQL,
+  // change provider accordingly and update DATABASE_URL in your .env
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("DONOR") // ADMIN | DONOR
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  donations Donation[]
+  resetTokens PasswordResetToken[]
+}
+
+model Donation {
+  id          String   @id @default(cuid())
+  amount      Int
+  currency    String   @default("INR")
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+  type        String   // ONE_TIME | MONTHLY | SPONSORSHIP
+  program     Program? @relation(fields: [programId], references: [id])
+  programId   String?
+  createdAt   DateTime @default(now())
+  paymentRef  String?  // payment gateway reference/transaction id
+  status      String   @default("SUCCESS") // PENDING | SUCCESS | FAILED
+}
+
+model Program {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  donations   Donation[]
+}
+
+model Story {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  imageUrl    String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+  handled   Boolean  @default(false)
+}
+
+model ImpactStat {
+  id        String   @id @default(cuid())
+  label     String
+  value     Int
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

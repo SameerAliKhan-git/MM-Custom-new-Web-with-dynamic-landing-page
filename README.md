@@ -1,76 +1,37 @@
 # Custom DemoMM
 
-A Vite + React + TypeScript setup wrapping your existing `App.tsx` and components.
+Full-stack Vite + React + TypeScript app with an Express + Prisma backend.
 
-## Run locally
+## Quickstart (Local Dev)
 
-1. Install dependencies
-
-```powershell
+```bash
 npm install
-```
-
-2. Start the dev server
-
-```powershell
+cp .env.example .env
+npx prisma generate
+npx prisma migrate dev --name init
+npm run seed   # creates admin@example.com / Admin1234!
 npm run dev
 ```
 
-Then open the URL printed in the terminal (usually http://localhost:5173/).
+Vite serves on `http://localhost:5173` and proxies API calls to `http://localhost:5174`.
+
+## Backend Overview
+
+- Express with Helmet, CORS, CSRF, and session cookies (SQLite store)
+- Prisma (SQLite by default) models: User, Donation, Program, Story, ContactMessage, ImpactStat, PasswordResetToken
+- Auth: `GET /api/session`, `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout`, `POST /api/auth/password/request`, `POST /api/auth/password/confirm`
+- Content: Programs (`/api/programs`), Stories (`/api/stories`), Impact (`/api/impact`), Contact (`/api/contact`)
+- Donations: `/api/donations` (POST), `/api/donations/me`, admin list at `/api/donations`
+
+Admin portal login: `admin@example.com` / `Admin1234!`
 
 ## Build for production
 
-```powershell
+```bash
 npm run build
 npm run preview
 ```
 
 ## Notes
-- Tailwind is configured and global styles are imported from `styles/globals.css` in `src/main.tsx`.
-- Some UI components depended on imports with inline version suffixes (e.g., `lucide-react@...`). These were normalized to standard package names and added as dependencies.
-- If you add or remove components under `components/`, ensure paths are correct and supported packages are installed.# Custom DemoMM React App
-
-This workspace contains your React + TypeScript app scaffolded with Vite under `TS/`.
-
-## Run (Development)
-
-Option A – from the root (recommended):
-
-```powershell
-cd "D:\New MM\Custom DemoMM"
-npm run dev
-```
-
-Option B – directly in the Vite project:
-
-```powershell
-cd "D:\New MM\Custom DemoMM\TS"
-npm run dev
-```
-
-Vite will start on an available port (default `5173`; if busy, it picks another, e.g., `5174`).
-
-## Build (Production)
-
-From the root:
-
-```powershell
-cd "D:\New MM\Custom DemoMM"
-npm run build
-```
-
-Output is generated in `TS/dist`.
-
-## Preview Production Build
-
-From the root:
-
-```powershell
-cd "D:\New MM\Custom DemoMM"
-npm run preview
-```
-
-## Notes
-- Existing components in the repo (like `App.tsx` and files under `components/`) can be integrated into `TS/src` as needed.
-- Styles from `styles/globals.css` can be imported into `TS/src/index.css` or a new global stylesheet.
-- If port `5173` is in use, Vite will automatically choose another port and display it in the terminal.
+- Tailwind is configured; global styles at `styles/globals.css` imported in `src/main.tsx`.
+- If port `5173` is busy, Vite auto-selects another port.
