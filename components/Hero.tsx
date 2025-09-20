@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { Button } from "./ui/button"
-import { ArrowRight, Play, Heart } from "lucide-react"
+import { ArrowRight, ArrowLeft, Play, Heart } from "lucide-react"
 
 const heroImages = [
   "https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?auto=format&fit=crop&w=1600&q=80",
@@ -14,6 +14,8 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [inView, setInView] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [slidesCount, setSlidesCount] = useState(heroImages.length)
 
   const start = () => {
     if (!emblaApi || !inView || timerRef.current) return
@@ -30,11 +32,22 @@ export function Hero() {
     if (!emblaApi) return
     const onPointerDown = () => stop()
     const onPointerUp = () => start()
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap())
+    }
+    const onReInit = () => {
+      setSlidesCount(emblaApi.slideNodes().length)
+      setSelectedIndex(emblaApi.selectedScrollSnap())
+    }
     emblaApi.on("pointerDown", onPointerDown)
     emblaApi.on("pointerUp", onPointerUp)
+    emblaApi.on("select", onSelect)
+    emblaApi.on("reInit", onReInit)
     return () => {
       emblaApi.off("pointerDown", onPointerDown)
       emblaApi.off("pointerUp", onPointerUp)
+      emblaApi.off("select", onSelect)
+      emblaApi.off("reInit", onReInit)
     }
   }, [emblaApi])
 
@@ -66,7 +79,7 @@ export function Hero() {
       onMouseLeave={start}
     >
       {/* Background slider */}
-      <div ref={emblaRef} className="absolute inset-0 z-0 overflow-hidden">
+      <div ref={emblaRef} className="absolute inset-0 z-0 overflow-hidden cursor-grab active:cursor-grabbing touch-pan-x select-none">
         <div className="flex h-full">
           {heroImages.map((src, i) => (
             <div key={i} className="relative h-full flex-[0_0_100%] min-w-0">
@@ -77,7 +90,39 @@ export function Hero() {
       </div>
 
       {/* Readability overlay */}
-      <div className="absolute inset-0 z-10 bg-black/50" />
+      <div className="absolute inset-0 z-10 bg-black/50 pointer-events-none" />
+
+      {/* Prev/Next Controls */}
+      <button
+        type="button"
+        aria-label="Previous slide"
+        onClick={() => emblaApi?.scrollPrev()}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 grid place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        aria-label="Next slide"
+        onClick={() => emblaApi?.scrollNext()}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 grid place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow"
+      >
+        <ArrowRight className="h-5 w-5" />
+      </button>
+
+      {/* Pagination dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+        {Array.from({ length: slidesCount }).map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => emblaApi?.scrollTo(i)}
+            className={`h-2.5 w-2.5 rounded-full transition-all ${
+              selectedIndex === i ? "bg-white w-5" : "bg-white/60 hover:bg-white/80"
+            }`}
+          />
+        ))}
+      </div>
 
       {/* Content overlay */}
       <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 text-center">

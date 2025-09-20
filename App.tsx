@@ -1,6 +1,7 @@
 import { Header } from "./components/Header"
 import { Hero } from "./components/Hero"
 import { About } from "./components/About"
+import { AboutPage } from "./components/AboutPage"
 import { CoreInitiatives } from "./components/CoreInitiatives"
 import { ImpactNumbers } from "./components/ImpactNumbers"
 // import { OurReach } from "./components/OurReach" // Temporarily disabled per user request
@@ -13,9 +14,16 @@ import { Disclaimer } from "./components/Disclaimer"
 import { Contact } from "./components/Contact"
 import { Privacy } from "./components/Privacy"
 import { DonorPortal } from "./components/DonorPortal"
-import { DonorLogin } from "./components/DonorLogin"
+import { Login } from "./components/Login"
+import { AdminDashboard } from "./components/AdminDashboard"
+import { VisionMissionValues } from "./components/VisionMissionValues"
+import { Governance } from "./components/Governance"
+import { Programmes } from "./components/Programmes"
+import { isLoggedIn, getRole } from "./components/auth"
 import { Toaster } from "./components/ui/sonner"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { useEffect } from "react"
+import { verifySession } from "./components/auth"
 
 function HomeMain() {
   return (
@@ -25,7 +33,6 @@ function HomeMain() {
       <CoreInitiatives />
       <ImpactNumbers />
   {/* <OurReach /> */}
-      <CommitmentSection />
       <StoriesOfImpact />
       <DonationTypes />
     </main>
@@ -33,12 +40,33 @@ function HomeMain() {
 }
 
 export default function App() {
+  useEffect(() => {
+    // Prime session and CSRF token cookie on first load
+    verifySession();
+  }, []);
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-white text-black">
         <Header />
         <Routes>
           <Route path="/" element={<HomeMain />} />
+          
+          <Route
+            path="/about"
+            element={
+              <main className="relative z-0">
+                <AboutPage />
+              </main>
+            }
+          />
+          <Route
+            path="/programmes"
+            element={
+              <main className="relative z-0">
+                <Programmes />
+              </main>
+            }
+          />
           <Route
             path="/sitemap"
             element={
@@ -64,10 +92,26 @@ export default function App() {
             }
           />
           <Route
+            path="/vision-mission-values"
+            element={
+              <main className="relative z-0">
+                <VisionMissionValues />
+              </main>
+            }
+          />
+          <Route
             path="/contact"
             element={
               <main className="relative z-0">
                 <Contact />
+              </main>
+            }
+          />
+          <Route
+            path="/governance"
+            element={
+              <main className="relative z-0">
+                <Governance />
               </main>
             }
           />
@@ -81,10 +125,26 @@ export default function App() {
           />
           <Route
             path="/donor-portal/login"
+            element={<Navigate to="/login" replace />}
+          />
+          <Route
+            path="/login"
             element={
               <main className="relative z-0">
-                <DonorLogin />
+                <Login />
               </main>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              isLoggedIn() && getRole() === "admin" ? (
+                <main className="relative z-0">
+                  <AdminDashboard />
+                </main>
+              ) : (
+                <Navigate to="/login" replace />
+              )
             }
           />
         </Routes>

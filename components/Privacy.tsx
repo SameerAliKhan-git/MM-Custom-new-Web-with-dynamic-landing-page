@@ -134,11 +134,7 @@ export function Privacy() {
               <p>Email: mahimaministriesindia@gmail.com</p>
               <p>Phone: +91 9246502264 / +91 9246272675</p>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Disclaimer: This policy is based on a reference and serves as a comprehensive template. It is strongly
-              recommended to have it reviewed by a legal professional to ensure full compliance with Indian laws and
-              regulations.
-            </p>
+            
           </section>
         </div>
       </div>

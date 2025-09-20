@@ -15,5 +15,24 @@
     "baseUrl": "."
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "components/ui/tooltip.tsx",
+    "components/ui/alert-dialog.tsx",
+    "components/ui/calendar.tsx",
+    "components/ui/checkbox.tsx",
+    "components/ui/context-menu.tsx",
+    "components/ui/drawer.tsx",
+    "components/ui/dropdown-menu.tsx",
+    "components/ui/hover-card.tsx",
+    "components/ui/input-otp.tsx",
+    "components/ui/menubar.tsx",
+    "components/ui/form.tsx",
+    "components/ui/command.tsx",
+    "components/ui/chart.tsx",
+    "components/ui/avatar.tsx",
+    "components/ui/aspect-ratio.tsx",
+    "components/ui/sidebar.tsx"
+  ]
 }

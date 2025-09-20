@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 import { toast } from "sonner"
 
 const org = {
-  email: "mahimaministriesindia@gmail.com; rdmaharaju@gmail.com",
+  email: "mahimaministriesindia@gmail.com ; rdmaharaju@gmail.com",
   phone1: "+91 9246502264",
   phone2: "+91 9246272675",
   phone3: "040-23032675",

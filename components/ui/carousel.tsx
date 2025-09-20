@@ -183,9 +183,7 @@ function CarouselPrevious({
 
   const startHold = React.useCallback(() => {
     if (!canScrollPrev) return;
-    // initial action
-    scrollPrev();
-    // after a short delay, start repeating
+    // start repeating after a short delay; single click handled by onClick
     holdTimerRef.current = window.setTimeout(() => {
       intervalRef.current = window.setInterval(() => {
         scrollPrev();
@@ -217,7 +215,7 @@ function CarouselPrevious({
         className,
       )}
       disabled={!canScrollPrev}
-      onClick={scrollPrev}
+  onClick={scrollPrev}
       onMouseDown={startHold}
       onMouseUp={stopHold}
       onMouseLeave={stopHold}
@@ -243,7 +241,7 @@ function CarouselNext({
 
   const startHold = React.useCallback(() => {
     if (!canScrollNext) return;
-    scrollNext();
+    // start repeating after a short delay; single click handled by onClick
     holdTimerRef.current = window.setTimeout(() => {
       intervalRef.current = window.setInterval(() => {
         scrollNext();
@@ -275,7 +273,7 @@ function CarouselNext({
         className,
       )}
       disabled={!canScrollNext}
-      onClick={scrollNext}
+  onClick={scrollNext}
       onMouseDown={startHold}
       onMouseUp={stopHold}
       onMouseLeave={stopHold}

@@ -79,7 +79,7 @@ export function Header() {
                         { title: "Skilling Youth", href: "/youth-skills", description: "Empowering youth with valuable skills", icon: Wrench },
                         { title: "Social Activities", href: "/social-activities", description: "Community engagement and social programs", icon: TreePine },
                         { title: "Our Programmes", href: "/programmes", description: "Comprehensive overview of all our programs", icon: Heart },
-                        { title: "Where We Work", href: "/locations", description: "Our operational areas and communities", icon: GraduationCap },
+                        { title: "Where We Work", href: "/programmes", description: "Our operational areas and communities", icon: GraduationCap },
                         { title: "Child Safeguarding", href: "/safeguarding", description: "Protecting children's rights and safety", icon: HandHeart },
                         { title: "Stories of Change", href: "/stories-change", description: "Real impact stories from our work", icon: Heart },
                         { title: "Sustainability", href: "/sustainability", description: "Our commitment to sustainable practices", icon: TreePine },
@@ -202,8 +202,11 @@ export function Header() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          {/* CTA Button */}
-          <div className="hidden lg:flex">
+          {/* CTA Buttons */}
+          <div className="hidden lg:flex items-center gap-3">
+            <a href="/login" className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold bg-secondary-solid text-white hover:opacity-90 transition-all shadow-sm">
+              Login
+            </a>
             <Button size="lg" className="relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-110 group overflow-hidden">
               <span className="relative z-10 flex items-center gap-2">
                 <Heart className="h-5 w-5 group-hover:animate-pulse" />
@@ -273,7 +276,7 @@ export function Header() {
                         { title: "Skilling Youth", href: "/youth-skills", icon: Wrench },
                         { title: "Social Activities", href: "/social-activities", icon: TreePine },
                         { title: "Our Programmes", href: "/programmes", icon: Heart },
-                        { title: "Where We Work", href: "/locations", icon: GraduationCap },
+                        { title: "Where We Work", href: "/programmes", icon: GraduationCap },
                         { title: "Child Safeguarding", href: "/safeguarding", icon: HandHeart },
                         { title: "Stories of Change", href: "/stories-change", icon: Heart },
                         { title: "Sustainability", href: "/sustainability", icon: TreePine },
@@ -365,6 +368,7 @@ export function Header() {
                     </div>
                   </div>
                   <a href="/contact" className="block py-2 hover:text-primary transition-all duration-300 hover:translate-x-2">Contact</a>
+                  <a href="/login" className="block py-2 hover:text-primary transition-all duration-300 hover:translate-x-2">Login</a>
                   
                     <div className="pt-4">
                       <Button className="w-full relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 group overflow-hidden">

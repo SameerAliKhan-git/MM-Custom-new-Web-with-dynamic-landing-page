@@ -4,6 +4,7 @@ import { Separator } from "./ui/separator"
 import { Heart, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, MessageCircle } from "lucide-react"
 import { ImageWithFallback } from "./figma/ImageWithFallback"
 import { Label } from "./ui/label"
+import { Link } from "react-router-dom"
 
 const footerLinks = {
   "About": [
@@ -74,11 +75,13 @@ export function Footer() {
           {/* Logo and mission */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center space-x-3">
-              <img 
-                src="/logo.png" 
-                alt="Mahima Ministries Logo" 
-                className="h-16 w-auto"
-              />
+              <Link to="/" aria-label="Go to Home">
+                <img 
+                  src="/logo.png" 
+                  alt="Mahima Ministries Logo" 
+                  className="h-16 w-auto hover:opacity-90 transition-opacity"
+                />
+              </Link>
             </div>
             
             <p className="text-white/80 max-w-md">
@@ -125,7 +128,7 @@ export function Footer() {
                   <li key={index}>
                     <a
                       href={link.href}
-                      className="text-white/80 hover:text-secondary-color transition-colors text-sm"
+                      className="text-white/80 hover:text-primary focus-visible:text-primary focus-visible:underline hover:bg-white/10 rounded transition-colors text-sm px-1 py-0.5"
                     >
                       {link.name}
                     </a>
@@ -168,20 +171,23 @@ export function Footer() {
             <p>Registered NGO • 20 Years of Creating Lasting Change</p>
           </div>
           <div className="flex space-x-6">
-            <a href="/sitemap" className="hover:text-secondary-color transition-colors">
+            <a href="/sitemap" className="hover:text-primary focus-visible:text-primary focus-visible:underline hover:bg-white/10 rounded transition-colors px-1 py-0.5">
               Sitemap
             </a>
-            <a href="/disclaimer" className="hover:text-secondary-color transition-colors">
+            <a href="/disclaimer" className="hover:text-primary focus-visible:text-primary focus-visible:underline hover:bg-white/10 rounded transition-colors px-1 py-0.5">
               Disclaimer
             </a>
-            <a href="/privacy" className="hover:text-secondary-color transition-colors">
+            <a href="/privacy" className="hover:text-primary focus-visible:text-primary focus-visible:underline hover:bg-white/10 rounded transition-colors px-1 py-0.5">
               Privacy Policy
             </a>
-            <a href="/terms" className="hover:text-secondary-color transition-colors">
+            <a href="/terms" className="hover:text-primary focus-visible:text-primary focus-visible:underline hover:bg-white/10 rounded transition-colors px-1 py-0.5">
               Terms of Service
             </a>
-            <a href="/transparency" className="hover:text-secondary-color transition-colors">
+            <a href="/transparency" className="hover:text-primary focus-visible:text-primary focus-visible:underline hover:bg-white/10 rounded transition-colors px-1 py-0.5">
               Transparency
+            </a>
+            <a href="/login" className="hover:text-primary focus-visible:text-primary focus-visible:underline hover:bg-white/10 rounded transition-colors px-1 py-0.5">
+              Login
             </a>
           </div>
         </div>

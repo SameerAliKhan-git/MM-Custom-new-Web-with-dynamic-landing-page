@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 export function DonorPortal() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("donorLoggedIn") === "true");
+    // Do not trust localStorage for real auth. Expect server to verify session.
+    // For UX only, we may choose to show a logged-in CTA if legacy keys exist,
+    // but all sensitive actions must be verified server-side.
+    const legacy = localStorage.getItem("donorLoggedIn") === "true";
+    setIsLoggedIn(legacy);
   }, []);
   const features = [
     { icon: FileDown, title: "View / Save Donation Receipts", desc: "Download receipts for each donation for your records and tax purposes." },
@@ -27,7 +31,7 @@ export function DonorPortal() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
             <h1 className="text-xl sm:text-2xl font-semibold">Donor portal</h1>
             <Button asChild className="bg-white text-secondary-color hover:opacity-90">
-              <Link to={isLoggedIn ? "/donor-portal" : "/donor-portal/login"}>
+              <Link to={isLoggedIn ? "/donor-portal" : "/login"}>
                 {isLoggedIn ? "Open Dashboard" : "Login to Donor Portal"}
               </Link>
             </Button>
@@ -51,7 +55,7 @@ export function DonorPortal() {
         {!isLoggedIn && (
           <div className="mt-4">
             <Button asChild className="bg-secondary-solid hover:opacity-90">
-              <Link to="/donor-portal/login">Login to Donor Portal</Link>
+              <Link to="/login">Login to Donor Portal</Link>
             </Button>
           </div>
         )}
@@ -84,7 +88,7 @@ export function DonorPortal() {
               <p>Use your registered email or phone to log in and download your receipts and statements.</p>
               <div className="flex flex-wrap gap-3">
                 <Button asChild className="bg-secondary-solid hover:opacity-90">
-                  <Link to="/donor-portal/login">Login to Donor Portal</Link>
+                  <Link to="/login">Login to Donor Portal</Link>
                 </Button>
                 <Button asChild variant="outline" className="border-secondary/30 text-secondary-color hover:bg-secondary-solid hover:text-white">
                   <Link to="/contact">Contact Support</Link>
