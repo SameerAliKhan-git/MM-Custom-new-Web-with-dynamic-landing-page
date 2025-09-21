@@ -33,6 +33,7 @@ function HomeMain() {
       <About />
       <CoreInitiatives />
       <ImpactNumbers />
+      <CommitmentSection />
   {/* <OurReach /> */}
       <StoriesOfImpact />
       <DonationTypes />
