@@ -79,6 +79,9 @@ export function DonationPage() {
     if (program === "GENERAL") return Math.max(0, Math.floor(amount));
     return Math.max(0, Math.floor(amount)) * Math.max(1, Math.floor(quantity));
   }, [program, amount, quantity]);
+  const isGeneralAmountValid = useMemo(() => {
+    return program !== "GENERAL" || amount >= 1000;
+  }, [program, amount]);
   return (
     <>
       {/* Hero Section (matches reference design) */}
@@ -231,15 +234,20 @@ export function DonationPage() {
                         <div className="mt-2 flex items-center gap-2">
                           <Input
                             type="number"
-                            min={0}
+                            min={1000}
                             value={amount}
                             onChange={(e) => setAmount(Number(e.target.value))}
-                            className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40 w-40"
+                            className={`w-40 bg-white/70 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40 ${amount < 1000 ? 'border-red-500 focus-visible:ring-red-500' : 'border-white/40'}`}
                           />
                           <div className="ml-auto text-sm">
                             Total Amount <span className="ml-2"><Money value={total} /></span>
                           </div>
                         </div>
+                        {amount < 1000 && (
+                          <p className="mt-1 text-xs text-red-600">Minimum amount for General Donation is 
+                            <span className="ml-1 inline-flex items-center"><IndianRupee className="h-3 w-3" />1,000</span>.
+                          </p>
+                        )}
                       </div>
                     )
                   )}
@@ -252,7 +260,7 @@ export function DonationPage() {
                         console.log({ donorType, program, frequency, quantity, amount, total });
                       }}
                       className="w-full h-11 rounded-full bg-primary hover:opacity-90 flex items-center justify-center gap-2 text-white"
-                      disabled={donorType === "indian" ? total <= 0 : false}
+                      disabled={donorType === "indian" ? (program === "GENERAL" ? amount < 1000 : total <= 0) : false}
                     >
                       <Heart className="h-4 w-4" /> donate now
                     </Button>
