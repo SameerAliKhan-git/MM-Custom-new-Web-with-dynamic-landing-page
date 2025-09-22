@@ -207,7 +207,7 @@ export function Header() {
             <a href="/login" className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold bg-secondary-solid text-white hover:opacity-90 transition-all shadow-sm">
               Login
             </a>
-            <Button size="lg" className="relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-110 group overflow-hidden">
+            <Button size="lg" className="relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-110 group overflow-hidden" onClick={() => (window.location.href = "/donate")}>
               <span className="relative z-10 flex items-center gap-2">
                 <Heart className="h-5 w-5 group-hover:animate-pulse" />
                 Donate Now
@@ -371,7 +371,7 @@ export function Header() {
                   <a href="/login" className="block py-2 hover:text-primary transition-all duration-300 hover:translate-x-2">Login</a>
                   
                     <div className="pt-4">
-                      <Button className="w-full relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 group overflow-hidden">
+                      <Button className="w-full relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 group overflow-hidden" onClick={() => { setMobileMenuOpen(false); window.location.href = "/donate"; }}>
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           <Heart className="h-5 w-5 group-hover:animate-pulse" />
                           Donate Now

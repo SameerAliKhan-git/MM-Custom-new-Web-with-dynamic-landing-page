@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { Button } from "./ui/button"
 import { ArrowRight, ArrowLeft, Play, Heart } from "lucide-react"
+import { Link } from "react-router-dom"
 
 const heroImages = [
   "https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?auto=format&fit=crop&w=1600&q=80",
@@ -138,10 +139,12 @@ export function Hero() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="group bg-primary hover:bg-primary/90 text-lg px-8 py-4">
-              Make an Impact
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </Button>
+              <Button asChild size="lg" className="group bg-primary hover:bg-primary/90 text-lg px-8 py-4">
+                <Link to="/donate">
+                  Make an Impact
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
             <Button size="lg" variant="outline" className="group bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 text-lg px-8 py-4">
               <Play className="mr-2 h-5 w-5" />
               Watch Our Story

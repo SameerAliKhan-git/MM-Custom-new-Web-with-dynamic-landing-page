@@ -8,23 +8,7 @@ const heroImages = [
   "/about-3.jpg",
 ];
 
-type Card = {
-  icon: string; // emoji or icon alt
-  title: string;
-  description: string;
-  href?: string;
-};
-
-const cards: Card[] = [
-  { icon: "👨‍👩‍👧", title: "Family Strengthening", description: "Helping vulnerable families to become self-reliant to afford quality care for their children", href: "/programmes#family-strengthening" },
-  { icon: "👨‍👩‍👧", title: "Kinship Care", description: "Facilitating parental care among next of kin families", href: "/programmes#kinship-care" },
-  { icon: "🧒", title: "Individual Foster Care", description: "Making way for quality childcare in certified foster families", href: "/programmes#foster-care" },
-  { icon: "🆘", title: "Emergency Child Care", description: "Providing relief and rehabilitation to families affected by calamities/emergencies", href: "/programmes#emergency-care" },
-  { icon: "📚", title: "Education & Youth Skilling", description: "Ensuring quality education and supporting youth in skilling for self-reliance", href: "/youth-skills" },
-  { icon: "🏠", title: "Family Like Care", description: "Committed to provide a caring family to every child without parental care", href: "/programmes#family-like-care" },
-  { icon: "🛏️", title: "Short Stay Homes", description: "Creating safe spaces for children in distress", href: "/programmes#short-stay" },
-  { icon: "♿", title: "Special Needs Childcare", description: "Specialised long-term care for differently abled children without parental care", href: "/programmes#special-needs" },
-];
+// Removed "Our Programmes" cards section per request
 
 export function WhereWeWork() {
   const [api, setApi] = useState<CarouselApi | null>(null);
@@ -89,44 +73,7 @@ export function WhereWeWork() {
         </div>
       </div>
 
-      {/* Intro */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 flex items-center gap-3">
-          <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
-          <h2 className="text-lg sm:text-xl font-medium">Basket of Care Solutions</h2>
-        </div>
-        <p className="text-foreground/80 max-w-4xl">
-          Our customised care interventions are designed to transform and enable children and caregivers to become self-reliant members of society. We empower vulnerable families to create safe and nurturing spaces for children under their care.
-        </p>
-      </div>
-
-      {/* Solutions grid */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {cards.map((c) => (
-            <a
-              key={c.title}
-              href={c.href || "#"}
-              className="group block rounded-2xl bg-white/70 backdrop-blur border shadow-sm hover:shadow-md transition-all duration-300 p-5"
-            >
-              <div className="flex items-start gap-4">
-                <div className="shrink-0 h-12 w-12 rounded-full bg-secondary-solid/20 flex items-center justify-center text-2xl">
-                  <span aria-hidden>{c.icon}</span>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                    {c.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-foreground/80">
-                    {c.description}
-                  </p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-sm text-primary">Read more <span aria-hidden>➜</span></span>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
+      {/* "Our Programmes" section and elements removed as requested */}
 
       {/* Head Office map (from Contact page) */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4">
