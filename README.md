@@ -1,37 +1,82 @@
-# Custom DemoMM
+# Charity Donation Platform
 
-Full-stack Vite + React + TypeScript app with an Express + Prisma backend.
+This is a full-stack web application for a charity organization. It allows users to learn about the organization's programs, make donations, and stay updated on its impact. The application also includes an admin dashboard for managing content, donations, and users.
 
-## Quickstart (Local Dev)
+## Features
 
-```bash
-npm install
-cp .env.example .env
-npx prisma generate
-npx prisma migrate dev --name init
-npm run seed   # creates admin@example.com / Admin1234!
-npm run dev
+*   **User Authentication:** Secure user registration and login with password hashing and session management.
+*   **Donation System:** Users can make one-time, monthly, or sponsorship donations to various programs.
+*   **Content Management:** Admins can manage programs, stories, and impact statistics through a dedicated dashboard.
+*   **Donor Portal:** Registered users can view their donation history.
+*   **Contact Form:** Users can send messages to the organization.
+
+## Tech Stack
+
+*   **Frontend:** React, Vite, TypeScript, Tailwind CSS
+*   **Backend:** Node.js, Express, Prisma
+*   **Database:** SQLite (default), PostgreSQL, MySQL
+
+## Getting Started
+
+To get the project up and running, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/charity-donation-platform.git
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Set up environment variables:**
+    Create a `.env` file in the root directory and add the following variables:
+    ```
+    DATABASE_URL="file:./dev.db"
+    SESSION_SECRET="your-session-secret"
+    ```
+4.  **Run database migrations:**
+    ```bash
+    npm run db:migrate
+    ```
+5.  **Seed the database (optional):**
+    ```bash
+    npm run seed
+    ```
+6.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+The application will be available at `http://localhost:3000`.
+
+## Project Structure
+
+```
+.
+├── components/     # React components
+├── prisma/         # Prisma schema and migrations
+├── public/         # Public assets
+├── server/         # Backend server code
+├── src/            # Frontend source code
+├── styles/         # CSS styles
+├── .env.example    # Example environment variables
+├── package.json    # Project dependencies and scripts
+└── README.md       # This file
 ```
 
-Vite serves on `http://localhost:5173` and proxies API calls to `http://localhost:5174`.
+## API Endpoints
 
-## Backend Overview
+A summary of the available API endpoints:
 
-- Express with Helmet, CORS, CSRF, and session cookies (SQLite store)
-- Prisma (SQLite by default) models: User, Donation, Program, Story, ContactMessage, ImpactStat, PasswordResetToken
-- Auth: `GET /api/session`, `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout`, `POST /api/auth/password/request`, `POST /api/auth/password/confirm`
-- Content: Programs (`/api/programs`), Stories (`/api/stories`), Impact (`/api/impact`), Contact (`/api/contact`)
-- Donations: `/api/donations` (POST), `/api/donations/me`, admin list at `/api/donations`
+*   `POST /api/auth/register`: Register a new user.
+*   `POST /api/auth/login`: Log in a user.
+*   `POST /api/auth/logout`: Log out a user.
+*   `GET /api/programs`: Get all active programs.
+*   `POST /api/donations`: Create a new donation.
+*   `GET /api/donations/me`: Get the current user's donations.
 
-Admin portal login: `admin@example.com` / `Admin1234!`
+For a full list of endpoints, please refer to the `server/routes/` directory.
 
-## Build for production
+## Contributing
 
-```bash
-npm run build
-npm run preview
-```
-
-## Notes
-- Tailwind is configured; global styles at `styles/globals.css` imported in `src/main.tsx`.
-- If port `5173` is busy, Vite auto-selects another port.
+Contributions are welcome! Please feel free to open an issue or submit a pull request.

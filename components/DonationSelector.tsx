@@ -1,25 +1,24 @@
-import { useState } from "react"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
+import { useState } from 'react';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 
 const presetAmounts = [
-  { value: "1000", label: "₹1,000", description: "Provides school supplies for 5 children" },
-  { value: "2500", label: "₹2,500", description: "Sponsors a child's education for 1 month" },
-  { value: "5000", label: "₹5,000", description: "Covers healthcare for an elderly person" },
-  { value: "10000", label: "₹10,000", description: "Funds vocational training for a youth" }
-]
+  { value: '1000', label: '₹1,000', description: 'Provides school supplies for 5 children' },
+  { value: '2500', label: '₹2,500', description: 'Sponsors a child\'s education for 1 month' },
+  { value: '5000', label: '₹5,000', description: 'Covers healthcare for an elderly person' },
+  { value: '10000', label: '₹10,000', description: 'Funds vocational training for a youth' }
+];
 
 const causes = [
-  { value: "general", label: "General Fund - Where needed most" },
-  { value: "child-welfare", label: "Child Welfare & Education" },
-  { value: "elderly-care", label: "Elderly Care" },
-  { value: "disability-support", label: "Disability Support" },
-  { value: "youth-skills", label: "Skilling Youth" },
-  { value: "social-activities", label: "Social Activities" }
-]
+  { value: 'general', label: 'General Fund - Where needed most' },
+  { value: 'child-welfare', label: 'Child Welfare & Education' },
+  { value: 'elderly-care', label: 'Elderly Care' },
+  { value: 'disability-support', label: 'Disability Support' },
+  { value: 'youth-skills', label: 'Skilling Youth' },
+  { value: 'social-activities', label: 'Social Activities' }
+];
 
 interface DonationSelectorProps {
   onAmountChange?: (amount: string) => void
@@ -28,29 +27,29 @@ interface DonationSelectorProps {
 }
 
 export function DonationSelector({ onAmountChange, onCauseChange, className }: DonationSelectorProps) {
-  const [selectedAmount, setSelectedAmount] = useState("2500")
-  const [customAmount, setCustomAmount] = useState("")
-  const [selectedCause, setSelectedCause] = useState("general")
-  const [isCustom, setIsCustom] = useState(false)
+  const [selectedAmount, setSelectedAmount] = useState('2500');
+  const [customAmount, setCustomAmount] = useState('');
+  const [selectedCause, setSelectedCause] = useState('general');
+  const [isCustom, setIsCustom] = useState(false);
 
   const handleAmountChange = (value: string) => {
-    setSelectedAmount(value)
-    setIsCustom(false)
-    setCustomAmount("")
-    onAmountChange?.(value)
-  }
+    setSelectedAmount(value);
+    setIsCustom(false);
+    setCustomAmount('');
+    onAmountChange?.(value);
+  };
 
   const handleCustomAmountChange = (value: string) => {
-    setCustomAmount(value)
-    setIsCustom(true)
-    setSelectedAmount("")
-    onAmountChange?.(value)
-  }
+    setCustomAmount(value);
+    setIsCustom(true);
+    setSelectedAmount('');
+    onAmountChange?.(value);
+  };
 
   const handleCauseChange = (value: string) => {
-    setSelectedCause(value)
-    onCauseChange?.(value)
-  }
+    setSelectedCause(value);
+    onCauseChange?.(value);
+  };
 
   return (
     <div className={`space-y-6 ${className}`}>
@@ -58,13 +57,13 @@ export function DonationSelector({ onAmountChange, onCauseChange, className }: D
       <div className="space-y-4">
         <Label className="text-base font-semibold">Choose Donation Amount</Label>
         <RadioGroup 
-          value={isCustom ? "custom" : selectedAmount} 
+          value={isCustom ? 'custom' : selectedAmount}
           onValueChange={(value) => {
-            if (value === "custom") {
-              setIsCustom(true)
-              setSelectedAmount("")
+            if (value === 'custom') {
+              setIsCustom(true);
+              setSelectedAmount('');
             } else {
-              handleAmountChange(value)
+              handleAmountChange(value);
             }
           }}
           className="grid grid-cols-1 sm:grid-cols-2 gap-4"
@@ -76,8 +75,8 @@ export function DonationSelector({ onAmountChange, onCauseChange, className }: D
                 htmlFor={amount.value}
                 className={`flex flex-col p-4 rounded-lg border-2 cursor-pointer transition-all hover:border-primary/50 ${
                   selectedAmount === amount.value && !isCustom
-                    ? "border-primary bg-primary/5"
-                    : "border-border"
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border'
                 }`}
               >
                 <span className="font-semibold text-lg">{amount.label}</span>
@@ -129,7 +128,7 @@ export function DonationSelector({ onAmountChange, onCauseChange, className }: D
         <div className="flex justify-between items-center">
           <span className="font-medium">Your Donation:</span>
           <span className="font-bold text-primary">
-            ₹{isCustom ? customAmount : selectedAmount || "0"}
+            ₹{isCustom ? customAmount : selectedAmount || '0'}
           </span>
         </div>
         <div className="text-sm text-muted-foreground mt-1">
@@ -137,5 +136,5 @@ export function DonationSelector({ onAmountChange, onCauseChange, className }: D
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,14 +1,13 @@
-import { Button } from "./ui/button"
-import { Badge } from "./ui/badge"
-import { CheckCircle } from "lucide-react"
-import { ImageWithFallback } from "./figma/ImageWithFallback"
+import { Button } from './ui/button';
+import { CheckCircle } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const achievements = [
-  "20 years of humanitarian work",
-  "50,000+ lives directly impacted",
-  "5 states served across India",
-  "98% of donations go to programs"
-]
+  '20 years of humanitarian work',
+  '50,000+ lives directly impacted',
+  '5 states served across India',
+  '98% of donations go to programs'
+];
 
 export function About() {
   return (
@@ -72,5 +71,5 @@ export function About() {
         </div>
       </div>
     </section>
-  )
+  );
 }

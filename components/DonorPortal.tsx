@@ -1,8 +1,8 @@
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { CheckCircle2, FileDown, History, Settings, Mail, Shield, HelpCircle } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Button } from './ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { CheckCircle2, FileDown, History, Settings, Mail, Shield, HelpCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export function DonorPortal() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,16 +10,16 @@ export function DonorPortal() {
     // Do not trust localStorage for real auth. Expect server to verify session.
     // For UX only, we may choose to show a logged-in CTA if legacy keys exist,
     // but all sensitive actions must be verified server-side.
-    const legacy = localStorage.getItem("donorLoggedIn") === "true";
+    const legacy = localStorage.getItem('donorLoggedIn') === 'true';
     setIsLoggedIn(legacy);
   }, []);
   const features = [
-    { icon: FileDown, title: "View / Save Donation Receipts", desc: "Download receipts for each donation for your records and tax purposes." },
-    { icon: History, title: "View Donation History", desc: "See a timeline of your past donations with amounts, dates, and modes of payment." },
-    { icon: FileDown, title: "Annual Donation Statement", desc: "Get a consolidated yearly statement for accounting and tax filing." },
-    { icon: Settings, title: "Manage Recurring Donations", desc: "Update frequency, amount, or pause/resume your recurring contributions." },
-    { icon: Shield, title: "Update Contact & Preferences", desc: "Keep your address, phone, and email up to date; choose what updates you receive." },
-    { icon: HelpCircle, title: "Raise a Support Ticket", desc: "Create and track queries related to your donations or receipts." },
+    { icon: FileDown, title: 'View / Save Donation Receipts', desc: 'Download receipts for each donation for your records and tax purposes.' },
+    { icon: History, title: 'View Donation History', desc: 'See a timeline of your past donations with amounts, dates, and modes of payment.' },
+    { icon: FileDown, title: 'Annual Donation Statement', desc: 'Get a consolidated yearly statement for accounting and tax filing.' },
+    { icon: Settings, title: 'Manage Recurring Donations', desc: 'Update frequency, amount, or pause/resume your recurring contributions.' },
+    { icon: Shield, title: 'Update Contact & Preferences', desc: 'Keep your address, phone, and email up to date; choose what updates you receive.' },
+    { icon: HelpCircle, title: 'Raise a Support Ticket', desc: 'Create and track queries related to your donations or receipts.' },
   ];
 
   return (
@@ -31,8 +31,8 @@ export function DonorPortal() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
             <h1 className="text-xl sm:text-2xl font-semibold">Donor portal</h1>
             <Button asChild className="bg-white text-secondary-color hover:opacity-90">
-              <Link to={isLoggedIn ? "/donor-portal" : "/login"}>
-                {isLoggedIn ? "Open Dashboard" : "Login to Donor Portal"}
+              <Link to={isLoggedIn ? '/donor-portal' : '/login'}>
+                {isLoggedIn ? 'Open Dashboard' : 'Login to Donor Portal'}
               </Link>
             </Button>
           </div>

@@ -1,58 +1,57 @@
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Separator } from "./ui/separator"
-import { Heart, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, MessageCircle } from "lucide-react"
-import { ImageWithFallback } from "./figma/ImageWithFallback"
-import { Label } from "./ui/label"
-import { Link } from "react-router-dom"
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Separator } from './ui/separator';
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Link } from 'react-router-dom';
 
 const footerLinks = {
-  "About": [
-    { name: "Our Story", href: "/about" },
-    { name: "Leadership Team", href: "/team" },
-    { name: "Annual Reports", href: "/reports" },
-    { name: "Financials", href: "/financials" },
-    { name: "Careers", href: "/careers" }
+  'About': [
+    { name: 'Our Story', href: '/about' },
+    { name: 'Leadership Team', href: '/team' },
+    { name: 'Annual Reports', href: '/reports' },
+    { name: 'Financials', href: '/financials' },
+    { name: 'Careers', href: '/careers' }
   ],
-  "Our Work": [
-    { name: "Child Welfare & Education", href: "/child-welfare" },
-    { name: "Old-Aged Welfare", href: "/elderly-care" },
-    { name: "Disabled Care", href: "/disabled-care" },
-    { name: "Skilling Youth", href: "/youth-skills" },
-    { name: "Social Activities", href: "/social-activities" }
+  'Our Work': [
+    { name: 'Child Welfare & Education', href: '/child-welfare' },
+    { name: 'Old-Aged Welfare', href: '/elderly-care' },
+    { name: 'Disabled Care', href: '/disabled-care' },
+    { name: 'Skilling Youth', href: '/youth-skills' },
+    { name: 'Social Activities', href: '/social-activities' }
   ],
-  "Get Involved": [
-    { name: "Donate Now", href: "/donate" },
-    { name: "Volunteer", href: "/volunteer" },
-    { name: "Corporate Partnership", href: "/partnerships" },
-    { name: "Fundraise", href: "/fundraise" },
-    { name: "Sponsor a Child", href: "/sponsor" }
+  'Get Involved': [
+    { name: 'Donate Now', href: '/donate' },
+    { name: 'Volunteer', href: '/volunteer' },
+    { name: 'Corporate Partnership', href: '/partnerships' },
+    { name: 'Fundraise', href: '/fundraise' },
+    { name: 'Sponsor a Child', href: '/sponsor' }
   ],
-  "Resources": [
-    { name: "Stories of Impact", href: "/stories" },
-    { name: "News & Updates", href: "/news" },
-    { name: "Events", href: "/events" },
-    { name: "Photo Gallery", href: "/gallery" },
-    { name: "Donor portal", href: "/donor-portal" },
-    { name: "Contact Us", href: "/contact" },
-    { name: "Sitemap", href: "/sitemap" }
+  'Resources': [
+    { name: 'Stories of Impact', href: '/stories' },
+    { name: 'News & Updates', href: '/news' },
+    { name: 'Events', href: '/events' },
+    { name: 'Photo Gallery', href: '/gallery' },
+    { name: 'Donor portal', href: '/donor-portal' },
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'Sitemap', href: '/sitemap' }
   ]
-}
+};
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" }
-]
+  { icon: Facebook, href: '#', label: 'Facebook' },
+  { icon: Twitter, href: '#', label: 'Twitter' },
+  { icon: Instagram, href: '#', label: 'Instagram' },
+  { icon: Linkedin, href: '#', label: 'LinkedIn' }
+];
 
 const contactInfo = [
-  { icon: Mail, text: "mahimaministriesindia@gmail.com" },
-  { icon: Phone, text: "+91 9246502264"  },
-  { icon: MessageCircle, text: "+91 9246272675" },
-  { icon : Phone, text: "040-23032675" },
-  { icon: MapPin, text: "H.No: 2-38/8/2/9/4/1 Mahima Ministries, NTR Nagar colony, Ameenpur(Mandal), Sangareddy(District), Telangana. Postal Code : 502032" }
-]
+  { icon: Mail, text: 'mahimaministriesindia@gmail.com' },
+  { icon: Phone, text: '+91 9246502264'  },
+  { icon: MessageCircle, text: '+91 9246272675' },
+  { icon : Phone, text: '040-23032675' },
+  { icon: MapPin, text: 'H.No: 2-38/8/2/9/4/1 Mahima Ministries, NTR Nagar colony, Ameenpur(Mandal), Sangareddy(District), Telangana. Postal Code : 502032' }
+];
 
 export function Footer() {
   return (
@@ -91,20 +90,20 @@ export function Footer() {
             {/* Contact Info */}
             <div className="space-y-2">
               {contactInfo.map((contact, index) => {
-                const IconComponent = contact.icon
+                const IconComponent = contact.icon;
                 return (
                   <div key={index} className="flex items-center gap-2 text-sm text-white/80">
-                    <IconComponent className={`${contact.icon === MapPin ? "h-8 w-8" : "h-4 w-4"} opacity-80`} />
+                    <IconComponent className={`${contact.icon === MapPin ? 'h-8 w-8' : 'h-4 w-4'} opacity-80`} />
                     <span>{contact.text}</span>
                   </div>
-                )
+                );
               })}
             </div>
 
             {/* Social Links */}
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => {
-                const IconComponent = social.icon
+                const IconComponent = social.icon;
                 return (
                   <a
                     key={index}
@@ -114,7 +113,7 @@ export function Footer() {
                   >
                     <IconComponent className="h-5 w-5" />
                   </a>
-                )
+                );
               })}
             </div>
           </div>
@@ -193,5 +192,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

@@ -1,77 +1,77 @@
-import { Heart, GraduationCap, Users, BookOpen, Stethoscope, Soup, Target, Leaf, HandHeart, ArrowRight, ArrowLeft } from "lucide-react"
-import { Button } from "./ui/button"
-import useEmblaCarousel from "embla-carousel-react"
-import React, { useEffect, useRef, useState } from "react"
+import { Heart, GraduationCap, Users, BookOpen, Stethoscope, Soup, Target, HandHeart, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Button } from './ui/button';
+import useEmblaCarousel from 'embla-carousel-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export function ChildWelfare() {
   const heroImages = [
-    "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1606761568499-6d2451b23c07?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?auto=format&fit=crop&w=1600&q=80",
-  ]
+    'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80',
+    'https://images.unsplash.com/photo-1606761568499-6d2451b23c07?auto=format&fit=crop&w=1600&q=80',
+    'https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?auto=format&fit=crop&w=1600&q=80',
+  ];
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 20 })
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const [inView, setInView] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [slidesCount, setSlidesCount] = useState(heroImages.length)
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 20 });
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [inView, setInView] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [slidesCount, setSlidesCount] = useState(heroImages.length);
 
   const start = () => {
-    if (!emblaApi || !inView || timerRef.current) return
-    timerRef.current = setInterval(() => emblaApi.scrollNext(), 3500)
-  }
+    if (!emblaApi || !inView || timerRef.current) return;
+    timerRef.current = setInterval(() => emblaApi.scrollNext(), 3500);
+  };
   const stop = () => {
     if (timerRef.current) {
-      clearInterval(timerRef.current)
-      timerRef.current = null
+      clearInterval(timerRef.current);
+      timerRef.current = null;
     }
-  }
+  };
 
   useEffect(() => {
-    if (!emblaApi) return
-    const onPointerDown = () => stop()
-    const onPointerUp = () => start()
-    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap())
+    if (!emblaApi) return;
+    const onPointerDown = () => stop();
+    const onPointerUp = () => start();
+    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
     const onReInit = () => {
-      setSlidesCount(emblaApi.slideNodes().length)
-      setSelectedIndex(emblaApi.selectedScrollSnap())
-    }
-    emblaApi.on("pointerDown", onPointerDown)
-    emblaApi.on("pointerUp", onPointerUp)
-    emblaApi.on("select", onSelect)
-    emblaApi.on("reInit", onReInit)
+      setSlidesCount(emblaApi.slideNodes().length);
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+    emblaApi.on('pointerDown', onPointerDown);
+    emblaApi.on('pointerUp', onPointerUp);
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onReInit);
     return () => {
-      emblaApi.off("pointerDown", onPointerDown)
-      emblaApi.off("pointerUp", onPointerUp)
-      emblaApi.off("select", onSelect)
-      emblaApi.off("reInit", onReInit)
-    }
-  }, [emblaApi])
+      emblaApi.off('pointerDown', onPointerDown);
+      emblaApi.off('pointerUp', onPointerUp);
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onReInit);
+    };
+  }, [emblaApi]);
 
   useEffect(() => {
-    if (!sectionRef.current) return
+    if (!sectionRef.current) return;
     const io = new IntersectionObserver(
       (entries) => setInView(entries[0].isIntersecting),
       { threshold: 0.4 }
-    )
-    io.observe(sectionRef.current)
-    return () => io.disconnect()
-  }, [])
+    );
+    io.observe(sectionRef.current);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
-    stop()
-    if (inView) start()
-    return () => stop()
-  }, [inView, emblaApi])
+    stop();
+    if (inView) start();
+    return () => stop();
+  }, [inView, emblaApi]);
 
   return (
     <div className="min-h-screen">
       {/* Hero (taller, multi-image carousel like Home) */}
       <section
-        ref={sectionRef as any}
+        ref={sectionRef}
         className="relative flex items-center justify-center overflow-hidden"
-        style={{ minHeight: "calc(100vh - 96px)" }}
+        style={{ minHeight: 'calc(100vh - 96px)' }}
         onMouseEnter={stop}
         onMouseLeave={start}
       >
@@ -114,7 +114,7 @@ export function ChildWelfare() {
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => emblaApi?.scrollTo(i)}
               className={`h-2.5 w-2.5 rounded-full transition-all ${
-                selectedIndex === i ? "bg-white w-5" : "bg-white/60 hover:bg-white/80"
+                selectedIndex === i ? 'bg-white w-5' : 'bg-white/60 hover:bg-white/80'
               }`}
             />
           ))}
@@ -133,7 +133,7 @@ export function ChildWelfare() {
             </p>
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[{icon:BookOpen,label:'Education Support',desc:'Access to schooling, tutoring, and learning material'},{icon:Stethoscope,label:'Health & Nutrition',desc:'Regular checkups, counseling, and cooked meals'},{icon:Users,label:'Family Strengthening',desc:'Parenting workshops and livelihoods support'},{icon:Target,label:'Life Skills & Mentoring',desc:'Confidence, communication, and career guidance'}].map((item,idx)=>{
-                const Icon:any=item.icon
+                const Icon = item.icon;
                 return (
                   <div key={idx} className="rounded-lg border bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-3">
@@ -142,7 +142,7 @@ export function ChildWelfare() {
                     </div>
                     <p className="mt-2 text-sm text-foreground/80">{item.desc}</p>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -184,7 +184,7 @@ export function ChildWelfare() {
               icon:HandHeart,
               img:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1600&auto=format&fit=crop'
             }].map((p,idx)=>{
-              const Icon:any=p.icon
+              const Icon = p.icon;
               return (
                 <div key={idx} className="rounded-xl overflow-hidden border bg-white shadow-sm flex flex-col">
                   <img src={p.img} alt="" className="h-40 w-full object-cover" />
@@ -201,7 +201,7 @@ export function ChildWelfare() {
                     </div>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -238,7 +238,7 @@ export function ChildWelfare() {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
-export default ChildWelfare
+export default ChildWelfare;

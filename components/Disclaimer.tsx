@@ -42,5 +42,5 @@ export function Disclaimer() {
         </div>
       </div>
     </section>
-  )
+  );
 }

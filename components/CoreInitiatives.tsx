@@ -1,43 +1,4 @@
-import { ProgramCard } from "./ProgramCard"
-import { GraduationCap, Heart, HandHeart, Wrench, TreePine } from "lucide-react"
-
-const initiatives = [
-  {
-    icon: GraduationCap,
-    title: "Child Welfare & Education",
-    description: "Providing quality education, healthcare, nutrition, and protection for vulnerable children in underserved communities.",
-    href: "/child-welfare",
-    stats: "15,000+ children supported"
-  },
-  {
-    icon: Heart,
-    title: "Old-Aged Welfare",
-    description: "Ensuring dignity, healthcare, companionship, and support for senior citizens who need care and community.",
-    href: "/elderly-care", 
-    stats: "3,200+ elders cared for"
-  },
-  {
-    icon: HandHeart,
-    title: "Disabled Care",
-    description: "Empowering individuals with disabilities through inclusive programs, accessibility, and community integration.",
-    href: "/disabled-care",
-    stats: "2,100+ individuals supported"
-  },
-  {
-    icon: Wrench,
-    title: "Skilling Youth",
-    description: "Providing vocational training, job placement, and entrepreneurship opportunities for unemployed youth.",
-    href: "/youth-skills",
-    stats: "8,500+ youth trained"
-  },
-  {
-    icon: TreePine,
-    title: "Social Activities",
-    description: "Building stronger communities through events, festivals, awareness campaigns, and social development programs.",
-    href: "/social-activities",
-    stats: "150+ communities engaged"
-  }
-]
+import { GraduationCap, Heart, HandHeart, Wrench, TreePine } from 'lucide-react';
 
 export function CoreInitiatives() {
   return (
@@ -129,5 +90,5 @@ export function CoreInitiatives() {
         </div>
       </div>
     </section>
-  )
+  );
 }

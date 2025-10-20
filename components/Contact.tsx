@@ -1,50 +1,49 @@
-import { Button } from "./ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Input } from "./ui/input"
-import { Textarea } from "./ui/textarea"
-import { Label } from "./ui/label"
-import { Mail, Phone, MapPin } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
-import { toast } from "sonner"
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Label } from './ui/label';
+import { Mail, Phone, MapPin } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { toast } from 'sonner';
 
 const org = {
-  email: "mahimaministriesindia@gmail.com ; rdmaharaju@gmail.com",
-  phone1: "+91 9246502264",
-  phone2: "+91 9246272675",
-  phone3: "040-23032675",
+  email: 'mahimaministriesindia@gmail.com ; rdmaharaju@gmail.com',
+  phone1: '+91 9246502264',
+  phone2: '+91 9246272675',
+  phone3: '040-23032675',
   address:
-    "HEAD OFFICE: H.No: 2-38/8/2/9/4/1 Mahima Ministries, NTR Nagar colony, Ameenpur(Mandal), Sangareddy(District), Telangana. Postal Code : 502032",
-}
+    'HEAD OFFICE: H.No: 2-38/8/2/9/4/1 Mahima Ministries, NTR Nagar colony, Ameenpur(Mandal), Sangareddy(District), Telangana. Postal Code : 502032',
+};
 
 export function Contact() {
   // simple scroll-in animation hook
   const useReveal = () => {
-    const ref = useRef<HTMLDivElement | null>(null)
-    const [visible, setVisible] = useState(false)
+    const ref = useRef<HTMLDivElement | null>(null);
+    const [visible, setVisible] = useState(false);
     useEffect(() => {
-      const el = ref.current
-      if (!el) return
+      const el = ref.current;
+      if (!el) return;
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
-            if (e.isIntersecting) setVisible(true)
-          })
+            if (e.isIntersecting) setVisible(true);
+          });
         },
         { threshold: 0.15 }
-      )
-      obs.observe(el)
-      return () => obs.disconnect()
-    }, [])
-    return { ref, visible }
-  }
+      );
+      obs.observe(el);
+      return () => obs.disconnect();
+    }, []);
+    return { ref, visible };
+  };
 
-  const locReveal = useReveal()
-  const emailReveal = useReveal()
-  const phoneReveal = useReveal()
-  const formReveal = useReveal()
+  const locReveal = useReveal();
+  const emailReveal = useReveal();
+  const phoneReveal = useReveal();
+  const formReveal = useReveal();
 
-  const [donate, setDonate] = useState<string | undefined>(undefined)
+  const [donate, setDonate] = useState<string | undefined>(undefined);
 
   return (
     <section id="contact" className="relative bg-accent">
@@ -160,7 +159,7 @@ export function Contact() {
               <Button
                 className="bg-secondary-solid hover:opacity-90"
                 onClick={() => {
-                  toast.success("Thanks! We received your message.")
+                  toast.success('Thanks! We received your message.');
                 }}
               >
                 Send Message
@@ -213,6 +212,6 @@ export function Contact() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 

@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { loginWithPassword, Role } from "./auth";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { ShieldCheck, User2, Eye, EyeOff } from "lucide-react";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { loginWithPassword, Role } from './auth';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { ShieldCheck, User2, Eye, EyeOff } from 'lucide-react';
 
 export function Login() {
   const nav = useNavigate();
-  const [role, setRole] = useState<Role>("donor");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [role, setRole] = useState<Role>('donor');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const emailRegex = /^[\w.!#$%&'*+/=?^`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
-  const sanitize = (s: string) => s.trim().replace(/[\u0000-\u001F\u007F]/g, "");
+  const sanitize = (s: string) => s.trim().replace(/[\u0000-\u001F\u007F]/g, '');
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -24,27 +24,27 @@ export function Login() {
     const cleanEmail = sanitize(email);
     const cleanPassword = password.trim();
     if (!cleanEmail || !cleanPassword) {
-      toast.error("Please enter email and password.");
+      toast.error('Please enter email and password.');
       return;
     }
     if (!emailRegex.test(cleanEmail)) {
-      toast.error("Please enter a valid email address.");
+      toast.error('Please enter a valid email address.');
       return;
     }
     // basic password strength: min 8 chars, includes number and letter
     if (cleanPassword.length < 8 || !/[A-Za-z]/.test(cleanPassword) || !/\d/.test(cleanPassword)) {
-      toast.error("Password must be at least 8 characters and include letters and numbers.");
+      toast.error('Password must be at least 8 characters and include letters and numbers.');
       return;
     }
     setSubmitting(true);
     const res = await loginWithPassword({ role, email: cleanEmail, password: cleanPassword });
     setSubmitting(false);
     if (!res.ok) {
-      toast.error(res.error ?? "Login failed");
+      toast.error(res.error ?? 'Login failed');
       return;
     }
-    toast.success(role === "admin" ? "Welcome, Admin." : "Welcome back, Donor.");
-    nav(role === "admin" ? "/admin" : "/donor-portal", { replace: true });
+    toast.success(role === 'admin' ? 'Welcome, Admin.' : 'Welcome back, Donor.');
+    nav(role === 'admin' ? '/admin' : '/donor-portal', { replace: true });
   };
 
   return (
@@ -67,22 +67,22 @@ export function Login() {
           <div className="mb-6 grid grid-cols-2 gap-3">
             <button
               type="button"
-              onClick={() => setRole("donor")}
+              onClick={() => setRole('donor')}
               className={`rounded-full px-4 py-2 border transition flex items-center justify-center gap-2 shadow-sm ${
-                role === "donor"
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white/70 text-foreground border-white/50 hover:bg-white"
+                role === 'donor'
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white/70 text-foreground border-white/50 hover:bg-white'
               }`}
             >
               <User2 className="h-4 w-4" /> Donor
             </button>
             <button
               type="button"
-              onClick={() => setRole("admin")}
+              onClick={() => setRole('admin')}
               className={`rounded-full px-4 py-2 border transition flex items-center justify-center gap-2 shadow-sm ${
-                role === "admin"
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white/70 text-foreground border-white/50 hover:bg-white"
+                role === 'admin'
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white/70 text-foreground border-white/50 hover:bg-white'
               }`}
             >
               <ShieldCheck className="h-4 w-4" /> Admin
@@ -106,7 +106,7 @@ export function Login() {
               <div className="relative">
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -114,7 +114,7 @@ export function Login() {
                 />
                 <button
                   type="button"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute inset-y-0 right-2 flex items-center text-foreground/60 hover:text-foreground"
                 >
@@ -124,7 +124,7 @@ export function Login() {
             </div>
             <div className="pt-2">
               <Button type="submit" disabled={submitting} className="rounded-full bg-primary hover:opacity-90 shadow-md hover:shadow-lg">
-                Login to {role === "admin" ? "Admin" : "Donor"} Portal
+                Login to {role === 'admin' ? 'Admin' : 'Donor'} Portal
               </Button>
             </div>
           </form>

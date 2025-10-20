@@ -1,38 +1,38 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { GraduationCap, Droplets, Heart, Home, Utensils, TreePine } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { GraduationCap, Droplets, Heart, Home, Utensils, TreePine } from 'lucide-react';
 
 const features = [
   {
     icon: GraduationCap,
-    title: "Education",
-    description: "Building schools and providing quality education to children in remote communities."
+    title: 'Education',
+    description: 'Building schools and providing quality education to children in remote communities.'
   },
   {
     icon: Droplets,
-    title: "Clean Water",
-    description: "Installing wells and water systems to provide safe drinking water for entire villages."
+    title: 'Clean Water',
+    description: 'Installing wells and water systems to provide safe drinking water for entire villages.'
   },
   {
     icon: Heart,
-    title: "Healthcare",
-    description: "Mobile clinics and health centers bringing medical care to underserved areas."
+    title: 'Healthcare',
+    description: 'Mobile clinics and health centers bringing medical care to underserved areas.'
   },
   {
     icon: Home,
-    title: "Housing",
-    description: "Constructing safe, sustainable homes for families in need of shelter."
+    title: 'Housing',
+    description: 'Constructing safe, sustainable homes for families in need of shelter.'
   },
   {
     icon: Utensils,
-    title: "Nutrition",
-    description: "Food security programs and nutrition education for malnourished communities."
+    title: 'Nutrition',
+    description: 'Food security programs and nutrition education for malnourished communities.'
   },
   {
     icon: TreePine,
-    title: "Environment",
-    description: "Reforestation and sustainable farming initiatives to protect our planet."
+    title: 'Environment',
+    description: 'Reforestation and sustainable farming initiatives to protect our planet.'
   }
-]
+];
 
 export function Features() {
   return (
@@ -49,7 +49,7 @@ export function Features() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
-            const IconComponent = feature.icon
+            const IconComponent = feature.icon;
             return (
               <Card key={index} className="border-0 shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
@@ -64,10 +64,10 @@ export function Features() {
                   </CardDescription>
                 </CardContent>
               </Card>
-            )
+            );
           })}
         </div>
       </div>
     </section>
-  )
+  );
 }

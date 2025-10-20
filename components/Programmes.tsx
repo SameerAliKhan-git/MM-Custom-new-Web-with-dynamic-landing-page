@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "./ui/carousel";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useEffect, useRef, useState } from 'react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from './ui/carousel';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const heroImages = [
-  "/about-1.jpg",
-  "/about-2.jpg",
-  "/about-3.jpg",
+  '/about-1.jpg',
+  '/about-2.jpg',
+  '/about-3.jpg',
 ];
 
 type Card = {
@@ -16,14 +16,14 @@ type Card = {
 };
 
 const cards: Card[] = [
-  { icon: "👨‍👩‍👧", title: "Family Strengthening", description: "Helping vulnerable families to become self-reliant to afford quality care for their children", href: "/programmes#family-strengthening" },
-  { icon: "👨‍👩‍👧", title: "Kinship Care", description: "Facilitating parental care among next of kin families", href: "/programmes#kinship-care" },
-  { icon: "🧒", title: "Individual Foster Care", description: "Making way for quality childcare in certified foster families", href: "/programmes#foster-care" },
-  { icon: "🆘", title: "Emergency Child Care", description: "Providing relief and rehabilitation to families affected by calamities/emergencies", href: "/programmes#emergency-care" },
-  { icon: "📚", title: "Education & Youth Skilling", description: "Ensuring quality education and supporting youth in skilling for self-reliance", href: "/youth-skills" },
-  { icon: "🏠", title: "Family Like Care", description: "Committed to provide a caring family to every child without parental care", href: "/programmes#family-like-care" },
-  { icon: "🛏️", title: "Short Stay Homes", description: "Creating safe spaces for children in distress", href: "/programmes#short-stay" },
-  { icon: "♿", title: "Special Needs Childcare", description: "Specialised long-term care for differently abled children without parental care", href: "/programmes#special-needs" },
+  { icon: '👨‍👩‍👧', title: 'Family Strengthening', description: 'Helping vulnerable families to become self-reliant to afford quality care for their children', href: '/programmes#family-strengthening' },
+  { icon: '👨‍👩‍👧', title: 'Kinship Care', description: 'Facilitating parental care among next of kin families', href: '/programmes#kinship-care' },
+  { icon: '🧒', title: 'Individual Foster Care', description: 'Making way for quality childcare in certified foster families', href: '/programmes#foster-care' },
+  { icon: '🆘', title: 'Emergency Child Care', description: 'Providing relief and rehabilitation to families affected by calamities/emergencies', href: '/programmes#emergency-care' },
+  { icon: '📚', title: 'Education & Youth Skilling', description: 'Ensuring quality education and supporting youth in skilling for self-reliance', href: '/youth-skills' },
+  { icon: '🏠', title: 'Family Like Care', description: 'Committed to provide a caring family to every child without parental care', href: '/programmes#family-like-care' },
+  { icon: '🛏️', title: 'Short Stay Homes', description: 'Creating safe spaces for children in distress', href: '/programmes#short-stay' },
+  { icon: '♿', title: 'Special Needs Childcare', description: 'Specialised long-term care for differently abled children without parental care', href: '/programmes#special-needs' },
 ];
 
 export function Programmes() {
@@ -61,16 +61,16 @@ export function Programmes() {
       }
     };
     start();
-    const viewport = (api as any)?.rootNode() as HTMLElement | undefined;
+    const viewport = api?.rootNode() as HTMLElement | undefined;
     if (viewport) {
-      viewport.addEventListener("mouseenter", stop);
-      viewport.addEventListener("mouseleave", start);
+      viewport.addEventListener('mouseenter', stop);
+      viewport.addEventListener('mouseleave', start);
     }
     return () => {
       stop();
       if (viewport) {
-        viewport.removeEventListener("mouseenter", stop);
-        viewport.removeEventListener("mouseleave", start);
+        viewport.removeEventListener('mouseenter', stop);
+        viewport.removeEventListener('mouseleave', start);
       }
     };
   }, [api]);
@@ -121,7 +121,7 @@ export function Programmes() {
             return (
               <div key={c.title} className="group" ref={cardReveal.ref}>
                 <a
-                  href={c.href || "#"}
+                  href={c.href || '#'}
                   className={`block rounded-2xl border shadow-sm transition-all duration-500 group-hover:shadow-md group-hover:-translate-y-0.5 glass-card p-5 ${cardReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
                 >
                   <div className="flex items-start gap-4">
@@ -140,7 +140,7 @@ export function Programmes() {
                   </div>
                 </a>
               </div>
-            )
+            );
           })}
         </div>
       </div>

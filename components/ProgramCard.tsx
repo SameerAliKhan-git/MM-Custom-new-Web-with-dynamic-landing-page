@@ -1,6 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Button } from "./ui/button"
-import { ArrowRight, LucideIcon } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { ArrowRight, LucideIcon } from 'lucide-react';
 
 interface ProgramCardProps {
   icon: LucideIcon
@@ -37,5 +37,5 @@ export function ProgramCard({ icon: Icon, title, description, href, stats, class
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

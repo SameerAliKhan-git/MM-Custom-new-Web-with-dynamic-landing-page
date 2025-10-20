@@ -1,31 +1,31 @@
-import { Header } from "./components/Header"
-import { Hero } from "./components/Hero"
-import { About } from "./components/About"
-import { AboutPage } from "./components/AboutPage"
-import { CoreInitiatives } from "./components/CoreInitiatives"
-import { ImpactNumbers } from "./components/ImpactNumbers"
+import { Header } from './components/Header';
+import { Hero } from './components/Hero';
+import { About } from './components/About';
+import { AboutPage } from './components/AboutPage';
+import { CoreInitiatives } from './components/CoreInitiatives';
+import { ImpactNumbers } from './components/ImpactNumbers';
 // import { OurReach } from "./components/OurReach" // Temporarily disabled per user request
-import { StoriesOfImpact } from "./components/StoriesOfImpact"
-import { Footer } from "./components/Footer"
-import { CommitmentSection } from "./components/CommitmentSection"
-import { DonationTypes } from "./components/DonationTypes"
-import { Sitemap } from "./components/Sitemap"
-import { Disclaimer } from "./components/Disclaimer"
-import { Contact } from "./components/Contact"
-import { Privacy } from "./components/Privacy"
-import { DonorPortal } from "./components/DonorPortal"
-import { Login } from "./components/Login"
-import { AdminDashboard } from "./components/AdminDashboard"
-import { VisionMissionValues } from "./components/VisionMissionValues"
-import { Governance } from "./components/Governance"
-import { Programmes } from "./components/Programmes"
-import DonationPage from "./components/DonationPage"
-import ChildWelfare from "./components/ChildWelfare"
-import { isLoggedIn, getRole } from "./components/auth"
-import { Toaster } from "./components/ui/sonner"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import { useEffect } from "react"
-import { verifySession } from "./components/auth"
+import { StoriesOfImpact } from './components/StoriesOfImpact';
+import { Footer } from './components/Footer';
+import { CommitmentSection } from './components/CommitmentSection';
+import { DonationTypes } from './components/DonationTypes';
+import { Sitemap } from './components/Sitemap';
+import { Disclaimer } from './components/Disclaimer';
+import { Contact } from './components/Contact';
+import { Privacy } from './components/Privacy';
+import { DonorPortal } from './components/DonorPortal';
+import { Login } from './components/Login';
+import { AdminDashboard } from './components/AdminDashboard';
+import { VisionMissionValues } from './components/VisionMissionValues';
+import { Governance } from './components/Governance';
+import { Programmes } from './components/Programmes';
+import DonationPage from './components/DonationPage';
+import ChildWelfare from './components/ChildWelfare';
+import { isLoggedIn, getRole } from './components/auth';
+import { Toaster } from './components/ui/sonner';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { verifySession } from './components/auth';
 
 function HomeMain() {
   return (
@@ -39,7 +39,7 @@ function HomeMain() {
       <StoriesOfImpact />
       <DonationTypes />
     </main>
-  )
+  );
 }
 
 export default function App() {
@@ -157,7 +157,7 @@ export default function App() {
           <Route
             path="/admin"
             element={
-              isLoggedIn() && getRole() === "admin" ? (
+              isLoggedIn() && getRole() === 'admin' ? (
                 <main className="relative z-0">
                   <AdminDashboard />
                 </main>
@@ -171,5 +171,5 @@ export default function App() {
         <Toaster richColors position="top-center" />
       </div>
     </BrowserRouter>
-  )
+  );
 }

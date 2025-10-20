@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "./ui/carousel";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useEffect, useRef, useState } from 'react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from './ui/carousel';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const heroImages = [
-  { src: "/hero/hero-1.jpg", alt: "Children learning and growing" },
-  { src: "/hero/hero-2.jpg", alt: "Community outreach in action" },
-  { src: "/hero/hero-3.jpg", alt: "Support and care for elderly" },
+  { src: '/hero/hero-1.jpg', alt: 'Children learning and growing' },
+  { src: '/hero/hero-2.jpg', alt: 'Community outreach in action' },
+  { src: '/hero/hero-3.jpg', alt: 'Support and care for elderly' },
 ];
 
 export function VisionMissionValues() {
@@ -56,16 +56,16 @@ export function VisionMissionValues() {
       }
     };
     start();
-    const viewport = (api as any)?.rootNode() as HTMLElement | undefined;
+    const viewport = api?.rootNode() as HTMLElement | undefined;
     if (viewport) {
-      viewport.addEventListener("mouseenter", stop);
-      viewport.addEventListener("mouseleave", start);
+      viewport.addEventListener('mouseenter', stop);
+      viewport.addEventListener('mouseleave', start);
     }
     return () => {
       stop();
       if (viewport) {
-        viewport.removeEventListener("mouseenter", stop);
-        viewport.removeEventListener("mouseleave", start);
+        viewport.removeEventListener('mouseenter', stop);
+        viewport.removeEventListener('mouseleave', start);
       }
     };
   }, [api]);

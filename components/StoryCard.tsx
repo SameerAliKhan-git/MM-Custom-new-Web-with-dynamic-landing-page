@@ -1,8 +1,8 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Badge } from "./ui/badge"
-import { Button } from "./ui/button"
-import { ArrowRight } from "lucide-react"
-import { ImageWithFallback } from "./figma/ImageWithFallback"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import { ArrowRight } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface StoryCardProps {
   image: string
@@ -49,5 +49,5 @@ export function StoryCard({ image, category, title, excerpt, href, date, classNa
         </Button>
       </CardContent>
     </Card>
-  )
+  );
 }

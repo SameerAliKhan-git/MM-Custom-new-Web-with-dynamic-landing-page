@@ -1,25 +1,25 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Label } from './ui/label';
+import { Button } from './ui/button';
 // Card not used; using glass-card containers like Contact page
-import { Input } from "./ui/input";
-import { Minus, Plus, IndianRupee, Heart } from "lucide-react";
-import { Textarea } from "./ui/textarea";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { Input } from './ui/input';
+import { Minus, Plus, IndianRupee, Heart } from 'lucide-react';
+import { Textarea } from './ui/textarea';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
-type DonorType = "indian" | "foreign";
-type Frequency = "ONE_TIME" | "MONTHLY";
+type DonorType = 'indian' | 'foreign';
+type Frequency = 'ONE_TIME' | 'MONTHLY';
 
 type ProgramKey =
-  | "SPONSOR_CHILD"
-  | "SPONSOR_EDUCATION"
-  | "SUPPORT_FAMILY"
-  | "SKILL_YOUTH"
-  | "DISABLED_CARE"
-  | "OLD_AGE_CARE"
-  | "SUSTAINABILITY"
-  | "FOOD"
-  | "GENERAL";
+  | 'SPONSOR_CHILD'
+  | 'SPONSOR_EDUCATION'
+  | 'SUPPORT_FAMILY'
+  | 'SKILL_YOUTH'
+  | 'DISABLED_CARE'
+  | 'OLD_AGE_CARE'
+  | 'SUSTAINABILITY'
+  | 'FOOD'
+  | 'GENERAL';
 
 type ProgramOption = {
   key: ProgramKey;
@@ -29,86 +29,86 @@ type ProgramOption = {
 };
 
 const PROGRAMS: ProgramOption[] = [
-  { key: "SPONSOR_CHILD", title: "Sponsor a child", description: "Sponsor a Child to facilitate their all-round development by fulfilling their educational and health needs.", defaultAmount: 11880 },
-  { key: "SPONSOR_EDUCATION", title: "Sponsor a child's education", description: "Support a child's education for a year.", defaultAmount: 28200 },
-  { key: "SUPPORT_FAMILY", title: "Support an under privileged family in a community", description: "Help families become self-reliant.", defaultAmount: 20160 },
-  { key: "SKILL_YOUTH", title: "Support Education and Skilling of a Youth", description: "Provide skill-based education for employability.", defaultAmount: 9000 },
+  { key: 'SPONSOR_CHILD', title: 'Sponsor a child', description: 'Sponsor a Child to facilitate their all-round development by fulfilling their educational and health needs.', defaultAmount: 11880 },
+  { key: 'SPONSOR_EDUCATION', title: 'Sponsor a child\'s education', description: 'Support a child\'s education for a year.', defaultAmount: 28200 },
+  { key: 'SUPPORT_FAMILY', title: 'Support an under privileged family in a community', description: 'Help families become self-reliant.', defaultAmount: 20160 },
+  { key: 'SKILL_YOUTH', title: 'Support Education and Skilling of a Youth', description: 'Provide skill-based education for employability.', defaultAmount: 9000 },
   // Newly added menu items (shown above General Donation)
-  { key: "DISABLED_CARE", title: "Donate for Disabled Care", description: "Support assistive care, therapies, and inclusive education for persons with disabilities.", defaultAmount: 12000 },
-  { key: "OLD_AGE_CARE", title: "Donate for Old age Welfare and Medical care", description: "Ensure dignity for elders with food, medicines, and regular health checkups.", defaultAmount: 8000 },
-  { key: "SUSTAINABILITY", title: "Donate for Sustainability", description: "Contribute to trees, clean energy, and greener communities.", defaultAmount: 5000 },
-  { key: "FOOD", title: "Donate for Food", description: "Provide nutritious meals to those in need.", defaultAmount: 1500 },
-  { key: "GENERAL", title: "General Donation", description: "Let us allocate your donation where it's needed most.", defaultAmount: 0 },
+  { key: 'DISABLED_CARE', title: 'Donate for Disabled Care', description: 'Support assistive care, therapies, and inclusive education for persons with disabilities.', defaultAmount: 12000 },
+  { key: 'OLD_AGE_CARE', title: 'Donate for Old age Welfare and Medical care', description: 'Ensure dignity for elders with food, medicines, and regular health checkups.', defaultAmount: 8000 },
+  { key: 'SUSTAINABILITY', title: 'Donate for Sustainability', description: 'Contribute to trees, clean energy, and greener communities.', defaultAmount: 5000 },
+  { key: 'FOOD', title: 'Donate for Food', description: 'Provide nutritious meals to those in need.', defaultAmount: 1500 },
+  { key: 'GENERAL', title: 'General Donation', description: 'Let us allocate your donation where it\'s needed most.', defaultAmount: 0 },
 ];
 
 // Dynamic image + content for each program
 const PROGRAM_CONTENT: Record<ProgramKey, { image: string; title: string; body: string }> = {
   SPONSOR_CHILD: {
     image:
-      "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1600&auto=format&fit=crop",
-    title: "Sponsor a Child",
+      'https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1600&auto=format&fit=crop',
+    title: 'Sponsor a Child',
     body:
-      "Your sponsorship ensures school supplies, healthcare and a caring environment for holistic growth.",
+      'Your sponsorship ensures school supplies, healthcare and a caring environment for holistic growth.',
   },
   SPONSOR_EDUCATION: {
     image:
-      "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop",
-    title: "Sponsor Education",
+      'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1600&auto=format&fit=crop',
+    title: 'Sponsor Education',
     body:
-      "Help a child stay in school with tuition, uniforms, and learning support for an entire year.",
+      'Help a child stay in school with tuition, uniforms, and learning support for an entire year.',
   },
   SUPPORT_FAMILY: {
     image:
-      "https://images.unsplash.com/photo-1533223876824-3ad0062b3b9b?q=80&w=1600&auto=format&fit=crop",
-    title: "Support a Family",
+      'https://images.unsplash.com/photo-1533223876824-3ad0062b3b9b?q=80&w=1600&auto=format&fit=crop',
+    title: 'Support a Family',
     body:
-      "Livelihood support prevents family separation and helps parents provide for their children.",
+      'Livelihood support prevents family separation and helps parents provide for their children.',
   },
   SKILL_YOUTH: {
     image:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop",
-    title: "Skill a Youth",
+      'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop',
+    title: 'Skill a Youth',
     body:
-      "Vocational training and placements open dignified employment pathways for young adults.",
+      'Vocational training and placements open dignified employment pathways for young adults.',
   },
   DISABLED_CARE: {
     image:
-      "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1600&auto=format&fit=crop",
-    title: "Disabled Care",
+      'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1600&auto=format&fit=crop',
+    title: 'Disabled Care',
     body:
-      "Fund therapies, assistive devices and inclusive programs that foster independence and dignity.",
+      'Fund therapies, assistive devices and inclusive programs that foster independence and dignity.',
   },
   OLD_AGE_CARE: {
     image:
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1600&auto=format&fit=crop",
-    title: "Elderly Welfare & Medical Care",
+      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1600&auto=format&fit=crop',
+    title: 'Elderly Welfare & Medical Care',
     body:
-      "Provide ration kits, medicines and regular checkups to ensure elders are cared for and respected.",
+      'Provide ration kits, medicines and regular checkups to ensure elders are cared for and respected.',
   },
   SUSTAINABILITY: {
     image:
-      "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop",
-    title: "Sustainability",
+      'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop',
+    title: 'Sustainability',
     body:
-      "Plant trees, conserve water and support clean energy for healthier communities and a greener planet.",
+      'Plant trees, conserve water and support clean energy for healthier communities and a greener planet.',
   },
   FOOD: {
     image:
-      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1600&auto=format&fit=crop",
-    title: "Donate for Food",
+      'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1600&auto=format&fit=crop',
+    title: 'Donate for Food',
     body:
-      "Sponsor nutritious cooked meals for children and families. Choose a date and add your message.",
+      'Sponsor nutritious cooked meals for children and families. Choose a date and add your message.',
   },
   GENERAL: {
-    image: "/footer-bg.jpg",
-    title: "General Donation",
+    image: '/footer-bg.jpg',
+    title: 'General Donation',
     body:
-      "We will channel your gift to the most urgent needs across our programmes.",
+      'We will channel your gift to the most urgent needs across our programmes.',
   },
 };
 
 function Money({ value }: { value: number }) {
-  const formatted = useMemo(() => new Intl.NumberFormat("en-IN").format(value), [value]);
+  const formatted = useMemo(() => new Intl.NumberFormat('en-IN').format(value), [value]);
   return (
     <span className="inline-flex items-center gap-1 tabular-nums">
       <IndianRupee className="h-4 w-4" /> {formatted}
@@ -118,49 +118,46 @@ function Money({ value }: { value: number }) {
 export function DonationPage() {
   // Simple reveal hook (same pattern as Contact page)
   const useReveal = () => {
-    const ref = useRef<HTMLDivElement | null>(null)
-    const [visible, setVisible] = useState(false)
+    const ref = useRef<HTMLDivElement | null>(null);
+    const [visible, setVisible] = useState(false);
     useEffect(() => {
-      const el = ref.current
-      if (!el) return
+      const el = ref.current;
+      if (!el) return;
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
-            if (e.isIntersecting) setVisible(true)
-          })
+            if (e.isIntersecting) setVisible(true);
+          });
         },
         { threshold: 0.15 }
-      )
-      obs.observe(el)
-      return () => obs.disconnect()
-    }, [])
-    return { ref, visible }
-  }
+      );
+      obs.observe(el);
+      return () => obs.disconnect();
+    }, []);
+    return { ref, visible };
+  };
 
-  const infoReveal = useReveal()
-  const leftReveal = useReveal()
-  const formReveal = useReveal()
+  const infoReveal = useReveal();
+  const leftReveal = useReveal();
+  const formReveal = useReveal();
   // Form state
-  const [donorType, setDonorType] = useState<DonorType>("indian");
-  const [program, setProgram] = useState<ProgramKey>("SPONSOR_CHILD");
-  const [frequency, setFrequency] = useState<Frequency>("ONE_TIME");
+  const [donorType, setDonorType] = useState<DonorType>('indian');
+  const [program, setProgram] = useState<ProgramKey>('SPONSOR_CHILD');
+  const [frequency, setFrequency] = useState<Frequency>('ONE_TIME');
   const [quantity, setQuantity] = useState(1);
   const [amount, setAmount] = useState<number>(PROGRAMS[0].defaultAmount);
-  const [foodDate, setFoodDate] = useState<string>("");
-  const [donorNote, setDonorNote] = useState<string>("");
+  const [foodDate, setFoodDate] = useState<string>('');
+  const [donorNote, setDonorNote] = useState<string>('');
 
   useEffect(() => {
     const selected = PROGRAMS.find((p) => p.key === program)!;
-    if (selected.key !== "GENERAL") setAmount(selected.defaultAmount);
+    if (selected.key !== 'GENERAL') setAmount(selected.defaultAmount);
   }, [program]);
 
   const total = useMemo(() => {
-    if (program === "GENERAL") return Math.max(0, Math.floor(amount));
+    if (program === 'GENERAL') return Math.max(0, Math.floor(amount));
     return Math.max(0, Math.floor(amount)) * Math.max(1, Math.floor(quantity));
   }, [program, amount, quantity]);
-  const isGeneralAmountValid = useMemo(() => {
-    return program !== "GENERAL" || amount >= 1000;
-  }, [program, amount]);
   return (
     <>
       {/* Hero Section (matches reference design) */}
@@ -208,7 +205,7 @@ export function DonationPage() {
             >
               <div
                 className={`rounded-lg transition-all duration-500 ${
-                  leftReveal.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+                  leftReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
                 }`}
               >
                 <div className="relative overflow-hidden rounded-2xl border-4 border-white shadow-xl bg-white">
@@ -233,33 +230,33 @@ export function DonationPage() {
                   <h3 className="text-base font-semibold">CHOOSE DONOR TYPE</h3>
                   <div className="mt-2 flex items-center gap-4 text-sm">
                     <label className="inline-flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="donorType" checked={donorType === "indian"} onChange={() => setDonorType("indian")} />
+                      <input type="radio" name="donorType" checked={donorType === 'indian'} onChange={() => setDonorType('indian')} />
                       Indian Donor
                     </label>
                     <label className="inline-flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="donorType" checked={donorType === "foreign"} onChange={() => setDonorType("foreign")} />
+                      <input type="radio" name="donorType" checked={donorType === 'foreign'} onChange={() => setDonorType('foreign')} />
                       Foreign/NRI Donors (PIO/OCI/NRI)
                     </label>
                   </div>
 
                   {/* Program buttons */}
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {PROGRAMS.filter((p) => p.key !== "GENERAL").map((p) => (
+                    {PROGRAMS.filter((p) => p.key !== 'GENERAL').map((p) => (
                       <Button
                         key={p.key}
                         type="button"
-                        variant={program === p.key ? "default" : "outline"}
+                        variant={program === p.key ? 'default' : 'outline'}
                         onClick={() => setProgram(p.key)}
-                        className={`${program === p.key ? "bg-primary text-white" : "bg-white"} h-auto min-h-[56px] whitespace-normal break-words leading-snug text-center flex items-center justify-center px-3 py-3`}
+                        className={`${program === p.key ? 'bg-primary text-white' : 'bg-white'} h-auto min-h-[56px] whitespace-normal break-words leading-snug text-center flex items-center justify-center px-3 py-3`}
                       >
                         {p.title}
                       </Button>
                     ))}
                     <Button
                       type="button"
-                      variant={program === "GENERAL" ? "default" : "outline"}
-                      onClick={() => setProgram("GENERAL")}
-                      className={`${program === "GENERAL" ? "bg-primary text-white" : "bg-white"} col-span-1 sm:col-span-2 h-auto min-h-[56px] whitespace-normal break-words leading-snug text-center flex items-center justify-center px-3 py-3`}
+                      variant={program === 'GENERAL' ? 'default' : 'outline'}
+                      onClick={() => setProgram('GENERAL')}
+                      className={`${program === 'GENERAL' ? 'bg-primary text-white' : 'bg-white'} col-span-1 sm:col-span-2 h-auto min-h-[56px] whitespace-normal break-words leading-snug text-center flex items-center justify-center px-3 py-3`}
                     >
                       General Donation
                     </Button>
@@ -272,7 +269,7 @@ export function DonationPage() {
 
                   {/* Frequency */}
                   <div className="mt-4">
-                    {donorType === "foreign" ? (
+                    {donorType === 'foreign' ? (
                       // Only One Time for foreign donors
                       <div className="inline-flex rounded-md overflow-hidden border">
                         <span className="px-4 py-2 text-sm bg-primary text-white select-none">One Time</span>
@@ -281,15 +278,15 @@ export function DonationPage() {
                       <div className="inline-flex rounded-md overflow-hidden border">
                         <button
                           type="button"
-                          className={`px-4 py-2 text-sm ${frequency === "ONE_TIME" ? "bg-primary text-white" : "bg-white"}`}
-                          onClick={() => setFrequency("ONE_TIME")}
+                          className={`px-4 py-2 text-sm ${frequency === 'ONE_TIME' ? 'bg-primary text-white' : 'bg-white'}`}
+                          onClick={() => setFrequency('ONE_TIME')}
                         >
                           One Time
                         </button>
                         <button
                           type="button"
-                          className={`px-4 py-2 text-sm ${frequency === "MONTHLY" ? "bg-primary text-white" : "bg-white"}`}
-                          onClick={() => setFrequency("MONTHLY")}
+                          className={`px-4 py-2 text-sm ${frequency === 'MONTHLY' ? 'bg-primary text-white' : 'bg-white'}`}
+                          onClick={() => setFrequency('MONTHLY')}
                         >
                           Give Monthly
                         </button>
@@ -301,10 +298,10 @@ export function DonationPage() {
                   <div className="mt-3 border-t border-dashed" />
 
                   {/* Quantity or amount (hidden for foreign donors per reference) */}
-                  {donorType === "indian" && (
-                    program !== "GENERAL" ? (
+                  {donorType === 'indian' && (
+                    program !== 'GENERAL' ? (
                       <div className="mt-4">
-                        <Label className="text-sm">{program === "FOOD" ? "Number of Meals" : "Number of Children"}</Label>
+                        <Label className="text-sm">{program === 'FOOD' ? 'Number of Meals' : 'Number of Children'}</Label>
                         <div className="mt-2 flex items-center gap-4">
                           <Button
                             type="button"
@@ -322,7 +319,7 @@ export function DonationPage() {
                             Total Amount <span className="ml-2"><Money value={total} /></span>
                           </div>
                         </div>
-                        {program === "FOOD" && (
+                        {program === 'FOOD' && (
                           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                               <Label className="text-sm">Select date for food donation</Label>
@@ -378,11 +375,11 @@ export function DonationPage() {
                         console.log({ donorType, program, frequency, quantity, amount, total, foodDate, donorNote });
                       }}
                       className="w-full h-11 rounded-full bg-primary hover:opacity-90 flex items-center justify-center gap-2 text-white"
-                      disabled={donorType === "indian" ? (program === "GENERAL" ? amount < 1000 : total <= 0) : false}
+                      disabled={donorType === 'indian' ? (program === 'GENERAL' ? amount < 1000 : total <= 0) : false}
                     >
                       <Heart className="h-4 w-4" /> donate now
                     </Button>
-                    {donorType === "foreign" && (
+                    {donorType === 'foreign' && (
                       <div className="mt-2 text-[11px] text-foreground/60 flex items-center gap-2">
                         <span>powered by</span>
                         <span className="font-semibold text-emerald-600">danamojo</span>

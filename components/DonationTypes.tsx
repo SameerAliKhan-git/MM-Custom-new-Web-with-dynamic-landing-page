@@ -1,6 +1,5 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "./ui/carousel"
-import * as React from "react"
-import { cn } from "./ui/utils"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from './ui/carousel';
+import * as React from 'react';
 
 type DonationCard = {
   title: string
@@ -10,81 +9,81 @@ type DonationCard = {
 
 const donations: DonationCard[] = [
   {
-    title: "Partnerships",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop",
+    title: 'Partnerships',
+    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    title: "Philanthropy",
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1200&auto=format&fit=crop",
+    title: 'Philanthropy',
+    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    title: "Give In Celebrations",
-    image: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?q=80&w=1200&auto=format&fit=crop",
+    title: 'Give In Celebrations',
+    image: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    title: "School Buddy Programme",
-    image: "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200&auto=format&fit=crop",
+    title: 'School Buddy Programme',
+    image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    title: "Make a Donation",
-    image: "https://images.unsplash.com/photo-1593113598332-cc7f8a3b4d05?q=80&w=1200&auto=format&fit=crop",
+    title: 'Make a Donation',
+    image: 'https://images.unsplash.com/photo-1593113598332-cc7f8a3b4d05?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    title: "Other Ways to Give",
-    image: "https://images.unsplash.com/photo-1513624334153-8a43f07e7656?q=80&w=1200&auto=format&fit=crop",
+    title: 'Other Ways to Give',
+    image: 'https://images.unsplash.com/photo-1513624334153-8a43f07e7656?q=80&w=1200&auto=format&fit=crop',
   },
-]
+];
 
 export function DonationTypes() {
-  const [api, setApi] = React.useState<CarouselApi | null>(null)
-  const sectionRef = React.useRef<HTMLElement | null>(null)
+  const [api, setApi] = React.useState<CarouselApi | null>(null);
+  const sectionRef = React.useRef<HTMLElement | null>(null);
 
   // Autoplay when in view (and not interacting)
   React.useEffect(() => {
-    if (!api) return
+    if (!api) return;
 
-    let autoplayTimer: number | null = null
-    let inView = false
-    let userInteracting = false
+    let autoplayTimer: number | null = null;
+    let inView = false;
+    let userInteracting = false;
 
-    const el = sectionRef.current
-    if (!el) return
+    const el = sectionRef.current;
+    if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        inView = !!entry?.isIntersecting
-        schedule()
+        inView = !!entry?.isIntersecting;
+        schedule();
       },
       { threshold: 0.4 }
-    )
-    observer.observe(el)
+    );
+    observer.observe(el);
 
-    const onPointerDown = () => { userInteracting = true; clearAutoplay() }
-    const onPointerUp = () => { userInteracting = false; schedule() }
-    window.addEventListener('pointerdown', onPointerDown)
-    window.addEventListener('pointerup', onPointerUp)
+    const onPointerDown = () => { userInteracting = true; clearAutoplay(); };
+    const onPointerUp = () => { userInteracting = false; schedule(); };
+    window.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointerup', onPointerUp);
 
     function clearAutoplay(){
-      if (autoplayTimer) { window.clearInterval(autoplayTimer); autoplayTimer = null }
+      if (autoplayTimer) { window.clearInterval(autoplayTimer); autoplayTimer = null; }
     }
 
     function schedule(){
-      clearAutoplay()
-      if (!inView || userInteracting) return
+      clearAutoplay();
+      if (!inView || userInteracting) return;
       autoplayTimer = window.setInterval(() => {
-        api?.scrollNext()
-      }, 3500)
+        api?.scrollNext();
+      }, 3500);
     }
 
-    schedule()
+    schedule();
 
     return () => {
-      observer.disconnect()
-      window.removeEventListener('pointerdown', onPointerDown)
-      window.removeEventListener('pointerup', onPointerUp)
-      clearAutoplay()
-    }
-  }, [api])
+      observer.disconnect();
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointerup', onPointerUp);
+      clearAutoplay();
+    };
+  }, [api]);
   return (
     <section ref={sectionRef} className="bg-primary-solid py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,7 +93,7 @@ export function DonationTypes() {
         </div>
 
         <div className="relative">
-          <Carousel opts={{ align: "start" }} setApi={setApi} className="mx-auto max-w-7xl">
+          <Carousel opts={{ align: 'start' }} setApi={setApi} className="mx-auto max-w-7xl">
             <CarouselContent className="-ml-2 md:-ml-4">
               {donations.map((d, i) => (
                 <CarouselItem key={i} className="pl-2 md:pl-4 basis-4/5 sm:basis-2/5 lg:basis-1/4 xl:basis-1/5 max-w-[260px]">
@@ -136,5 +135,5 @@ export function DonationTypes() {
         </div>
       </div>
     </section>
-  )
+  );
 }

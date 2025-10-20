@@ -1,31 +1,31 @@
-import { Button } from "./ui/button"
-import { Card, CardContent } from "./ui/card"
-import { Heart, Users, DollarSign } from "lucide-react"
-import { ImageWithFallback } from "./figma/ImageWithFallback"
+import { Button } from './ui/button';
+import { Card, CardContent } from './ui/card';
+import { Heart, Users, DollarSign } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const actions = [
   {
     icon: DollarSign,
-    title: "Donate",
-    description: "Make a direct impact with your contribution",
-    amount: "From $25/month",
-    action: "Start Donating"
+    title: 'Donate',
+    description: 'Make a direct impact with your contribution',
+    amount: 'From $25/month',
+    action: 'Start Donating'
   },
   {
     icon: Users,
-    title: "Volunteer",
-    description: "Join our team of dedicated volunteers",
-    amount: "2 hours/week",
-    action: "Sign Up"
+    title: 'Volunteer',
+    description: 'Join our team of dedicated volunteers',
+    amount: '2 hours/week',
+    action: 'Sign Up'
   },
   {
     icon: Heart,
-    title: "Sponsor",
-    description: "Sponsor a child's education and future",
-    amount: "$50/month",
-    action: "Sponsor Now"
+    title: 'Sponsor',
+    description: 'Sponsor a child\'s education and future',
+    amount: '$50/month',
+    action: 'Sponsor Now'
   }
-]
+];
 
 export function CallToAction() {
   return (
@@ -45,7 +45,7 @@ export function CallToAction() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {actions.map((action, index) => {
-                const IconComponent = action.icon
+                const IconComponent = action.icon;
                 return (
                   <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                     <CardContent className="p-6 space-y-4">
@@ -62,7 +62,7 @@ export function CallToAction() {
                       </Button>
                     </CardContent>
                   </Card>
-                )
+                );
               })}
             </div>
           </div>
@@ -94,5 +94,5 @@ export function CallToAction() {
         </div>
       </div>
     </section>
-  )
+  );
 }

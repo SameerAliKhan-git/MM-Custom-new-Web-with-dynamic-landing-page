@@ -1,12 +1,12 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 // Helper to create simple kebab-case routes for group titles
 function toSlug(s: string) {
   return s
     .toLowerCase()
-    .replace(/[|]/g, " ")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
+    .replace(/[|]/g, ' ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 type Item = { label: string; href: string; children?: Item[] }
@@ -14,67 +14,67 @@ type Group = { title: string; items: Item[] }
 
 const groups: Group[] = [
   {
-    title: "Who we are",
+    title: 'Who we are',
     items: [
-      { label: "About us", href: "/about" },
-      { label: "Vision | Mission | Values", href: "/vision-mission-values" },
-      { label: "Our governance", href: "/governance" },
-      { label: "Financial information", href: "/financials" },
+      { label: 'About us', href: '/about' },
+      { label: 'Vision | Mission | Values', href: '/vision-mission-values' },
+      { label: 'Our governance', href: '/governance' },
+      { label: 'Financial information', href: '/financials' },
     ],
   },
   {
-    title: "Our work",
+    title: 'Our work',
     items: [
-      { label: "Our programmes", href: "/programmes" },
-      { label: "Where we work", href: "/locations" },
-      { label: "Government partnerships/scheme", href: "/partnerships" },
-      { label: "Child safeguarding", href: "/safeguarding" },
-      { label: "Stories of change", href: "/stories-change" },
-      { label: "Sustainability", href: "/sustainability" },
+      { label: 'Our programmes', href: '/programmes' },
+      { label: 'Where we work', href: '/locations' },
+      { label: 'Government partnerships/scheme', href: '/partnerships' },
+      { label: 'Child safeguarding', href: '/safeguarding' },
+      { label: 'Stories of change', href: '/stories-change' },
+      { label: 'Sustainability', href: '/sustainability' },
     ],
   },
   {
-    title: "Sponsor a child",
+    title: 'Sponsor a child',
     items: [
-      { label: "Sponsor a child (INR 11,880 / year)", href: "/sponsor" },
-      { label: "Sponsor education (INR 28,200 / year)", href: "/sponsor#education" },
+      { label: 'Sponsor a child (INR 11,880 / year)', href: '/sponsor' },
+      { label: 'Sponsor education (INR 28,200 / year)', href: '/sponsor#education' },
     ],
   },
   {
-    title: "Donor portal",
+    title: 'Donor portal',
     items: [],
   },
   {
-    title: "Ways to give",
+    title: 'Ways to give',
     items: [
-      { label: "Partnerships", href: "/partnerships" },
-      { label: "Philanthropy", href: "/philanthropy" },
-      { label: "Give in celebration", href: "/give-celebration" },
-      { label: "School buddy programme", href: "/school-buddy" },
-      { label: "Make a donation", href: "/donate" },
+      { label: 'Partnerships', href: '/partnerships' },
+      { label: 'Philanthropy', href: '/philanthropy' },
+      { label: 'Give in celebration', href: '/give-celebration' },
+      { label: 'School buddy programme', href: '/school-buddy' },
+      { label: 'Make a donation', href: '/donate' },
       {
-        label: "Other ways to give",
-        href: "/other-ways",
+        label: 'Other ways to give',
+        href: '/other-ways',
         children: [
-          { label: "Internship", href: "/internship" },
-          { label: "Legacy", href: "/legacy" },
-          { label: "Payroll giving", href: "/payroll-giving" },
-          { label: "Employee engagement", href: "/employee-engagement" },
-          { label: "CRM", href: "/crm" },
-          { label: "Give in memory", href: "/memory" },
+          { label: 'Internship', href: '/internship' },
+          { label: 'Legacy', href: '/legacy' },
+          { label: 'Payroll giving', href: '/payroll-giving' },
+          { label: 'Employee engagement', href: '/employee-engagement' },
+          { label: 'CRM', href: '/crm' },
+          { label: 'Give in memory', href: '/memory' },
         ],
       },
     ],
   },
   {
-    title: "Resources",
+    title: 'Resources',
     items: [
-      { label: "Annual Report", href: "/reports" },
-      { label: "Blog", href: "/blog" },
-      { label: "Media", href: "/media" },
+      { label: 'Annual Report', href: '/reports' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Media', href: '/media' },
     ],
   },
-]
+];
 
 function Pill({ children, href }: { children: React.ReactNode; href?: string }) {
   return (
@@ -90,7 +90,7 @@ function Pill({ children, href }: { children: React.ReactNode; href?: string }) 
         {children}
       </div>
     )
-  )
+  );
 }
 
 function CardLink({ item }: { item: Item }) {
@@ -101,20 +101,20 @@ function CardLink({ item }: { item: Item }) {
     >
       {item.label}
     </a>
-  )
+  );
 }
 
 function GroupColumn({ group, outerRef }: { group: Group; outerRef?: (el: HTMLDivElement | null) => void }) {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const pillRef = useRef<HTMLDivElement | null>(null)
-  const listRef = useRef<HTMLDivElement | null>(null)
-  const firstRef = useRef<HTMLDivElement | null>(null)
-  const lastRef = useRef<HTMLDivElement | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const pillRef = useRef<HTMLDivElement | null>(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const firstRef = useRef<HTMLDivElement | null>(null);
+  const lastRef = useRef<HTMLDivElement | null>(null);
   // Refs for a single nested sub-branch (used for "Other ways to give")
-  const nestedContainerRef = useRef<HTMLDivElement | null>(null)
-  const nestedFirstRef = useRef<HTMLDivElement | null>(null)
-  const nestedLastRef = useRef<HTMLDivElement | null>(null)
-  const nestedParentRef = useRef<HTMLDivElement | null>(null)
+  const nestedContainerRef = useRef<HTMLDivElement | null>(null);
+  const nestedFirstRef = useRef<HTMLDivElement | null>(null);
+  const nestedLastRef = useRef<HTMLDivElement | null>(null);
+  const nestedParentRef = useRef<HTMLDivElement | null>(null);
   const [coords, setCoords] = useState({
     railTop: 0,
     railBottom: 0,
@@ -129,95 +129,95 @@ function GroupColumn({ group, outerRef }: { group: Group; outerRef?: (el: HTMLDi
     nestedParentLeftX: 0,
     nestedParentBottomY: 0,
     nestedParentMidY: 0,
-  })
+  });
 
   const recalc = () => {
-    const containerEl = containerRef.current
-    const pillEl = pillRef.current
-    const listEl = listRef.current
-    const firstEl = firstRef.current
-  const lastEl = lastRef.current
-  if (!containerEl || !pillEl || !listEl || !firstEl || !lastEl) return
-  const containerRect = containerEl.getBoundingClientRect()
-  const pillRect = pillEl.getBoundingClientRect()
-  const listRect = listEl.getBoundingClientRect()
-    const firstRect = firstEl.getBoundingClientRect()
-    const lastRect = lastEl.getBoundingClientRect()
+    const containerEl = containerRef.current;
+    const pillEl = pillRef.current;
+    const listEl = listRef.current;
+    const firstEl = firstRef.current;
+  const lastEl = lastRef.current;
+  if (!containerEl || !pillEl || !listEl || !firstEl || !lastEl) return;
+  const containerRect = containerEl.getBoundingClientRect();
+  const pillRect = pillEl.getBoundingClientRect();
+  const listRect = listEl.getBoundingClientRect();
+    const firstRect = firstEl.getBoundingClientRect();
+    const lastRect = lastEl.getBoundingClientRect();
 
   // Compute child midlines
-  const firstMidYRaw = firstRect.top + firstRect.height / 2 - containerRect.top
-  const lastMidYRaw = lastRect.top + lastRect.height / 2 - containerRect.top
+  const firstMidYRaw = firstRect.top + firstRect.height / 2 - containerRect.top;
+  const lastMidYRaw = lastRect.top + lastRect.height / 2 - containerRect.top;
   // Snap to integer pixels for crisp edges
-  const firstMidY = Math.round(firstMidYRaw)
-  const lastMidY = Math.round(lastMidYRaw)
-  const railTop = Math.min(firstMidY, lastMidY)
-  const railBottom = Math.max(firstMidY, lastMidY)
+  const firstMidY = Math.round(firstMidYRaw);
+  const lastMidY = Math.round(lastMidYRaw);
+  const railTop = Math.min(firstMidY, lastMidY);
+  const railBottom = Math.max(firstMidY, lastMidY);
 
   // Branch should originate from the leftmost point of the parent pill
   // For red top tap, center of pill
-  const parentX = Math.round(pillRect.left + pillRect.width / 2 - containerRect.left)
+  const parentX = Math.round(pillRect.left + pillRect.width / 2 - containerRect.left);
   // For blue branching, left edge of pill (snap to even px to keep 2px stroke crisp and consistent)
-  let parentLeftX = Math.round(pillRect.left - containerRect.left)
-  if (parentLeftX % 2 !== 0) parentLeftX += 1
+  let parentLeftX = Math.round(pillRect.left - containerRect.left);
+  if (parentLeftX % 2 !== 0) parentLeftX += 1;
   // Rail aligns with the left padding edge of the list container
-  const padLeft = parseFloat(getComputedStyle(listEl).paddingLeft || "0")
-  let railX = Math.round(listRect.left - containerRect.left + padLeft)
-  if (railX % 2 !== 0) railX += 1
-    const parentBottomY = Math.round(pillRect.bottom - containerRect.top)
+  const padLeft = parseFloat(getComputedStyle(listEl).paddingLeft || '0');
+  let railX = Math.round(listRect.left - containerRect.left + padLeft);
+  if (railX % 2 !== 0) railX += 1;
+    const parentBottomY = Math.round(pillRect.bottom - containerRect.top);
 
   // Compute nested sub-branch coordinates if present
-  const nestedEl = nestedContainerRef.current
-  const nestedFirstEl = nestedFirstRef.current
-  const nestedLastEl = nestedLastRef.current
-  const nestedParentEl = nestedParentRef.current
-  let nestedX = 0
-  let nestedTop = 0
-  let nestedBottom = 0
-  let nestedParentLeftX = 0
-  let nestedParentBottomY = 0
-  let nestedParentMidY = 0
+  const nestedEl = nestedContainerRef.current;
+  const nestedFirstEl = nestedFirstRef.current;
+  const nestedLastEl = nestedLastRef.current;
+  const nestedParentEl = nestedParentRef.current;
+  let nestedX = 0;
+  let nestedTop = 0;
+  let nestedBottom = 0;
+  let nestedParentLeftX = 0;
+  let nestedParentBottomY = 0;
+  let nestedParentMidY = 0;
   if (nestedEl && nestedFirstEl && nestedLastEl) {
-    const nRect = nestedEl.getBoundingClientRect()
-    const nFirstRect = nestedFirstEl.getBoundingClientRect()
-    const nLastRect = nestedLastEl.getBoundingClientRect()
+    const nRect = nestedEl.getBoundingClientRect();
+    const nFirstRect = nestedFirstEl.getBoundingClientRect();
+    const nLastRect = nestedLastEl.getBoundingClientRect();
     // Align nested vertical rail with the left edge of nested child connectors (account for padding-left)
-    const nPadLeft = parseFloat(getComputedStyle(nestedEl).paddingLeft || "0")
-    nestedX = Math.round(nRect.left - containerRect.left + nPadLeft)
-    if (nestedX % 2 !== 0) nestedX += 1
-    const nFirstMid = Math.round(nFirstRect.top + nFirstRect.height / 2 - containerRect.top)
-    const nLastMid = Math.round(nLastRect.top + nLastRect.height / 2 - containerRect.top)
-    nestedTop = Math.min(nFirstMid, nLastMid)
-    nestedBottom = Math.max(nFirstMid, nLastMid)
+    const nPadLeft = parseFloat(getComputedStyle(nestedEl).paddingLeft || '0');
+    nestedX = Math.round(nRect.left - containerRect.left + nPadLeft);
+    if (nestedX % 2 !== 0) nestedX += 1;
+    const nFirstMid = Math.round(nFirstRect.top + nFirstRect.height / 2 - containerRect.top);
+    const nLastMid = Math.round(nLastRect.top + nLastRect.height / 2 - containerRect.top);
+    nestedTop = Math.min(nFirstMid, nLastMid);
+    nestedBottom = Math.max(nFirstMid, nLastMid);
   }
   if (nestedParentEl) {
-    const npRect = nestedParentEl.getBoundingClientRect()
-    nestedParentLeftX = Math.round(npRect.left - containerRect.left)
-    if (nestedParentLeftX % 2 !== 0) nestedParentLeftX += 1
-    nestedParentBottomY = Math.round(npRect.bottom - containerRect.top) - 1
-    nestedParentMidY = Math.round(npRect.top + npRect.height / 2 - containerRect.top)
+    const npRect = nestedParentEl.getBoundingClientRect();
+    nestedParentLeftX = Math.round(npRect.left - containerRect.left);
+    if (nestedParentLeftX % 2 !== 0) nestedParentLeftX += 1;
+    nestedParentBottomY = Math.round(npRect.bottom - containerRect.top) - 1;
+    nestedParentMidY = Math.round(npRect.top + npRect.height / 2 - containerRect.top);
   }
 
-  setCoords({ railTop, railBottom, railX, parentX, parentLeftX, parentBottomY, firstMidY, nestedX, nestedTop, nestedBottom, nestedParentLeftX, nestedParentBottomY, nestedParentMidY })
-  }
+  setCoords({ railTop, railBottom, railX, parentX, parentLeftX, parentBottomY, firstMidY, nestedX, nestedTop, nestedBottom, nestedParentLeftX, nestedParentBottomY, nestedParentMidY });
+  };
 
   useLayoutEffect(() => {
-    recalc()
+    recalc();
     // Recalc after fonts/images load as sizes may change
-    const t = setTimeout(recalc, 50)
-    return () => clearTimeout(t)
-  }, [])
+    const t = setTimeout(recalc, 50);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
-    const onResize = () => recalc()
-    window.addEventListener("resize", onResize)
-    return () => window.removeEventListener("resize", onResize)
-  }, [])
+    const onResize = () => recalc();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   return (
     <div
       ref={(el) => {
-        containerRef.current = el
-        outerRef?.(el)
+        containerRef.current = el;
+        outerRef?.(el);
       }}
       className="relative flex flex-col items-center"
     >
@@ -232,11 +232,11 @@ function GroupColumn({ group, outerRef }: { group: Group; outerRef?: (el: HTMLDi
           <div
             ref={listRef}
             className={`relative mt-6 md:mt-8 z-10 ${
-              group.title === "Our work"
-                ? "pl-8"
-                : group.title === "Sponsor a child"
-                ? "-ml-6 pl-6"
-                : "pl-4"
+              group.title === 'Our work'
+                ? 'pl-8'
+                : group.title === 'Sponsor a child'
+                ? '-ml-6 pl-6'
+                : 'pl-4'
             }`}
           >
             <div className="flex flex-col gap-5 md:gap-6">
@@ -278,21 +278,18 @@ function GroupColumn({ group, outerRef }: { group: Group; outerRef?: (el: HTMLDi
           <svg className="pointer-events-none absolute inset-0 w-full h-full z-0" aria-hidden="true" shapeRendering="crispEdges">
             {(() => {
               // Start the vertical at (or slightly above) the pill bottom to avoid any visible gap.
-              const parentTapY = Math.round(coords.parentBottomY) - 1
-              // Connect nested branch slightly above the first child and slightly below the last child, as per reference
-              const nestedTopConnectY = coords.nestedTop > 0 ? Math.max(parentTapY + 4, Math.round(coords.nestedTop - 12)) : 0
-              const nestedBottomConnectY = coords.nestedBottom > 0 ? Math.round(coords.nestedBottom + 12) : 0
+              const parentTapY = Math.round(coords.parentBottomY) - 1;
               return (
                 <>
                   {/* Attach from parent left edge to rail under the pill (avoids top right-turn) */}
                   <line x1={coords.parentLeftX} x2={coords.railX} y1={parentTapY} y2={parentTapY} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
                   {/* Straight vertical at railX from pill to the connection Y; if last item has children, stop at its center */}
                   {(() => {
-                    const lastHasChildren = !!(group.items[group.items.length - 1]?.children && group.items[group.items.length - 1]!.children!.length > 0)
-                    const stopY = lastHasChildren && coords.nestedParentMidY > 0 ? coords.nestedParentMidY : coords.railBottom
+                    const lastHasChildren = !!(group.items[group.items.length - 1]?.children && group.items[group.items.length - 1]!.children!.length > 0);
+                    const stopY = lastHasChildren && coords.nestedParentMidY > 0 ? coords.nestedParentMidY : coords.railBottom;
                     return (
                       <line x1={coords.railX} x2={coords.railX} y1={parentTapY} y2={stopY} stroke="#ff7518" strokeWidth={2} strokeLinecap="square" vectorEffect="non-scaling-stroke" />
-                    )
+                    );
                   })()}
                   {/* Bracket caps at top and (optionally) bottom of the children span */}
                   {coords.railBottom - coords.railTop > 1 && (
@@ -319,50 +316,50 @@ function GroupColumn({ group, outerRef }: { group: Group; outerRef?: (el: HTMLDi
                     </>
                   )}
                 </>
-              )
+              );
             })()}
           </svg>
         </>
       )}
     </div>
-  )
+  );
 }
 
 export function Sitemap() {
-  const rowRef = React.useRef<HTMLDivElement | null>(null)
-  const groupRefs = React.useRef<Array<HTMLDivElement | null>>([])
-  const [topSpan, setTopSpan] = React.useState<{ left: number; width: number }>({ left: 0, width: 0 })
+  const rowRef = React.useRef<HTMLDivElement | null>(null);
+  const groupRefs = React.useRef<Array<HTMLDivElement | null>>([]);
+  const [topSpan, setTopSpan] = React.useState<{ left: number; width: number }>({ left: 0, width: 0 });
 
   useLayoutEffect(() => {
     const recalc = () => {
-      const rowEl = rowRef.current
-      if (!rowEl) return
-      const rowRect = rowEl.getBoundingClientRect()
+      const rowEl = rowRef.current;
+      if (!rowEl) return;
+      const rowRect = rowEl.getBoundingClientRect();
       // Filter valid refs
       const rects = groupRefs.current
         .filter((el): el is HTMLDivElement => !!el)
-        .map((el) => el.getBoundingClientRect())
-      if (rects.length === 0) return
-      let minLeft = Math.min(...rects.map((r) => r.left))
-      let maxRight = Math.max(...rects.map((r) => r.right))
+        .map((el) => el.getBoundingClientRect());
+      if (rects.length === 0) return;
+      const minLeft = Math.min(...rects.map((r) => r.left));
+      const maxRight = Math.max(...rects.map((r) => r.right));
       // Convert to row-local coordinates
-      let left = Math.round(minLeft - rowRect.left)
-      let right = Math.round(maxRight - rowRect.left)
+      let left = Math.round(minLeft - rowRect.left);
+      let right = Math.round(maxRight - rowRect.left);
       // Snap to even pixels for crisp 2px stroke
-      if (left % 2 !== 0) left += 1
-      if (right % 2 !== 0) right -= 1
-      const width = Math.max(0, right - left)
-      setTopSpan({ left, width })
-    }
-    recalc()
-    const onResize = () => recalc()
-    window.addEventListener("resize", onResize)
-    const t = setTimeout(recalc, 50)
+      if (left % 2 !== 0) left += 1;
+      if (right % 2 !== 0) right -= 1;
+      const width = Math.max(0, right - left);
+      setTopSpan({ left, width });
+    };
+    recalc();
+    const onResize = () => recalc();
+    window.addEventListener('resize', onResize);
+    const t = setTimeout(recalc, 50);
     return () => {
-      window.removeEventListener("resize", onResize)
-      clearTimeout(t)
-    }
-  }, [])
+      window.removeEventListener('resize', onResize);
+      clearTimeout(t);
+    };
+  }, []);
 
   return (
     <section id="sitemap" className="py-12 bg-secondary-tint">
@@ -408,5 +405,5 @@ export function Sitemap() {
         </div>
       </div>
     </section>
-  )
+  );
 }

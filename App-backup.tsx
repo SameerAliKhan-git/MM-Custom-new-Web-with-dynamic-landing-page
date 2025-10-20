@@ -1,10 +1,10 @@
-import { Header } from "./components/Header"
-import { Hero } from "./components/Hero"
-import { CoreInitiatives } from "./components/CoreInitiatives"
-import { ImpactNumbers } from "./components/ImpactNumbers"
-import { StoriesOfImpact } from "./components/StoriesOfImpact"
-import { WaysToHelp } from "./components/WaysToHelp"
-import { Footer } from "./components/Footer"
+import { Header } from './components/Header';
+import { Hero } from './components/Hero';
+import { CoreInitiatives } from './components/CoreInitiatives';
+import { ImpactNumbers } from './components/ImpactNumbers';
+import { StoriesOfImpact } from './components/StoriesOfImpact';
+import { WaysToHelp } from './components/WaysToHelp';
+import { Footer } from './components/Footer';
 
 export default function App() {
   return (
@@ -21,5 +21,5 @@ export default function App() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

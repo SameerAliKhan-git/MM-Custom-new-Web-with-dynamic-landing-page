@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { Baby, Users, GraduationCap, Wrench, BriefcaseBusiness, Heart, Home, Shield, HandHeart, TreePine, Activity, Accessibility, Crown, UserCheck, Cross } from "lucide-react"
+import { useEffect, useState } from 'react';
+import { Baby, Users, GraduationCap, Wrench, BriefcaseBusiness, Heart, Home, Shield, Activity, Accessibility, UserCheck, Cross } from 'lucide-react';
 
 interface CounterProps {
   end: number
@@ -8,78 +8,39 @@ interface CounterProps {
   prefix?: string
 }
 
-function Counter({ end, duration = 2000, suffix = "", prefix = "" }: CounterProps) {
-  const [count, setCount] = useState(0)
+function Counter({ end, duration = 2000, suffix = '', prefix = '' }: CounterProps) {
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const increment = end / (duration / 16) // 60fps approximation
-    let current = 0
+    const increment = end / (duration / 16); // 60fps approximation
+    let current = 0;
     
     const timer = setInterval(() => {
-      current += increment
+      current += increment;
       if (current >= end) {
-        setCount(end)
-        clearInterval(timer)
+        setCount(end);
+        clearInterval(timer);
       } else {
-        setCount(Math.floor(current))
+        setCount(Math.floor(current));
       }
-    }, 16)
+    }, 16);
 
-    return () => clearInterval(timer)
-  }, [end, duration])
+    return () => clearInterval(timer);
+  }, [end, duration]);
 
-  return <span>{prefix}{count.toLocaleString()}{suffix}</span>
+  return <span>{prefix}{count.toLocaleString()}{suffix}</span>;
 }
-
-const stats = [
-  {
-    number: 15000,
-    suffix: "+",
-    label: "Children Educated",
-    description: "From basic literacy to higher education"
-  },
-  {
-    number: 3200,
-    suffix: "+", 
-    label: "Elders Supported",
-    description: "Healthcare and companionship provided"
-  },
-  {
-    number: 8500,
-    suffix: "+",
-    label: "Youth Skilled",
-    description: "Vocational training completed"
-  },
-  {
-    number: 2100,
-    suffix: "+",
-    label: "Disabled Empowered",
-    description: "Through inclusive programs"
-  },
-  {
-    number: 150,
-    suffix: "+",
-    label: "Communities Served",
-    description: "Across rural and urban areas"
-  },
-  {
-    number: 98,
-    suffix: "%",
-    label: "Direct Impact",
-    description: "Of donations reach beneficiaries"
-  }
-]
 
 export function ImpactNumbers() {
   // Update CSS variables on hover to shift gradient focal point
   const handleMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const el = e.currentTarget
-    const rect = el.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    el.style.setProperty('--x', `${x}%`)
-    el.style.setProperty('--y', `${y}%`)
-  }
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    el.style.setProperty('--x', `${x}%`);
+    el.style.setProperty('--y', `${y}%`);
+  };
 
   return (
     <section className="py-20">
@@ -405,5 +366,5 @@ export function ImpactNumbers() {
         </div>
       </div>
     </section>
-  )
+  );
 }

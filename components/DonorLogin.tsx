@@ -1,26 +1,26 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Button } from './ui/button';
+import { toast } from 'sonner';
 
 export function DonorLogin() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email && !phone) {
-      toast.error("Please enter your email or phone number");
+      toast.error('Please enter your email or phone number');
       return;
     }
-    localStorage.setItem("donorLoggedIn", "true");
-    if (email) localStorage.setItem("donorEmail", email);
-    if (phone) localStorage.setItem("donorPhone", phone);
-    toast.success("You're logged in to the Donor Portal");
-    navigate("/donor-portal");
+    localStorage.setItem('donorLoggedIn', 'true');
+    if (email) localStorage.setItem('donorEmail', email);
+    if (phone) localStorage.setItem('donorPhone', phone);
+    toast.success('You\'re logged in to the Donor Portal');
+    navigate('/donor-portal');
   };
 
   return (

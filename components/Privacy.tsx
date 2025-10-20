@@ -139,5 +139,5 @@ export function Privacy() {
         </div>
       </div>
     </section>
-  )
+  );
 }

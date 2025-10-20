@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { logout, verifySession, getRole } from "./auth";
-import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { logout, verifySession, getRole } from './auth';
+import { Button } from './ui/button';
+import { useNavigate } from 'react-router-dom';
 
 export function AdminDashboard() {
   const nav = useNavigate();
@@ -12,8 +12,8 @@ export function AdminDashboard() {
     (async () => {
       const session = await verifySession();
       if (!mounted) return;
-      if (!session.authenticated || session.role !== "admin") {
-        nav("/login", { replace: true });
+      if (!session.authenticated || session.role !== 'admin') {
+        nav('/login', { replace: true });
         return;
       }
       setLoading(false);
@@ -45,7 +45,7 @@ export function AdminDashboard() {
           <h1 className="text-xl sm:text-2xl font-semibold">Admin Dashboard</h1>
           <Button
             onClick={() => {
-              logout().finally(() => nav("/login"));
+              logout().finally(() => nav('/login'));
             }}
             className="bg-white text-secondary-color hover:opacity-90 rounded-full"
           >
@@ -57,7 +57,7 @@ export function AdminDashboard() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="glass-card rounded-2xl p-6">
           <p className="text-foreground">
-            Logged in as: <b>{getRole() ?? "guest"}</b>
+            Logged in as: <b>{getRole() ?? 'guest'}</b>
           </p>
           <p className="mt-2 text-foreground/80">
             Replace this placeholder with real admin tools when ready.

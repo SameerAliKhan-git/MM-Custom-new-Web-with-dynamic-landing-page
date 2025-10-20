@@ -1,14 +1,14 @@
-import { ImageWithFallback } from "./figma/ImageWithFallback"
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const commitments = [
-  "Ensure minimum higher secondary school education",
-  "One employable skill for every youth",
-  "Ensure employment prior to exiting our care",
-  "Basic Information Technology and communication skills",
-  "Working knowledge of English with basic conversational skills",
-  "Character building and pertinent social skills to navigate life",
-  "Increase family income of caregivers and community beneficiaries",
-]
+  'Ensure minimum higher secondary school education',
+  'One employable skill for every youth',
+  'Ensure employment prior to exiting our care',
+  'Basic Information Technology and communication skills',
+  'Working knowledge of English with basic conversational skills',
+  'Character building and pertinent social skills to navigate life',
+  'Increase family income of caregivers and community beneficiaries',
+];
 
 export function CommitmentSection() {
   return (
@@ -54,9 +54,9 @@ export function CommitmentSection() {
             <img
               src="/sdg-logo.png"
               onError={(e) => {
-                const target = e.currentTarget as HTMLImageElement
+                const target = e.currentTarget as HTMLImageElement;
                 if (target.src.indexOf('wikipedia') === -1) {
-                  target.src = 'https://upload.wikimedia.org/wikipedia/commons/5/5d/Sustainable_Development_Goals_logo.svg'
+                  target.src = 'https://upload.wikimedia.org/wikipedia/commons/5/5d/Sustainable_Development_Goals_logo.svg';
                 }
               }}
               alt="Sustainable Development Goals"
@@ -72,5 +72,5 @@ export function CommitmentSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

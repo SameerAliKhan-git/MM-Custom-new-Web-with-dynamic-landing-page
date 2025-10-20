@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react"
-import { Button } from "./ui/button"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "./ui/sheet"
-import { ScrollArea } from "./ui/scroll-area"
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu"
-import { Menu, Heart, GraduationCap, Users, Wrench, TreePine, HandHeart, Target } from "lucide-react"
+import { useState, useEffect } from 'react';
+import { Button } from './ui/button';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from './ui/sheet';
+import { ScrollArea } from './ui/scroll-area';
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from './ui/navigation-menu';
+import { Menu, Heart, GraduationCap, Users, Wrench, TreePine, HandHeart, Target } from 'lucide-react';
 
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-300 backdrop-blur-md bg-white supports-[backdrop-filter]:bg-white ${
@@ -42,11 +42,11 @@ export function Header() {
                 <NavigationMenuContent>
                   <div className="grid w-[400px] gap-3 p-4">
                     {[
-                      { title: "About us", href: "/about", description: "Learn about our organization and story", icon: Users },
-                      { title: "Vision | Mission | Values", href: "/vision-mission-values", description: "Our guiding principles and purpose", icon: Target },
-                      { title: "Our governance", href: "/governance", description: "Leadership structure and accountability", icon: Users }
+                      { title: 'About us', href: '/about', description: 'Learn about our organization and story', icon: Users },
+                      { title: 'Vision | Mission | Values', href: '/vision-mission-values', description: 'Our guiding principles and purpose', icon: Target },
+                      { title: 'Our governance', href: '/governance', description: 'Leadership structure and accountability', icon: Users }
                     ].map((item) => {
-                      const IconComponent = item.icon
+                      const IconComponent = item.icon;
                       return (
                         <NavigationMenuLink
                           key={item.title}
@@ -61,7 +61,7 @@ export function Header() {
                             {item.description}
                           </p>
                         </NavigationMenuLink>
-                      )
+                      );
                     })}
                   </div>
                 </NavigationMenuContent>
@@ -73,20 +73,20 @@ export function Header() {
                   <div className="grid w-[900px] grid-cols-3 gap-6 p-4">
                     <div className="col-span-2 grid grid-cols-2 gap-3">
                       {[
-                        { title: "Child Welfare & Education", href: "/child-welfare", description: "Supporting children's development and education", icon: GraduationCap },
-                        { title: "Old-Aged Welfare", href: "/elderly-care", description: "Caring for our senior community members", icon: Users },
-                        { title: "Disabled Care", href: "/disabled-care", description: "Supporting individuals with disabilities", icon: HandHeart },
-                        { title: "Skilling Youth", href: "/youth-skills", description: "Empowering youth with valuable skills", icon: Wrench },
-                        { title: "Social Activities", href: "/social-activities", description: "Community engagement and social programs", icon: TreePine },
-                        { title: "Our Programmes", href: "/programmes", description: "Comprehensive overview of all our programs", icon: Heart },
-                        { title: "Where We Work", href: "/programmes", description: "Our operational areas and communities", icon: GraduationCap },
-                        { title: "Child Safeguarding", href: "/safeguarding", description: "Protecting children's rights and safety", icon: HandHeart },
-                        { title: "Stories of Change", href: "/stories-change", description: "Real impact stories from our work", icon: Heart },
-                        { title: "Sustainability", href: "/sustainability", description: "Our commitment to sustainable practices", icon: TreePine },
-                        { title: "Blog", href: "/blog", description: "Latest updates and insights", icon: Users },
-                        { title: "Media", href: "/media", description: "Press releases and media coverage", icon: HandHeart }
+                        { title: 'Child Welfare & Education', href: '/child-welfare', description: 'Supporting children\'s development and education', icon: GraduationCap },
+                        { title: 'Old-Aged Welfare', href: '/elderly-care', description: 'Caring for our senior community members', icon: Users },
+                        { title: 'Disabled Care', href: '/disabled-care', description: 'Supporting individuals with disabilities', icon: HandHeart },
+                        { title: 'Skilling Youth', href: '/youth-skills', description: 'Empowering youth with valuable skills', icon: Wrench },
+                        { title: 'Social Activities', href: '/social-activities', description: 'Community engagement and social programs', icon: TreePine },
+                        { title: 'Our Programmes', href: '/programmes', description: 'Comprehensive overview of all our programs', icon: Heart },
+                        { title: 'Where We Work', href: '/programmes', description: 'Our operational areas and communities', icon: GraduationCap },
+                        { title: 'Child Safeguarding', href: '/safeguarding', description: 'Protecting children\'s rights and safety', icon: HandHeart },
+                        { title: 'Stories of Change', href: '/stories-change', description: 'Real impact stories from our work', icon: Heart },
+                        { title: 'Sustainability', href: '/sustainability', description: 'Our commitment to sustainable practices', icon: TreePine },
+                        { title: 'Blog', href: '/blog', description: 'Latest updates and insights', icon: Users },
+                        { title: 'Media', href: '/media', description: 'Press releases and media coverage', icon: HandHeart }
                       ].map((item) => {
-                        const IconComponent = item.icon
+                        const IconComponent = item.icon;
                         return (
                           <NavigationMenuLink
                             key={item.title}
@@ -101,17 +101,17 @@ export function Header() {
                               {item.description}
                             </p>
                           </NavigationMenuLink>
-                        )
+                        );
                       })}
                     </div>
                     <div className="space-y-3">
                       <div className="font-medium text-primary border-b border-border pb-2">Financial Transparency</div>
                       {[
-                        { title: "Government Partnerships/Schemes", href: "/partnerships", description: "Collaborative government initiatives", icon: Users },
-                        { title: "Financial Information", href: "/financial", description: "Transparency in our financial operations", icon: Wrench },
-                        { title: "Annual Reports", href: "/reports", description: "Yearly impact and financial reports", icon: GraduationCap }
+                        { title: 'Government Partnerships/Schemes', href: '/partnerships', description: 'Collaborative government initiatives', icon: Users },
+                        { title: 'Financial Information', href: '/financial', description: 'Transparency in our financial operations', icon: Wrench },
+                        { title: 'Annual Reports', href: '/reports', description: 'Yearly impact and financial reports', icon: GraduationCap }
                       ].map((item) => {
-                        const IconComponent = item.icon
+                        const IconComponent = item.icon;
                         return (
                           <NavigationMenuLink
                             key={item.title}
@@ -126,7 +126,7 @@ export function Header() {
                               {item.description}
                             </p>
                           </NavigationMenuLink>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -145,11 +145,11 @@ export function Header() {
                   <div className="grid w-[700px] grid-cols-2 gap-3 p-4">
                     <div className="space-y-3">
                       {[
-                        { title: "Philanthropy", href: "/philanthropy", description: "Large-scale giving opportunities for major donors" },
-                        { title: "Partnerships", href: "/partnerships", description: "Corporate and institutional partnerships" },
-                        { title: "Give in Celebration", href: "/give-celebration", description: "Celebrate special occasions with giving" },
-                        { title: "School Buddy Programme", href: "/school-buddy", description: "Support a child's education journey" },
-                        { title: "Make a Donation", href: "/donate", description: "Direct financial contributions to our cause" }
+                        { title: 'Philanthropy', href: '/philanthropy', description: 'Large-scale giving opportunities for major donors' },
+                        { title: 'Partnerships', href: '/partnerships', description: 'Corporate and institutional partnerships' },
+                        { title: 'Give in Celebration', href: '/give-celebration', description: 'Celebrate special occasions with giving' },
+                        { title: 'School Buddy Programme', href: '/school-buddy', description: 'Support a child\'s education journey' },
+                        { title: 'Make a Donation', href: '/donate', description: 'Direct financial contributions to our cause' }
                       ].map((item) => (
                         <NavigationMenuLink
                           key={item.title}
@@ -169,11 +169,11 @@ export function Header() {
                     <div className="space-y-3">
                       <div className="font-medium text-primary border-b border-border pb-2">Other Ways To Give</div>
                       {[
-                        { title: "Legacy", href: "/legacy", description: "Leave a lasting impact through legacy giving" },
-                        { title: "Payroll Giving", href: "/payroll-giving", description: "Make regular donations through your employer" },
-                        { title: "Employee Engagement", href: "/employee-engagement", description: "Corporate employee volunteering programs" },
-                        { title: "Cause Related Management (CRM)", href: "/crm", description: "Strategic cause marketing partnerships" },
-                        { title: "Cause in Memory", href: "/memory", description: "Honor loved ones through memorial giving" }
+                        { title: 'Legacy', href: '/legacy', description: 'Leave a lasting impact through legacy giving' },
+                        { title: 'Payroll Giving', href: '/payroll-giving', description: 'Make regular donations through your employer' },
+                        { title: 'Employee Engagement', href: '/employee-engagement', description: 'Corporate employee volunteering programs' },
+                        { title: 'Cause Related Management (CRM)', href: '/crm', description: 'Strategic cause marketing partnerships' },
+                        { title: 'Cause in Memory', href: '/memory', description: 'Honor loved ones through memorial giving' }
                       ].map((item) => (
                         <NavigationMenuLink
                           key={item.title}
@@ -207,7 +207,7 @@ export function Header() {
             <a href="/login" className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold bg-secondary-solid text-white hover:opacity-90 transition-all shadow-sm">
               Login
             </a>
-            <Button size="lg" className="relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-110 group overflow-hidden" onClick={() => (window.location.href = "/donate")}>
+            <Button size="lg" className="relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-110 group overflow-hidden" onClick={() => (window.location.href = '/donate')}>
               <span className="relative z-10 flex items-center gap-2">
                 <Heart className="h-5 w-5 group-hover:animate-pulse" />
                 Donate Now
@@ -246,11 +246,11 @@ export function Header() {
                     <div className="py-2 font-medium">Who we are</div>
                     <div className="pl-4 space-y-2">
                       {[
-                        { title: "About us", href: "/about", icon: Users },
-                        { title: "Vision | Mission | Values", href: "/vision-mission-values", icon: Target },
-                        { title: "Our governance", href: "/governance", icon: Users }
+                        { title: 'About us', href: '/about', icon: Users },
+                        { title: 'Vision | Mission | Values', href: '/vision-mission-values', icon: Target },
+                        { title: 'Our governance', href: '/governance', icon: Users }
                       ].map((item) => {
-                        const IconComponent = item.icon
+                        const IconComponent = item.icon;
                         return (
                           <a 
                             key={item.title}
@@ -261,7 +261,7 @@ export function Header() {
                             <IconComponent className="h-4 w-4" />
                             {item.title}
                           </a>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -270,20 +270,20 @@ export function Header() {
                     <div className="py-2 font-medium">Our Work</div>
                     <div className="pl-4 space-y-2">
                       {[
-                        { title: "Child Welfare & Education", href: "/child-welfare", icon: GraduationCap },
-                        { title: "Old-Aged Welfare", href: "/elderly-care", icon: Users },
-                        { title: "Disabled Care", href: "/disabled-care", icon: HandHeart },
-                        { title: "Skilling Youth", href: "/youth-skills", icon: Wrench },
-                        { title: "Social Activities", href: "/social-activities", icon: TreePine },
-                        { title: "Our Programmes", href: "/programmes", icon: Heart },
-                        { title: "Where We Work", href: "/programmes", icon: GraduationCap },
-                        { title: "Child Safeguarding", href: "/safeguarding", icon: HandHeart },
-                        { title: "Stories of Change", href: "/stories-change", icon: Heart },
-                        { title: "Sustainability", href: "/sustainability", icon: TreePine },
-                        { title: "Blog", href: "/blog", icon: Users },
-                        { title: "Media", href: "/media", icon: HandHeart }
+                        { title: 'Child Welfare & Education', href: '/child-welfare', icon: GraduationCap },
+                        { title: 'Old-Aged Welfare', href: '/elderly-care', icon: Users },
+                        { title: 'Disabled Care', href: '/disabled-care', icon: HandHeart },
+                        { title: 'Skilling Youth', href: '/youth-skills', icon: Wrench },
+                        { title: 'Social Activities', href: '/social-activities', icon: TreePine },
+                        { title: 'Our Programmes', href: '/programmes', icon: Heart },
+                        { title: 'Where We Work', href: '/programmes', icon: GraduationCap },
+                        { title: 'Child Safeguarding', href: '/safeguarding', icon: HandHeart },
+                        { title: 'Stories of Change', href: '/stories-change', icon: Heart },
+                        { title: 'Sustainability', href: '/sustainability', icon: TreePine },
+                        { title: 'Blog', href: '/blog', icon: Users },
+                        { title: 'Media', href: '/media', icon: HandHeart }
                       ].map((item) => {
-                        const IconComponent = item.icon
+                        const IconComponent = item.icon;
                         return (
                           <a 
                             key={item.title}
@@ -294,17 +294,17 @@ export function Header() {
                             <IconComponent className="h-4 w-4" />
                             {item.title}
                           </a>
-                        )
+                        );
                       })}
                       <div className="space-y-2 mt-4">
                         <div className="py-2 font-medium text-primary">Financial Transparency</div>
                         <div className="pl-4 space-y-2">
                           {[
-                            { title: "Government Partnerships/Schemes", href: "/partnerships", icon: Users },
-                            { title: "Financial Information", href: "/financial", icon: Wrench },
-                            { title: "Annual Reports", href: "/reports", icon: GraduationCap }
+                            { title: 'Government Partnerships/Schemes', href: '/partnerships', icon: Users },
+                            { title: 'Financial Information', href: '/financial', icon: Wrench },
+                            { title: 'Annual Reports', href: '/reports', icon: GraduationCap }
                           ].map((item) => {
-                            const IconComponent = item.icon
+                            const IconComponent = item.icon;
                             return (
                               <a 
                                 key={item.title}
@@ -315,7 +315,7 @@ export function Header() {
                                 <IconComponent className="h-3 w-3" />
                                 {item.title}
                               </a>
-                            )
+                            );
                           })}
                         </div>
                       </div>
@@ -327,11 +327,11 @@ export function Header() {
                     <div className="py-2 font-medium">Ways to Give</div>
                     <div className="pl-4 space-y-2">
                       {[
-                        { title: "Philanthropy", href: "/philanthropy" },
-                        { title: "Partnerships", href: "/partnerships" },
-                        { title: "Give in Celebration", href: "/give-celebration" },
-                        { title: "School Buddy Programme", href: "/school-buddy" },
-                        { title: "Make a Donation", href: "/donate" }
+                        { title: 'Philanthropy', href: '/philanthropy' },
+                        { title: 'Partnerships', href: '/partnerships' },
+                        { title: 'Give in Celebration', href: '/give-celebration' },
+                        { title: 'School Buddy Programme', href: '/school-buddy' },
+                        { title: 'Make a Donation', href: '/donate' }
                       ].map((item) => (
                         <a 
                           key={item.title}
@@ -347,11 +347,11 @@ export function Header() {
                         <div className="py-2 font-medium text-primary">Other Ways To Give</div>
                         <div className="pl-4 space-y-2">
                           {[
-                            { title: "Legacy", href: "/legacy" },
-                            { title: "Payroll Giving", href: "/payroll-giving" },
-                            { title: "Employee Engagement", href: "/employee-engagement" },
-                            { title: "Cause Related Management (CRM)", href: "/crm" },
-                            { title: "Cause in Memory", href: "/memory" }
+                            { title: 'Legacy', href: '/legacy' },
+                            { title: 'Payroll Giving', href: '/payroll-giving' },
+                            { title: 'Employee Engagement', href: '/employee-engagement' },
+                            { title: 'Cause Related Management (CRM)', href: '/crm' },
+                            { title: 'Cause in Memory', href: '/memory' }
                           ].map((item) => (
                             <a 
                               key={item.title}
@@ -371,7 +371,7 @@ export function Header() {
                   <a href="/login" className="block py-2 hover:text-primary transition-all duration-300 hover:translate-x-2">Login</a>
                   
                     <div className="pt-4">
-                      <Button className="w-full relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 group overflow-hidden" onClick={() => { setMobileMenuOpen(false); window.location.href = "/donate"; }}>
+                      <Button className="w-full relative bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white font-semibold py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 group overflow-hidden" onClick={() => { setMobileMenuOpen(false); window.location.href = '/donate'; }}>
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           <Heart className="h-5 w-5 group-hover:animate-pulse" />
                           Donate Now
@@ -387,5 +387,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

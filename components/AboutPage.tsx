@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "./ui/carousel";
-import { Button } from "./ui/button";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useEffect, useRef, useState } from 'react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from './ui/carousel';
+import { Button } from './ui/button';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const heroImages = [
-  "/about-1.jpg",
-  "/about-2.jpg",
-  "/about-3.jpg",
-  "/about-4.jpg",
+  '/about-1.jpg',
+  '/about-2.jpg',
+  '/about-3.jpg',
+  '/about-4.jpg',
 ];
 
 export function AboutPage() {
@@ -31,16 +31,16 @@ export function AboutPage() {
     };
     start();
     // Pause on hover
-    const viewport = (api as any)?.rootNode() as HTMLElement | undefined;
+    const viewport = api?.rootNode() as HTMLElement | undefined;
     if (viewport) {
-      viewport.addEventListener("mouseenter", stop);
-      viewport.addEventListener("mouseleave", start);
+      viewport.addEventListener('mouseenter', stop);
+      viewport.addEventListener('mouseleave', start);
     }
     return () => {
       stop();
       if (viewport) {
-        viewport.removeEventListener("mouseenter", stop);
-        viewport.removeEventListener("mouseleave", start);
+        viewport.removeEventListener('mouseenter', stop);
+        viewport.removeEventListener('mouseleave', start);
       }
     };
   }, [api]);

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { CircleIcon } from "lucide-react";
+import * as React from 'react';
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import { CircleIcon } from 'lucide-react';
 
-import { cn } from "./utils";
+import { cn } from './utils';
 
 function RadioGroup({
   className,
@@ -13,7 +13,7 @@ function RadioGroup({
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
-      className={cn("grid gap-3", className)}
+      className={cn('grid gap-3', className)}
       {...props}
     />
   );
@@ -28,11 +28,11 @@ function RadioGroupItem({
       data-slot="radio-group-item"
       className={cn(
         // Stronger default border and slightly larger size to improve visibility when unchecked
-        "text-primary bg-transparent dark:bg-input/30 border-2 border-foreground/70 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10",
+        'text-primary bg-transparent dark:bg-input/30 border-2 border-foreground/70 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10',
         // Focus and invalid states remain accessible
-        "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        'focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
         // Shape, sizing, and transitions
-        "aspect-square size-5 shrink-0 rounded-full shadow-sm transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-60",
+        'aspect-square size-5 shrink-0 rounded-full shadow-sm transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-60',
         className,
       )}
       {...props}

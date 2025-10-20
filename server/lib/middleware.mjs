@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import SQLiteStoreFactory from 'connect-sqlite3';
 import csrf from 'csurf';
 import { config } from './config.mjs';
+import { prisma } from './db.mjs';
 
 const SQLiteStore = SQLiteStoreFactory(session);
 
@@ -72,11 +73,34 @@ export function limiters() {
   };
 }
 
-export function authRequired(role) {
-  return (req, res, next) => {
+export function authRequired(role, resource) {
+  return async (req, res, next) => {
     const user = req.session?.user;
     if (!user) return res.status(401).json({ message: 'Unauthorized' });
     if (role && user.role !== role) return res.status(403).json({ message: 'Forbidden' });
+
+    if (resource) {
+      const resourceId = req.params.id;
+      if (!resourceId) return res.status(400).json({ message: 'Resource ID not provided' });
+
+      if (user.role === 'ADMIN') return next();
+
+      let ownerId;
+      try {
+        switch (resource) {
+          case 'donation':
+            const donation = await prisma.donation.findUnique({ where: { id: resourceId } });
+            ownerId = donation?.userId;
+            break;
+          default:
+            return res.status(500).json({ message: 'Invalid resource type' });
+        }
+        if (ownerId !== user.id) return res.status(403).json({ message: 'Forbidden' });
+      } catch (error) {
+        return next(error);
+      }
+    }
+
     next();
   };
 }

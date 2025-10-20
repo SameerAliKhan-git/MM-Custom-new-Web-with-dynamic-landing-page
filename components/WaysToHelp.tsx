@@ -1,39 +1,39 @@
-import { Button } from "./ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { Heart, Users, HandHeart, ArrowRight } from "lucide-react"
+import { Button } from './ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Heart, Users, HandHeart, ArrowRight } from 'lucide-react';
 
 const ways = [
   {
     icon: Heart,
-    title: "Donate",
-    description: "Your financial contribution directly supports our programs and helps us reach more people in need.",
-    amount: "Starting from ₹500",
-    action: "Donate Now",
-    href: "/donate",
-    color: "bg-red-50 text-red-600",
-    hoverColor: "hover:bg-red-100"
+    title: 'Donate',
+    description: 'Your financial contribution directly supports our programs and helps us reach more people in need.',
+    amount: 'Starting from ₹500',
+    action: 'Donate Now',
+    href: '/donate',
+    color: 'bg-red-50 text-red-600',
+    hoverColor: 'hover:bg-red-100'
   },
   {
     icon: HandHeart,
-    title: "Sponsor",
-    description: "Create a personal connection by sponsoring a child's education, elder's healthcare, or youth's training.",
-    amount: "From ₹2,500/month",
-    action: "Start Sponsoring",
-    href: "/sponsor",
-    color: "bg-blue-50 text-blue-600",
-    hoverColor: "hover:bg-blue-100"
+    title: 'Sponsor',
+    description: 'Create a personal connection by sponsoring a child\'s education, elder\'s healthcare, or youth\'s training.',
+    amount: 'From ₹2,500/month',
+    action: 'Start Sponsoring',
+    href: '/sponsor',
+    color: 'bg-blue-50 text-blue-600',
+    hoverColor: 'hover:bg-blue-100'
   },
   {
     icon: Users,
-    title: "Volunteer",
-    description: "Share your time, skills, and passion to make a hands-on difference in our communities.",
-    amount: "2-4 hours/week",
-    action: "Join Us",
-    href: "/volunteer",
-    color: "bg-green-50 text-green-600",
-    hoverColor: "hover:bg-green-100"
+    title: 'Volunteer',
+    description: 'Share your time, skills, and passion to make a hands-on difference in our communities.',
+    amount: '2-4 hours/week',
+    action: 'Join Us',
+    href: '/volunteer',
+    color: 'bg-green-50 text-green-600',
+    hoverColor: 'hover:bg-green-100'
   }
-]
+];
 
 export function WaysToHelp() {
   return (
@@ -50,7 +50,7 @@ export function WaysToHelp() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {ways.map((way, index) => {
-            const IconComponent = way.icon
+            const IconComponent = way.icon;
             return (
               <Card key={index} className="group text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 <CardHeader className="space-y-4">
@@ -88,7 +88,7 @@ export function WaysToHelp() {
                   </Button>
                 </CardContent>
               </Card>
-            )
+            );
           })}
         </div>
 
@@ -108,5 +108,5 @@ export function WaysToHelp() {
         </div>
       </div>
     </section>
-  )
+  );
 }

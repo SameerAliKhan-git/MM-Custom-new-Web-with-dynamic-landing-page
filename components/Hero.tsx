@@ -1,79 +1,79 @@
-import React, { useEffect, useRef, useState } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import { Button } from "./ui/button"
-import { ArrowRight, ArrowLeft, Play, Heart } from "lucide-react"
-import { Link } from "react-router-dom"
+import React, { useEffect, useRef, useState } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import { Button } from './ui/button';
+import { ArrowRight, ArrowLeft, Play, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const heroImages = [
-  "https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1606761568499-6d2451b23c07?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
-]
+  'https://images.unsplash.com/photo-1567057420215-0afa9aa9253a?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1606761568499-6d2451b23c07?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80',
+];
 
 export function Hero() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 20 })
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const [inView, setInView] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [slidesCount, setSlidesCount] = useState(heroImages.length)
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 20 });
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [inView, setInView] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [slidesCount, setSlidesCount] = useState(heroImages.length);
 
   const start = () => {
-    if (!emblaApi || !inView || timerRef.current) return
-    timerRef.current = setInterval(() => emblaApi.scrollNext(), 3500)
-  }
+    if (!emblaApi || !inView || timerRef.current) return;
+    timerRef.current = setInterval(() => emblaApi.scrollNext(), 3500);
+  };
   const stop = () => {
     if (timerRef.current) {
-      clearInterval(timerRef.current)
-      timerRef.current = null
+      clearInterval(timerRef.current);
+      timerRef.current = null;
     }
-  }
+  };
 
   useEffect(() => {
-    if (!emblaApi) return
-    const onPointerDown = () => stop()
-    const onPointerUp = () => start()
+    if (!emblaApi) return;
+    const onPointerDown = () => stop();
+    const onPointerUp = () => start();
     const onSelect = () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap())
-    }
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
     const onReInit = () => {
-      setSlidesCount(emblaApi.slideNodes().length)
-      setSelectedIndex(emblaApi.selectedScrollSnap())
-    }
-    emblaApi.on("pointerDown", onPointerDown)
-    emblaApi.on("pointerUp", onPointerUp)
-    emblaApi.on("select", onSelect)
-    emblaApi.on("reInit", onReInit)
+      setSlidesCount(emblaApi.slideNodes().length);
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+    emblaApi.on('pointerDown', onPointerDown);
+    emblaApi.on('pointerUp', onPointerUp);
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onReInit);
     return () => {
-      emblaApi.off("pointerDown", onPointerDown)
-      emblaApi.off("pointerUp", onPointerUp)
-      emblaApi.off("select", onSelect)
-      emblaApi.off("reInit", onReInit)
-    }
-  }, [emblaApi])
+      emblaApi.off('pointerDown', onPointerDown);
+      emblaApi.off('pointerUp', onPointerUp);
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onReInit);
+    };
+  }, [emblaApi]);
 
   useEffect(() => {
-    if (!sectionRef.current) return
+    if (!sectionRef.current) return;
     const io = new IntersectionObserver(
       (entries) => {
-        const visible = entries[0].isIntersecting
-        setInView(visible)
+        const visible = entries[0].isIntersecting;
+        setInView(visible);
       },
       { threshold: 0.4 }
-    )
-    io.observe(sectionRef.current)
-    return () => io.disconnect()
-  }, [])
+    );
+    io.observe(sectionRef.current);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
-    stop()
-    if (inView) start()
-    return () => stop()
-  }, [inView, emblaApi])
+    stop();
+    if (inView) start();
+    return () => stop();
+  }, [inView, emblaApi]);
 
   return (
     <section
-      ref={sectionRef as any}
+      ref={sectionRef}
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       onMouseEnter={stop}
@@ -119,7 +119,7 @@ export function Hero() {
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => emblaApi?.scrollTo(i)}
             className={`h-2.5 w-2.5 rounded-full transition-all ${
-              selectedIndex === i ? "bg-white w-5" : "bg-white/60 hover:bg-white/80"
+              selectedIndex === i ? 'bg-white w-5' : 'bg-white/60 hover:bg-white/80'
             }`}
           />
         ))}
@@ -181,5 +181,5 @@ export function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
