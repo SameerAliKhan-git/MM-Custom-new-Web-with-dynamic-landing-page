@@ -7,6 +7,7 @@ import { ImpactNumbers } from "./components/ImpactNumbers"
 // import { OurReach } from "./components/OurReach" // Temporarily disabled per user request
 import { StoriesOfImpact } from "./components/StoriesOfImpact"
 import { Partners } from "./components/Partners"
+import { PhilanthropyPage } from "./components/PhilanthropySection"
 import { Footer } from "./components/Footer"
 import { CommitmentSection } from "./components/CommitmentSection"
 import { DonationTypes } from "./components/DonationTypes"
@@ -177,6 +178,14 @@ export default function App() {
             element={
               <main className="relative z-0">
                 <Governance />
+              </main>
+            }
+          />
+          <Route
+            path="/philanthropy"
+            element={
+              <main className="relative z-0">
+                <PhilanthropyPage />
               </main>
             }
           />

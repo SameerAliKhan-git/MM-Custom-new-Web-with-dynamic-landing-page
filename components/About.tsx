@@ -2,6 +2,7 @@ import { Button } from "./ui/button"
 import { Badge } from "./ui/badge"
 import { CheckCircle } from "lucide-react"
 import { ImageWithFallback } from "./figma/ImageWithFallback"
+import { Link } from "react-router-dom"
 
 const achievements = [
   "20 years of humanitarian work",
@@ -41,7 +42,9 @@ export function About() {
             </div>
 
             <div className="pt-4">
-              <Button size="lg">Read Our Story</Button>
+              <Link to="/about">
+                <Button size="lg">Read Our Story</Button>
+              </Link>
             </div>
           </div>
 
