@@ -88,12 +88,12 @@ export function ChildWelfare() {
 
   {/* Removed global dark shade overlay per request */}
 
-        {/* Prev/Next Controls */}
+        {/* Prev/Next Controls - Hidden on mobile, visible on desktop */}
         <button
           type="button"
           aria-label="Previous slide"
           onClick={() => emblaApi?.scrollPrev()}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-40 grid place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow pointer-events-auto"
+          className="hidden md:grid absolute left-4 top-1/2 -translate-y-1/2 z-40 place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow pointer-events-auto"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -101,7 +101,7 @@ export function ChildWelfare() {
           type="button"
           aria-label="Next slide"
           onClick={() => emblaApi?.scrollNext()}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-40 grid place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow pointer-events-auto"
+          className="hidden md:grid absolute right-4 top-1/2 -translate-y-1/2 z-40 place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow pointer-events-auto"
         >
           <ArrowRight className="h-5 w-5" />
         </button>

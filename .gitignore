@@ -38,3 +38,7 @@ coverage/
 # Local data
 prisma/dev.db
 .data/
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md

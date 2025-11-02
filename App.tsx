@@ -6,6 +6,7 @@ import { CoreInitiatives } from "./components/CoreInitiatives"
 import { ImpactNumbers } from "./components/ImpactNumbers"
 // import { OurReach } from "./components/OurReach" // Temporarily disabled per user request
 import { StoriesOfImpact } from "./components/StoriesOfImpact"
+import { Partners } from "./components/Partners"
 import { Footer } from "./components/Footer"
 import { CommitmentSection } from "./components/CommitmentSection"
 import { DonationTypes } from "./components/DonationTypes"
@@ -13,7 +14,7 @@ import { Sitemap } from "./components/Sitemap"
 import { Disclaimer } from "./components/Disclaimer"
 import { Contact } from "./components/Contact"
 import { Privacy } from "./components/Privacy"
-import { DonorPortal } from "./components/DonorPortal"
+// import { DonorPortal } from "./components/DonorPortal" // Temporarily disabled - will be used later
 import { Login } from "./components/Login"
 import { AdminDashboard } from "./components/AdminDashboard"
 import { VisionMissionValues } from "./components/VisionMissionValues"
@@ -36,8 +37,9 @@ function HomeMain() {
       <ImpactNumbers />
       <CommitmentSection />
   {/* <OurReach /> */}
+      <Partners />
       <StoriesOfImpact />
-      <DonationTypes />
+      {/* <DonationTypes /> */}
     </main>
   )
 }
@@ -46,6 +48,50 @@ export default function App() {
   useEffect(() => {
     // Prime session and CSRF token cookie on first load
     verifySession();
+
+    // Disable right-click context menu
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      alert('Right click disabled');
+      return false;
+    };
+
+    // Disable keyboard shortcuts for developer tools and inspect
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // F12 - Developer Tools
+      if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+I or Cmd+Option+I - Developer Tools
+      if ((e.ctrlKey && e.shiftKey && e.key === 'I') || (e.metaKey && e.altKey && e.key === 'I')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+J or Cmd+Option+J - Console
+      if ((e.ctrlKey && e.shiftKey && e.key === 'J') || (e.metaKey && e.altKey && e.key === 'J')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+U or Cmd+U - View Source
+      if ((e.ctrlKey && e.key === 'U') || (e.metaKey && e.key === 'U')) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+C or Cmd+Option+C - Inspect Element
+      if ((e.ctrlKey && e.shiftKey && e.key === 'C') || (e.metaKey && e.altKey && e.key === 'C')) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
   return (
     <BrowserRouter>
@@ -134,7 +180,7 @@ export default function App() {
               </main>
             }
           />
-          <Route
+          {/* <Route
             path="/donor-portal"
             element={
               <main className="relative z-0">
@@ -145,7 +191,7 @@ export default function App() {
           <Route
             path="/donor-portal/login"
             element={<Navigate to="/login" replace />}
-          />
+          /> */}
           <Route
             path="/login"
             element={

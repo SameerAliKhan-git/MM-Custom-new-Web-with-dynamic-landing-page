@@ -56,19 +56,11 @@ const contactInfo = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/10">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-secondary-solid">
       {/* Teal top bar for brand balance */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-secondary-solid z-20" />
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
-        <ImageWithFallback
-          src="/footer-bg.jpg"
-          alt="Background"
-          className="w-full h-full object-cover"
-        />
-      </div>
-      {/* Dark gradient + subtle blur for strong text contrast */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/50 to-black/20 backdrop-blur-[2px] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-1 bg-primary z-20" />
+      {/* Background image - Removed as per user request */}
+      {/* Dark gradient overlay - Removed as per user request */}
 
       <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-white">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">

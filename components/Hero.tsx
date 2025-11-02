@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { Button } from "./ui/button"
-import { ArrowRight, ArrowLeft, Play, Heart } from "lucide-react"
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom"
 
 const heroImages = [
@@ -93,23 +93,7 @@ export function Hero() {
       {/* Readability overlay */}
       <div className="absolute inset-0 z-10 bg-black/50 pointer-events-none" />
 
-      {/* Prev/Next Controls */}
-      <button
-        type="button"
-        aria-label="Previous slide"
-        onClick={() => emblaApi?.scrollPrev()}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 grid place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow"
-      >
-        <ArrowLeft className="h-5 w-5" />
-      </button>
-      <button
-        type="button"
-        aria-label="Next slide"
-        onClick={() => emblaApi?.scrollNext()}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 grid place-items-center h-10 w-10 rounded-full bg-white/90 hover:bg-white text-black shadow"
-      >
-        <ArrowRight className="h-5 w-5" />
-      </button>
+      {/* Prev/Next Controls - Removed as per user request */}
 
       {/* Pagination dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
@@ -145,10 +129,6 @@ export function Hero() {
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
-            <Button size="lg" variant="outline" className="group bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 text-lg px-8 py-4">
-              <Play className="mr-2 h-5 w-5" />
-              Watch Our Story
-            </Button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
@@ -168,18 +148,7 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Floating achievement card */}
-      <div className="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-xl border border-white/20 hidden lg:block">
-        <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-            <Heart className="h-6 w-6 text-green-600" />
-          </div>
-          <div>
-            <div className="font-semibold">New School Built</div>
-            <div className="text-sm text-muted-foreground">500 children enrolled</div>
-          </div>
-        </div>
-      </div>
+      {/* Floating achievement card - Removed as per user request */}
     </section>
   )
 }
