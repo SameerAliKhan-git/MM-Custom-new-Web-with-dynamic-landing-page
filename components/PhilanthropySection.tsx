@@ -207,7 +207,7 @@ export function PhilanthropyPage() {
                   Make a Donation
                 </a>
                 <a
-                  href="mailto:contact@mahimaministries.org"
+                  href="/contact"
                   className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 border-2 border-gray-300 rounded-full hover:border-primary hover:bg-gray-50 transition-all duration-300 font-semibold text-base md:text-lg hover:-translate-y-1 transform w-full sm:w-auto justify-center"
                 >
                   <Users className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
