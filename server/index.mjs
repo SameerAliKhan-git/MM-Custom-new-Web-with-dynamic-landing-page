@@ -4,6 +4,8 @@ import { baseMiddleware, sessionMiddleware, csrfMiddleware, limiters } from './l
 import authRoutes from './routes/auth.mjs';
 import contentRoutes from './routes/content.mjs';
 import donationRoutes from './routes/donations.mjs';
+import partnershipsRoutes from './routes/partnerships.mjs';
+import contactRoutes from './routes/contact.mjs';
 
 const app = express();
 const PORT = config.port;
@@ -25,6 +27,8 @@ app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api', contentRoutes);
 app.use('/api/donations', donationRoutes);
+app.use('/api', partnershipsRoutes);
+app.use('/api', contactRoutes);
 // Back-compat: expose /api/session directly as used by frontend
 import authRouter from './routes/auth.mjs';
 app.get('/api/session', (req, res, next) => authRouter.handle({ ...req, url: '/session' }, res, next));

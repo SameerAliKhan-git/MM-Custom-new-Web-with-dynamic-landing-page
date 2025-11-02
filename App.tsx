@@ -8,6 +8,7 @@ import { ImpactNumbers } from "./components/ImpactNumbers"
 import { StoriesOfImpact } from "./components/StoriesOfImpact"
 import { Partners } from "./components/Partners"
 import { PhilanthropyPage } from "./components/PhilanthropySection"
+import { PartnershipsPage } from "./components/PartnershipsPage"
 import { Footer } from "./components/Footer"
 import { CommitmentSection } from "./components/CommitmentSection"
 import { DonationTypes } from "./components/DonationTypes"
@@ -23,6 +24,7 @@ import { Governance } from "./components/Governance"
 import { Programmes } from "./components/Programmes"
 import DonationPage from "./components/DonationPage"
 import ChildWelfare from "./components/ChildWelfare"
+import { GiveInCelebration } from "./components/GiveInCelebration"
 import { isLoggedIn, getRole } from "./components/auth"
 import { Toaster } from "./components/ui/sonner"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
@@ -186,6 +188,22 @@ export default function App() {
             element={
               <main className="relative z-0">
                 <PhilanthropyPage />
+              </main>
+            }
+          />
+          <Route
+            path="/partnerships"
+            element={
+              <main className="relative z-0">
+                <PartnershipsPage />
+              </main>
+            }
+          />
+          <Route
+            path="/give-in-celebration"
+            element={
+              <main className="relative z-0">
+                <GiveInCelebration />
               </main>
             }
           />

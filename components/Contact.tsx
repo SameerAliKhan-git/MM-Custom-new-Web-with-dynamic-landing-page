@@ -7,6 +7,8 @@ import { Mail, Phone, MapPin } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 import { toast } from "sonner"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { Checkbox } from "./ui/checkbox"
 
 const org = {
   email: "mahimaministriesindia@gmail.com ; rdmaharaju@gmail.com",
@@ -16,6 +18,15 @@ const org = {
   address:
     "HEAD OFFICE: H.No: 2-38/8/2/9/4/1 Mahima Ministries, NTR Nagar colony, Ameenpur(Mandal), Sangareddy(District), Telangana. Postal Code : 502032",
 }
+
+// Top countries for quick access
+const topCountries = [
+  { code: 'IN', name: 'India', dialCode: '+91', flag: '🇮🇳' },
+  { code: 'US', name: 'United States', dialCode: '+1', flag: '🇺🇸' },
+  { code: 'GB', name: 'United Kingdom', dialCode: '+44', flag: '🇬🇧' },
+  { code: 'CA', name: 'Canada', dialCode: '+1', flag: '🇨🇦' },
+  { code: 'AU', name: 'Australia', dialCode: '+61', flag: '🇦🇺' },
+]
 
 export function Contact() {
   // simple scroll-in animation hook
@@ -45,6 +56,70 @@ export function Contact() {
   const formReveal = useReveal()
 
   const [donate, setDonate] = useState<string | undefined>(undefined)
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    countryCode: '+91',
+    whatsapp: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [sameAsPhone, setSameAsPhone] = useState(false)
+
+  // Handle checkbox change for "Same as Phone"
+  const handleSameAsPhoneChange = (checked: boolean) => {
+    setSameAsPhone(checked)
+    if (checked) {
+      // Copy phone number to WhatsApp field
+      setFormData({...formData, whatsapp: formData.phone})
+    } else {
+      // Clear WhatsApp field when unchecked
+      setFormData({...formData, whatsapp: ''})
+    }
+  }
+
+  // When phone number changes and checkbox is checked, update WhatsApp too
+  const handlePhoneChange = (value: string) => {
+    setFormData({...formData, phone: value})
+    if (sameAsPhone) {
+      setFormData({...formData, phone: value, whatsapp: value})
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          donate
+        })
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        toast.success(result.message || 'Thank you! We received your message.')
+        // Reset form
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', countryCode: '+91', whatsapp: '', message: '' })
+        setDonate(undefined)
+        setSameAsPhone(false)
+      } else {
+        toast.error(result.message || 'Failed to send message. Please try again.')
+      }
+    } catch (error) {
+      console.error('Error submitting contact form:', error)
+      toast.error('An error occurred. Please try again or contact us directly.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <section id="contact" className="relative bg-accent">
@@ -115,57 +190,147 @@ export function Contact() {
 
           {/* Right: Form */}
           <div className="group rounded-xl shadow-sm p-5 transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-0.5 bg-transparent" ref={formReveal.ref}>
-            <div className={`glass-card rounded-lg p-4 text-foreground transition-all duration-500 ${formReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" placeholder="First Name" className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input id="lastName" placeholder="Last Name" className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" />
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="email">Your Email</Label>
-                <Input id="email" type="email" placeholder="you@example.com" className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" />
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="phone">Phone No.</Label>
-                <Input id="phone" placeholder="Your phone number" className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" />
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label>Do you wish to donate?</Label>
-                <RadioGroup value={donate} onValueChange={setDonate} className="grid grid-cols-3 gap-4">
+            <form onSubmit={handleSubmit}>
+              <div className={`glass-card rounded-lg p-4 text-foreground transition-all duration-500 ${formReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">First Name</Label>
+                  <Input 
+                    id="firstName" 
+                    placeholder="First Name" 
+                    value={formData.firstName}
+                    onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                    className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" 
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">Last Name</Label>
+                  <Input 
+                    id="lastName" 
+                    placeholder="Last Name" 
+                    value={formData.lastName}
+                    onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                    className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" 
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="email">Your Email</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="you@example.com" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" 
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="phone">Phone No.</Label>
+                  <Input 
+                    id="phone" 
+                    placeholder="Your phone number" 
+                    value={formData.phone}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" 
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div className="space-y-2 sm:col-span-2">
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem id="donate-yes" value="Yes" />
-                    <Label htmlFor="donate-yes">Yes</Label>
+                    <Checkbox 
+                      id="sameAsPhone" 
+                      checked={sameAsPhone}
+                      onCheckedChange={handleSameAsPhoneChange}
+                      disabled={isSubmitting}
+                    />
+                    <Label 
+                      htmlFor="sameAsPhone" 
+                      className="text-sm font-normal cursor-pointer"
+                    >
+                      Is the number same for WhatsApp?
+                    </Label>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem id="donate-no" value="No" />
-                    <Label htmlFor="donate-no">No</Label>
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="whatsapp">WhatsApp Number {!sameAsPhone && '(Optional)'}</Label>
+                  <div className="flex gap-2">
+                    <Select 
+                      value={formData.countryCode} 
+                      onValueChange={(value) => setFormData({...formData, countryCode: value})}
+                      disabled={isSubmitting || sameAsPhone}
+                    >
+                      <SelectTrigger className="w-[140px] bg-white/70 border-white/40 text-foreground">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <div className="font-semibold px-2 py-1.5 text-xs text-muted-foreground">Popular</div>
+                        {topCountries.map((country) => (
+                          <SelectItem key={country.code} value={country.dialCode}>
+                            {country.flag} {country.dialCode}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Input 
+                      id="whatsapp"
+                      placeholder={sameAsPhone ? "Same as phone number" : "WhatsApp number"}
+                      value={formData.whatsapp}
+                      onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
+                      className="flex-1 bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40"
+                      disabled={isSubmitting || sameAsPhone}
+                      readOnly={sameAsPhone}
+                    />
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem id="donate-maybe" value="Maybe" />
-                    <Label htmlFor="donate-maybe">Maybe</Label>
-                  </div>
-                </RadioGroup>
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label>Do you wish to donate?</Label>
+                  <RadioGroup value={donate} onValueChange={setDonate} className="grid grid-cols-3 gap-4" disabled={isSubmitting}>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem id="donate-yes" value="Yes" disabled={isSubmitting} />
+                      <Label htmlFor="donate-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem id="donate-no" value="No" disabled={isSubmitting} />
+                      <Label htmlFor="donate-no">No</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem id="donate-maybe" value="Maybe" disabled={isSubmitting} />
+                      <Label htmlFor="donate-maybe">Maybe</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea 
+                    id="message" 
+                    rows={5} 
+                    placeholder="Your message" 
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" 
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+                </div>
               </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" rows={5} placeholder="Your message" className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" />
+              <div className="pt-4">
+                <Button
+                  type="submit"
+                  className="bg-secondary-solid hover:opacity-90"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </Button>
               </div>
-              </div>
-            </div>
-            <div className="pt-4">
-              <Button
-                className="bg-secondary-solid hover:opacity-90"
-                onClick={() => {
-                  toast.success("Thanks! We received your message.")
-                }}
-              >
-                Send Message
-              </Button>
-            </div>
+            </form>
           </div>
         </div>
 

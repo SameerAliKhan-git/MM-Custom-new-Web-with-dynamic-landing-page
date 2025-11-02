@@ -217,17 +217,35 @@ export function PhilanthropyPage() {
               
               {/* Contact Info */}
               <div className="text-center pt-8 border-t border-gray-200">
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-gray-600 mb-4">
                   Have questions about giving?
                 </p>
-                <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-50 rounded-full">
-                  <span className="text-sm text-gray-700">Email us at:</span>
-                  <a 
-                    href="mailto:mahimaministriesindia@gmail.com" 
-                    className="text-sm md:text-base font-semibold text-primary hover:underline transition-all"
-                  >
-                    mahimaministriesindia@gmail.com
-                  </a>
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-50 rounded-full">
+                    <span className="text-sm text-gray-700">Email:</span>
+                    <a 
+                      href="mailto:mahimaministriesindia@gmail.com" 
+                      className="text-sm md:text-base font-semibold text-primary hover:underline transition-all"
+                    >
+                      mahimaministriesindia@gmail.com
+                    </a>
+                  </div>
+                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-50 rounded-full">
+                    <span className="text-sm text-gray-700">Phone:</span>
+                    <a 
+                      href="tel:+919246502264" 
+                      className="text-sm md:text-base font-semibold text-primary hover:underline transition-all"
+                    >
+                      +91 9246502264
+                    </a>
+                    <span className="text-gray-400">|</span>
+                    <a 
+                      href="tel:+919246272675" 
+                      className="text-sm md:text-base font-semibold text-primary hover:underline transition-all"
+                    >
+                      +91 9246272675
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

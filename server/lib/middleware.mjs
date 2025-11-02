@@ -51,15 +51,29 @@ export function csrfMiddleware(app) {
       httpOnly: true,
     },
   });
-  app.use(csrfProtection);
+  
+  // Apply CSRF protection but exempt public forms
+  app.use((req, res, next) => {
+    // Exempt public forms from CSRF
+    if ((req.path === '/api/partnerships' || req.path === '/api/contact') && req.method === 'POST') {
+      return next();
+    }
+    // Apply CSRF protection to all other routes
+    csrfProtection(req, res, next);
+  });
+  
   app.use((req, res, next) => {
     if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
-      res.cookie('XSRF-TOKEN', req.csrfToken(), {
-        sameSite: 'lax',
-        secure: config.isProd,
-        httpOnly: false,
-        path: '/',
-      });
+      try {
+        res.cookie('XSRF-TOKEN', req.csrfToken(), {
+          sameSite: 'lax',
+          secure: config.isProd,
+          httpOnly: false,
+          path: '/',
+        });
+      } catch (err) {
+        // If csrfToken is not available (exempted route), skip
+      }
     }
     next();
   });

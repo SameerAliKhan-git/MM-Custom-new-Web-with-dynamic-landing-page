@@ -82,11 +82,7 @@ router.delete('/impact/:id', authRequired('ADMIN'), async (req, res, next) => {
   try { const id = req.params.id; await prisma.impactStat.delete({ where: { id } }); res.json({ ok: true }); } catch (e) { next(e); }
 });
 
-// Contact messages
-const contactSchema = z.object({ name: z.string().min(1), email: z.string().email(), message: z.string().min(1) });
-router.post('/contact', async (req, res, next) => {
-  try { const created = await prisma.contactMessage.create({ data: contactSchema.parse(req.body) }); res.status(201).json({ ok: true }); } catch (e) { next(e); }
-});
+// Contact messages - Admin routes only (public submission moved to contact.mjs)
 router.get('/contact', authRequired('ADMIN'), async (_req, res, next) => {
   try { const items = await prisma.contactMessage.findMany({ orderBy: { createdAt: 'desc' } }); res.json(items); } catch (e) { next(e); }
 });

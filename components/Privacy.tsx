@@ -131,8 +131,8 @@ export function Privacy() {
               <p className="font-semibold">Please contact:</p>
               <p>Mahima Ministries</p>
               <p>H.No: 2-38/8/2/9/4/1 Mahima Ministries, NTR Nagar colony, Ameenpur(Mandal), Sangareddy(District), Telangana. Postal Code : 502032</p>
-              <p>Email: mahimaministriesindia@gmail.com</p>
-              <p>Phone: +91 9246502264 / +91 9246272675</p>
+              <p>Email: <a href="mailto:mahimaministriesindia@gmail.com" className="text-primary hover:underline">mahimaministriesindia@gmail.com</a> ; <a href="mailto:rdmaharaju@gmail.com" className="text-primary hover:underline">rdmaharaju@gmail.com</a></p>
+              <p>Phone: <a href="tel:+919246502264" className="text-primary hover:underline">+91 9246502264</a> / <a href="tel:+919246272675" className="text-primary hover:underline">+91 9246272675</a> / <a href="tel:04023032675" className="text-primary hover:underline">040-23032675</a></p>
             </div>
             
           </section>

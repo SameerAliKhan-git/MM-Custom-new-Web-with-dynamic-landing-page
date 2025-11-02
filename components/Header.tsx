@@ -149,7 +149,7 @@ export function Header() {
                       {[
                         { title: "Philanthropy", href: "/philanthropy", description: "Large-scale giving opportunities for major donors" },
                         { title: "Partnerships", href: "/partnerships", description: "Corporate and institutional partnerships" },
-                        { title: "Give in Celebration", href: "/give-celebration", description: "Celebrate special occasions with giving" },
+                        { title: "Give in Celebration", href: "/give-in-celebration", description: "Celebrate special occasions with giving" },
                         { title: "Make a Donation", href: "/donate", description: "Direct financial contributions to our cause" }
                       ].map((item) => (
                         <NavigationMenuLink
@@ -358,7 +358,7 @@ export function Header() {
                         {[
                           { title: "Philanthropy", href: "/philanthropy" },
                           { title: "Partnerships", href: "/partnerships" },
-                          { title: "Give in Celebration", href: "/give-celebration" },
+                          { title: "Give in Celebration", href: "/give-in-celebration" },
                           { title: "Make a Donation", href: "/donate" }
                         ].map((item) => (
                           <a 
