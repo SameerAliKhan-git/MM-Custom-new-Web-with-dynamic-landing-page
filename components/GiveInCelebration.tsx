@@ -109,7 +109,14 @@ export function GiveInCelebration() {
             >
               <div className={`relative rounded-lg overflow-hidden ${activeCelebration === 'wedding' ? 'shadow-2xl' : 'shadow-lg'} transition-all duration-500 ${weddingReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
                 <div className="relative h-80 bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:scale-110">
-                  <Heart className="h-20 w-20 text-primary" />
+                  <div className="text-center">
+                    <Heart className="h-20 w-20 text-primary mx-auto mb-4" />
+                    <div className="bg-white px-6 py-3 rounded-lg shadow-md inline-block transform -rotate-2">
+                      <p className="text-2xl font-bold text-primary">CELEBRATE</p>
+                      <p className="text-xl font-semibold text-foreground">YOUR</p>
+                      <p className="text-2xl font-bold text-foreground">WEDDING</p>
+                    </div>
+                  </div>
                 </div>
                 <div className="p-5 bg-secondary-solid">
                   <p className="text-white font-semibold text-base leading-relaxed">
@@ -136,7 +143,14 @@ export function GiveInCelebration() {
             >
               <div className={`relative rounded-lg overflow-hidden ${activeCelebration === 'occasions' ? 'shadow-2xl' : 'shadow-lg'} transition-all duration-500 ${occasionsReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
                 <div className="relative h-80 bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:scale-110">
-                  <Gift className="h-20 w-20 text-primary" />
+                  <div className="text-center">
+                    <Gift className="h-20 w-20 text-primary mx-auto mb-4" />
+                    <div className="bg-white px-6 py-3 rounded-lg shadow-md inline-block transform -rotate-2">
+                      <p className="text-2xl font-bold text-primary">SPECIAL</p>
+                      <p className="text-xl font-semibold text-foreground">OCCASIONS</p>
+                      <p className="text-2xl font-bold text-foreground">& MILESTONES</p>
+                    </div>
+                  </div>
                 </div>
                 <div className="p-5 bg-secondary-solid">
                   <p className="text-white font-semibold text-base leading-relaxed">
@@ -465,7 +479,7 @@ export function GiveInCelebration() {
 
       {/* CTA Section - Show for all active celebrations */}
       {activeCelebration && (
-        <section className="py-12 bg-muted">
+        <section className="py-12 pb-16 bg-muted">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="group" ref={ctaReveal.ref}>

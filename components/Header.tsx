@@ -144,7 +144,7 @@ export function Header() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="transition-all duration-300 hover:bg-primary/10 hover:text-primary hover:scale-105">Ways to Give</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="grid w-[700px] grid-cols-2 gap-3 p-4">
+                  <div className="w-[400px] p-4">
                     <div className="space-y-3">
                       {[
                         { title: "Philanthropy", href: "/philanthropy", description: "Large-scale giving opportunities for major donors" },
@@ -162,29 +162,6 @@ export function Header() {
                             <div className="font-medium leading-none">{item.title}</div>
                           </div>
                           <p className="line-clamp-2 leading-snug text-muted-foreground">
-                            {item.description}
-                          </p>
-                        </NavigationMenuLink>
-                      ))}
-                    </div>
-                    <div className="space-y-3">
-                      <div className="font-medium text-primary border-b border-border pb-2">Other Ways To Give</div>
-                      {[
-                        { title: "Legacy", href: "/legacy", description: "Leave a lasting impact through legacy giving" },
-                        { title: "Payroll Giving", href: "/payroll-giving", description: "Make regular donations through your employer" },
-                        { title: "Employee Engagement", href: "/employee-engagement", description: "Corporate employee volunteering programs" },
-                        { title: "Cause in Memory", href: "/memory", description: "Honor loved ones through memorial giving" }
-                      ].map((item) => (
-                        <NavigationMenuLink
-                          key={item.title}
-                          href={item.href}
-                          className="group select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-primary/10 hover:text-primary hover:scale-105 hover:shadow-sm focus:bg-accent focus:text-accent-foreground block"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Heart className="h-3 w-3 text-primary" />
-                            <div className="font-medium leading-none text-sm">{item.title}</div>
-                          </div>
-                          <p className="line-clamp-2 leading-snug text-muted-foreground text-xs">
                             {item.description}
                           </p>
                         </NavigationMenuLink>
@@ -371,25 +348,6 @@ export function Header() {
                             <span className="flex-1">{item.title}</span>
                           </a>
                         ))}
-                        <div className="space-y-2 mt-3 pt-3 border-t border-border">
-                          <div className="text-sm font-semibold text-secondary px-3">Other Ways To Give</div>
-                          {[
-                            { title: "Legacy", href: "/legacy" },
-                            { title: "Payroll Giving", href: "/payroll-giving" },
-                            { title: "Employee Engagement", href: "/employee-engagement" },
-                            { title: "Cause in Memory", href: "/memory" }
-                          ].map((item) => (
-                            <a 
-                              key={item.title}
-                              href={item.href} 
-                              className="flex items-center gap-3 py-2.5 px-3 text-sm rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-200 active:scale-95 touch-manipulation"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              <Heart className="h-4 w-4 flex-shrink-0" />
-                              <span className="flex-1">{item.title}</span>
-                            </a>
-                          ))}
-                        </div>
                       </div>
                     )}
                   </div>

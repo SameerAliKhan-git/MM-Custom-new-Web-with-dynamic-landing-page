@@ -7,6 +7,25 @@ import twilio from 'twilio';
 
 const router = Router();
 
+// HTML escape helper to prevent XSS attacks in HTML email body
+function escapeHtml(text) {
+  if (text == null) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .replace(/`/g, '&#96;');
+}
+
+// Sanitize plain text for email headers and subject lines
+// Removes control characters and newlines to prevent header injection
+function sanitizePlainText(text) {
+  if (text == null) return '';
+  return String(text).replace(/[\x00-\x1F\x7F]/g, '');
+}
+
 // Initialize Twilio client for WhatsApp notifications
 let twilioClient = null;
 if (process.env.TWILIO_ACCOUNT_SID && 
@@ -32,56 +51,99 @@ const partnershipSchema = z.object({
   partnerType: z.enum(['CORPORATE', 'INSTITUTIONAL'], { required_error: 'Partner type is required' })
 });
 
-// Email configuration
-// For Gmail, you need to use an App Password (not your regular password)
-// Go to: https://myaccount.google.com/apppasswords
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
+// Validate required email configuration at startup
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+  const missingVars = [];
+  if (!process.env.EMAIL_USER) missingVars.push('EMAIL_USER');
+  if (!process.env.EMAIL_PASSWORD) missingVars.push('EMAIL_PASSWORD');
+  
+  console.error('❌ FATAL: Missing required email configuration environment variables:', missingVars.join(', '));
+  console.error('📧 Email notifications will NOT work. Please set these variables in your .env file:');
+  console.error('   EMAIL_USER=your-email@gmail.com');
+  console.error('   EMAIL_PASSWORD=your-app-password');
+  console.error('   For Gmail, generate an App Password at: https://myaccount.google.com/apppasswords');
+  
+  throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+}
+
+// Email configuration with validated environment variables
+// Supports custom SMTP configuration via environment variables:
+// - SMTP_SERVICE: Email service provider (default: 'gmail')
+// - SMTP_HOST: Custom SMTP host (overrides service)
+// - SMTP_PORT: Custom SMTP port (e.g., 587, 465)
+// - SMTP_SECURE: Use TLS (true/false, default: false for port 587, true for 465)
+const transportConfig = {
   auth: {
-    user: process.env.EMAIL_USER || 'mahimaministriesindia@gmail.com',
-    pass: process.env.EMAIL_PASSWORD || '' // Set this in .env file
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
   }
-});
+};
+
+// Use custom SMTP settings if provided, otherwise use service
+if (process.env.SMTP_HOST) {
+  transportConfig.host = process.env.SMTP_HOST;
+  transportConfig.port = parseInt(process.env.SMTP_PORT || '587', 10);
+  transportConfig.secure = process.env.SMTP_SECURE === 'true' || transportConfig.port === 465;
+} else {
+  transportConfig.service = process.env.SMTP_SERVICE || 'gmail';
+}
+
+const transporter = nodemailer.createTransport(transportConfig);
 
 // Send email notification to admin
 async function sendAdminNotification(data) {
+  // Sanitize plain text for email headers (subject line)
+  const sanitizedPartnerType = sanitizePlainText(data.partnerType);
+  
+  // Escape HTML for email body content to prevent XSS
+  const escapedName = escapeHtml(data.name);
+  const escapedEmail = escapeHtml(data.email);
+  const escapedPhone = escapeHtml(data.phone);
+  const escapedCountryCode = escapeHtml(data.countryCode);
+  const escapedWhatsapp = escapeHtml(data.whatsapp);
+  const escapedWhatsappCountryCode = escapeHtml(data.whatsappCountryCode);
+  const escapedCompany = escapeHtml(data.company);
+  const escapedAddress = escapeHtml(data.address);
+  const escapedPartnerType = escapeHtml(data.partnerType);
+  const escapedPartnerTypeLower = escapeHtml(data.partnerType.toLowerCase());
+  
   const mailOptions = {
-    from: process.env.EMAIL_USER || 'mahimaministriesindia@gmail.com',
-    to: 'mahimaministriesindia@gmail.com',
-    subject: `New Partnership Inquiry - ${data.partnerType}`,
+    from: process.env.EMAIL_USER,
+    to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+    subject: `New Partnership Inquiry - ${sanitizedPartnerType}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #f97316;">New Partnership Inquiry Received</h2>
-        <p>A new ${data.partnerType.toLowerCase()} partnership inquiry has been submitted:</p>
+        <p>A new ${escapedPartnerTypeLower} partnership inquiry has been submitted:</p>
         
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
           <tr style="background-color: #f3f4f6;">
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Name:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.name}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedName}</td>
           </tr>
           <tr>
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Email:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.email}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedEmail}</td>
           </tr>
           <tr style="background-color: #f3f4f6;">
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Phone:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.countryCode} ${data.phone}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedCountryCode} ${escapedPhone}</td>
           </tr>
           ${data.whatsapp ? `<tr>
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">WhatsApp:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.countryCode} ${data.whatsapp}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedWhatsappCountryCode} ${escapedWhatsapp}</td>
           </tr>` : ''}
           <tr style="background-color: #f3f4f6;">
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Company:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.company}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedCompany}</td>
           </tr>
           <tr>
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Address:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.address}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedAddress}</td>
           </tr>
           <tr style="background-color: #f3f4f6;">
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Partnership Type:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.partnerType}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedPartnerType}</td>
           </tr>
         </table>
         
@@ -103,8 +165,21 @@ async function sendAdminNotification(data) {
 
 // Send confirmation email to user
 async function sendUserConfirmation(data) {
+  // Escape user-supplied data to prevent XSS
+  const escapedName = escapeHtml(data.name);
+  const escapedEmail = escapeHtml(data.email);
+  const escapedPhone = escapeHtml(data.phone);
+  const escapedCountryCode = escapeHtml(data.countryCode);
+  const escapedWhatsapp = escapeHtml(data.whatsapp);
+  const escapedWhatsappCountryCode = escapeHtml(data.whatsappCountryCode);
+  const escapedCompany = escapeHtml(data.company);
+  const escapedPartnerType = escapeHtml(data.partnerType);
+  
+  // Use trusted config value directly (no escaping needed for environment variables)
+  const websiteUrl = process.env.WEBSITE_URL || 'http://localhost:5173';
+  
   const mailOptions = {
-    from: process.env.EMAIL_USER || 'mahimaministriesindia@gmail.com',
+    from: process.env.EMAIL_USER,
     to: data.email,
     subject: 'Thank You for Your Interest in Partnering with Mahima Ministries',
     html: `
@@ -114,7 +189,7 @@ async function sendUserConfirmation(data) {
         </div>
         
         <div style="padding: 30px; background-color: #f9fafb;">
-          <h2 style="color: #1f2937;">Thank You, ${data.name}!</h2>
+          <h2 style="color: #1f2937;">Thank You, ${escapedName}!</h2>
           
           <p style="color: #4b5563; line-height: 1.6;">
             We have received your partnership inquiry and greatly appreciate your interest in partnering with Mahima Ministries.
@@ -123,11 +198,11 @@ async function sendUserConfirmation(data) {
           <div style="background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f97316;">
             <p style="color: #1f2937; margin: 0; font-weight: bold;">Your submission details:</p>
             <ul style="color: #4b5563; line-height: 1.8;">
-              <li><strong>Partnership Type:</strong> ${data.partnerType}</li>
-              <li><strong>Company:</strong> ${data.company}</li>
-              <li><strong>Email:</strong> ${data.email}</li>
-              <li><strong>Phone:</strong> ${data.countryCode} ${data.phone}</li>
-              ${data.whatsapp ? `<li><strong>WhatsApp:</strong> ${data.countryCode} ${data.whatsapp}</li>` : ''}
+              <li><strong>Partnership Type:</strong> ${escapedPartnerType}</li>
+              <li><strong>Company:</strong> ${escapedCompany}</li>
+              <li><strong>Email:</strong> ${escapedEmail}</li>
+              <li><strong>Phone:</strong> ${escapedCountryCode} ${escapedPhone}</li>
+              ${data.whatsapp ? `<li><strong>WhatsApp:</strong> ${escapedWhatsappCountryCode} ${escapedWhatsapp}</li>` : ''}
             </ul>
           </div>
           
@@ -160,7 +235,7 @@ async function sendUserConfirmation(data) {
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.WEBSITE_URL || 'http://localhost:5176'}/#contact" style="display: inline-block; background-color: #f97316; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+            <a href="${websiteUrl}/#contact" style="display: inline-block; background-color: #f97316; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
               Visit Our Contact Page
             </a>
           </div>
@@ -199,14 +274,27 @@ async function sendWhatsAppNotification(data) {
     return;
   }
 
+  // Sanitize user data for plain text (strip potential control characters)
+  const sanitize = (text) => String(text || '').replace(/[\x00-\x1F\x7F]/g, '');
+  
+  const sanitizedName = sanitize(data.name);
+  const sanitizedCompany = sanitize(data.company);
+  const sanitizedEmail = sanitize(data.email);
+  const sanitizedPhone = sanitize(data.phone);
+  const sanitizedCountryCode = sanitize(data.countryCode);
+  const sanitizedWhatsapp = sanitize(data.whatsapp);
+  const sanitizedWhatsappCountryCode = sanitize(data.whatsappCountryCode);
+  const sanitizedAddress = sanitize(data.address);
+  const sanitizedPartnerType = sanitize(data.partnerType);
+
   const message = `🔔 *New Partnership Inquiry*
 
-*Type:* ${data.partnerType}
-*Name:* ${data.name}
-*Company:* ${data.company}
-*Email:* ${data.email}
-*Phone:* ${data.countryCode} ${data.phone}${data.whatsapp ? `\n*WhatsApp:* ${data.countryCode} ${data.whatsapp}` : ''}
-*Address:* ${data.address}
+*Type:* ${sanitizedPartnerType}
+*Name:* ${sanitizedName}
+*Company:* ${sanitizedCompany}
+*Email:* ${sanitizedEmail}
+*Phone:* ${sanitizedCountryCode} ${sanitizedPhone}${data.whatsapp ? `\n*WhatsApp:* ${sanitizedWhatsappCountryCode} ${sanitizedWhatsapp}` : ''}
+*Address:* ${sanitizedAddress}
 
 Submitted on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
 
@@ -233,10 +321,31 @@ router.post('/partnerships', async (req, res, next) => {
     // Save to database
     const created = await prisma.partnershipInquiry.create({ data });
     
-    // Send notifications (don't await - run in background)
-    sendAdminNotification(data);
-    sendUserConfirmation(data);
-    sendWhatsAppNotification(data);
+    // Send notifications (don't await - run in background with error handling)
+    Promise.resolve(sendAdminNotification(data))
+      .catch(error => {
+        console.error('Failed to send admin notification for partnership inquiry:', {
+          inquiryId: created.id,
+          error: error.message || error
+        });
+      });
+    
+    Promise.resolve(sendUserConfirmation(data))
+      .catch(error => {
+        console.error('Failed to send user confirmation for partnership inquiry:', {
+          inquiryId: created.id,
+          userEmail: data.email,
+          error: error.message || error
+        });
+      });
+    
+    Promise.resolve(sendWhatsAppNotification(data))
+      .catch(error => {
+        console.error('Failed to send WhatsApp notification for partnership inquiry:', {
+          inquiryId: created.id,
+          error: error.message || error
+        });
+      });
     
     res.status(201).json({ 
       ok: true, 
@@ -285,12 +394,66 @@ router.patch('/partnerships/:id', authRequired('ADMIN'), async (req, res, next) 
   try {
     const id = req.params.id;
     const { notes, handled } = req.body;
+    
+    // Validate and prepare data object
+    const data = {};
+    
+    // Validate notes field
+    if (notes !== undefined) {
+      if (typeof notes !== 'string') {
+        return res.status(400).json({ 
+          error: 'Invalid notes field: must be a string' 
+        });
+      }
+      
+      const trimmedNotes = notes.trim();
+      const MAX_NOTES_LENGTH = 5000;
+      
+      if (trimmedNotes.length > MAX_NOTES_LENGTH) {
+        return res.status(400).json({ 
+          error: `Invalid notes field: exceeds maximum length of ${MAX_NOTES_LENGTH} characters` 
+        });
+      }
+      
+      data.notes = trimmedNotes;
+    }
+    
+    // Validate handled field
+    if (handled !== undefined) {
+      let validatedHandled;
+      
+      if (typeof handled === 'boolean') {
+        validatedHandled = handled;
+      } else if (typeof handled === 'string') {
+        const lowerHandled = handled.toLowerCase();
+        if (lowerHandled === 'true') {
+          validatedHandled = true;
+        } else if (lowerHandled === 'false') {
+          validatedHandled = false;
+        } else {
+          return res.status(400).json({ 
+            error: 'Invalid handled field: must be a boolean or "true"/"false" string' 
+          });
+        }
+      } else {
+        return res.status(400).json({ 
+          error: 'Invalid handled field: must be a boolean or "true"/"false" string' 
+        });
+      }
+      
+      data.handled = validatedHandled;
+    }
+    
+    // Ensure at least one field is being updated
+    if (Object.keys(data).length === 0) {
+      return res.status(400).json({ 
+        error: 'No valid fields provided for update' 
+      });
+    }
+    
     const updated = await prisma.partnershipInquiry.update({
       where: { id },
-      data: { 
-        ...(notes !== undefined && { notes }),
-        ...(handled !== undefined && { handled })
-      }
+      data
     });
     res.json(updated);
   } catch (e) {

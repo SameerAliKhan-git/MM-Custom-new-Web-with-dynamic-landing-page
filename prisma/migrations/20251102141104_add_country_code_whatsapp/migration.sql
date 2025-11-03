@@ -1,5 +1,4 @@
 -- RedefineTables
-PRAGMA defer_foreign_keys=ON;
 PRAGMA foreign_keys=OFF;
 CREATE TABLE "new_PartnershipInquiry" (
     "id" TEXT NOT NULL PRIMARY KEY,
@@ -19,4 +18,3 @@ INSERT INTO "new_PartnershipInquiry" ("address", "company", "createdAt", "email"
 DROP TABLE "PartnershipInquiry";
 ALTER TABLE "new_PartnershipInquiry" RENAME TO "PartnershipInquiry";
 PRAGMA foreign_keys=ON;
-PRAGMA defer_foreign_keys=OFF;

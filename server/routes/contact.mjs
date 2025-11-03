@@ -3,8 +3,41 @@ import { prisma } from '../lib/db.mjs';
 import { z } from 'zod';
 import nodemailer from 'nodemailer';
 import twilio from 'twilio';
+import rateLimit from 'express-rate-limit';
 
 const router = Router();
+
+// HTML escape helper to prevent XSS attacks in HTML email body
+function escapeHtml(text) {
+  if (text == null) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .replace(/`/g, '&#96;');
+}
+
+// Sanitize plain text for email headers and subject lines
+// Removes control characters and newlines to prevent header injection
+function sanitizePlainText(text) {
+  if (text == null) return '';
+  return String(text).replace(/[\x00-\x1F\x7F]/g, '');
+}
+
+// Rate limiter for contact form to prevent spam/abuse
+const contactFormLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 3, // Limit each IP to 3 contact form submissions per windowMs
+  message: 'Too many contact form submissions from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  // Do not skip successful requests; successful submissions are counted toward the limit
+  skipSuccessfulRequests: false,
+  // Skip failed requests (validation errors, etc.) so they don't count toward the limit
+  skipFailedRequests: true
+});
 
 // Initialize Twilio client for WhatsApp notifications
 let twilioClient = null;
@@ -30,21 +63,65 @@ const contactSchema = z.object({
   message: z.string().min(1, 'Message is required')
 });
 
-// Email configuration
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
+// Validate required email configuration at startup
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+  const missingVars = [];
+  if (!process.env.EMAIL_USER) missingVars.push('EMAIL_USER');
+  if (!process.env.EMAIL_PASSWORD) missingVars.push('EMAIL_PASSWORD');
+  
+  console.error('❌ FATAL: Missing required email configuration environment variables:', missingVars.join(', '));
+  console.error('📧 Email notifications will NOT work. Please set these variables in your .env file:');
+  console.error('   EMAIL_USER=your-email@gmail.com');
+  console.error('   EMAIL_PASSWORD=your-app-password');
+  console.error('   For Gmail, generate an App Password at: https://myaccount.google.com/apppasswords');
+  
+  throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+}
+
+// Email configuration with validated environment variables
+// Supports custom SMTP configuration via environment variables:
+// - SMTP_SERVICE: Email service provider (default: 'gmail')
+// - SMTP_HOST: Custom SMTP host (overrides service)
+// - SMTP_PORT: Custom SMTP port (e.g., 587, 465)
+// - SMTP_SECURE: Use TLS (true/false, default: false for port 587, true for 465)
+const transportConfig = {
   auth: {
-    user: process.env.EMAIL_USER || 'mahimaministriesindia@gmail.com',
-    pass: process.env.EMAIL_PASSWORD || ''
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
   }
-});
+};
+
+// Use custom SMTP settings if provided, otherwise use service
+if (process.env.SMTP_HOST) {
+  transportConfig.host = process.env.SMTP_HOST;
+  transportConfig.port = parseInt(process.env.SMTP_PORT || '587', 10);
+  transportConfig.secure = process.env.SMTP_SECURE === 'true' || transportConfig.port === 465;
+} else {
+  transportConfig.service = process.env.SMTP_SERVICE || 'gmail';
+}
+
+const transporter = nodemailer.createTransport(transportConfig);
 
 // Send email notification to admin
 async function sendAdminNotification(data) {
+  // Sanitize plain text for email headers (subject line)
+  const sanitizedFirstName = sanitizePlainText(data.firstName);
+  const sanitizedLastName = sanitizePlainText(data.lastName);
+  
+  // Escape HTML for email body content to prevent XSS
+  const escapedFirstName = escapeHtml(data.firstName);
+  const escapedLastName = escapeHtml(data.lastName);
+  const escapedEmail = escapeHtml(data.email);
+  const escapedPhone = escapeHtml(data.phone);
+  const escapedCountryCode = escapeHtml(data.countryCode || '');
+  const escapedWhatsapp = escapeHtml(data.whatsapp);
+  const escapedDonate = escapeHtml(data.donate || 'Not specified');
+  const escapedMessage = escapeHtml(data.message);
+  
   const mailOptions = {
-    from: process.env.EMAIL_USER || 'mahimaministriesindia@gmail.com',
-    to: 'mahimaministriesindia@gmail.com',
-    subject: `New Contact Form Submission from ${data.firstName} ${data.lastName}`,
+    from: process.env.EMAIL_USER,
+    to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+    subject: `New Contact Form Submission from ${sanitizedFirstName} ${sanitizedLastName}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #f97316;">New Contact Form Submission</h2>
@@ -53,29 +130,29 @@ async function sendAdminNotification(data) {
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
           <tr style="background-color: #f3f4f6;">
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Name:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.firstName} ${data.lastName}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedFirstName} ${escapedLastName}</td>
           </tr>
           <tr>
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Email:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.email}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedEmail}</td>
           </tr>
           <tr style="background-color: #f3f4f6;">
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Phone:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.phone}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedPhone}</td>
           </tr>
           ${data.whatsapp ? `
           <tr>
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">WhatsApp:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.countryCode || ''} ${data.whatsapp}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedCountryCode} ${escapedWhatsapp}</td>
           </tr>
           ` : ''}
           <tr ${data.whatsapp ? '' : 'style="background-color: #f3f4f6;"'}>
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Interested in Donating:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.donate || 'Not specified'}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedDonate}</td>
           </tr>
           <tr ${data.whatsapp ? 'style="background-color: #f3f4f6;"' : ''}>
             <td style="padding: 10px; border: 1px solid #e5e7eb; font-weight: bold;">Message:</td>
-            <td style="padding: 10px; border: 1px solid #e5e7eb;">${data.message}</td>
+            <td style="padding: 10px; border: 1px solid #e5e7eb;">${escapedMessage}</td>
           </tr>
         </table>
         
@@ -87,17 +164,28 @@ async function sendAdminNotification(data) {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Contact form admin notification sent:', info.messageId);
+    await transporter.sendMail(mailOptions);
+    console.log('✅ Contact form admin notification sent successfully');
   } catch (error) {
-    console.error('❌ Error sending contact admin notification:', error);
+    console.error('❌ Error sending contact admin notification:', {
+      errorType: error.name,
+      errorMessage: error.message
+    });
   }
 }
 
 // Send confirmation email to user
 async function sendUserConfirmation(data) {
+  // Escape user-supplied data to prevent XSS
+  const escapedFirstName = escapeHtml(data.firstName);
+  const escapedMessage = escapeHtml(data.message);
+  
+  // Use trusted config value directly (no escaping needed for environment variables)
+    // Use trusted config value directly (no escaping needed for environment variables)
+  const websiteUrl = process.env.WEBSITE_URL || 'http://localhost:5173';
+  
   const mailOptions = {
-    from: process.env.EMAIL_USER || 'mahimaministriesindia@gmail.com',
+    from: process.env.EMAIL_USER,
     to: data.email,
     subject: 'Thank You for Contacting Mahima Ministries',
     html: `
@@ -107,7 +195,7 @@ async function sendUserConfirmation(data) {
         </div>
         
         <div style="padding: 30px; background-color: #f9fafb;">
-          <h2 style="color: #1f2937;">Thank You, ${data.firstName}!</h2>
+          <h2 style="color: #1f2937;">Thank You, ${escapedFirstName}!</h2>
           
           <p style="color: #4b5563; line-height: 1.6;">
             We have received your message and appreciate you taking the time to contact us.
@@ -115,7 +203,7 @@ async function sendUserConfirmation(data) {
           
           <div style="background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f97316;">
             <p style="color: #1f2937; margin: 0; font-weight: bold;">Your message:</p>
-            <p style="color: #4b5563; margin-top: 10px; font-style: italic;">"${data.message}"</p>
+            <p style="color: #4b5563; margin-top: 10px; font-style: italic;">"${escapedMessage}"</p>
           </div>
           
           <p style="color: #4b5563; line-height: 1.6;">
@@ -147,7 +235,7 @@ async function sendUserConfirmation(data) {
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.WEBSITE_URL || 'http://localhost:5176'}/" style="display: inline-block; background-color: #f97316; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+            <a href="${websiteUrl}/" style="display: inline-block; background-color: #f97316; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
               Visit Our Website
             </a>
           </div>
@@ -171,10 +259,13 @@ async function sendUserConfirmation(data) {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Contact form user confirmation sent:', info.messageId);
+    await transporter.sendMail(mailOptions);
+    console.log('✅ Contact form user confirmation sent successfully');
   } catch (error) {
-    console.error('❌ Error sending contact user confirmation:', error);
+    console.error('❌ Error sending contact user confirmation:', {
+      errorType: error.name,
+      errorMessage: error.message
+    });
   }
 }
 
@@ -185,17 +276,30 @@ async function sendWhatsAppNotification(data) {
     return;
   }
 
-  const whatsappInfo = data.whatsapp ? `\n*WhatsApp:* ${data.countryCode || ''} ${data.whatsapp}` : '';
+  // Sanitize plain text data to prevent control character injection
+  // Preserve tabs (0x09), newlines (0x0A), and carriage returns (0x0D) for legitimate formatting
+  const sanitize = (text) => String(text || '').replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+  
+  const sanitizedFirstName = sanitize(data.firstName);
+  const sanitizedLastName = sanitize(data.lastName);
+  const sanitizedEmail = sanitize(data.email);
+  const sanitizedPhone = sanitize(data.phone);
+  const sanitizedCountryCode = sanitize(data.countryCode || '');
+  const sanitizedWhatsapp = sanitize(data.whatsapp);
+  const sanitizedDonate = sanitize(data.donate || 'Not specified');
+  const sanitizedMessage = sanitize(data.message);
+  
+  const whatsappInfo = data.whatsapp ? `\n*WhatsApp:* ${sanitizedCountryCode} ${sanitizedWhatsapp}` : '';
   
   const message = `🔔 *New Contact Form Submission*
 
-*Name:* ${data.firstName} ${data.lastName}
-*Email:* ${data.email}
-*Phone:* ${data.phone}${whatsappInfo}
-*Interested in Donating:* ${data.donate || 'Not specified'}
+*Name:* ${sanitizedFirstName} ${sanitizedLastName}
+*Email:* ${sanitizedEmail}
+*Phone:* ${sanitizedPhone}${whatsappInfo}
+*Interested in Donating:* ${sanitizedDonate}
 
 *Message:*
-${data.message}
+${sanitizedMessage}
 
 Submitted on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
 
@@ -214,7 +318,7 @@ Check your email for full details.`;
 }
 
 // POST: Create new contact message
-router.post('/contact', async (req, res, next) => {
+router.post('/contact', contactFormLimiter, async (req, res, next) => {
   try {
     const data = contactSchema.parse(req.body);
     
@@ -229,10 +333,57 @@ router.post('/contact', async (req, res, next) => {
       }
     });
     
-    // Send notifications (don't await - run in background)
-    sendAdminNotification(data);
-    sendUserConfirmation(data);
-    sendWhatsAppNotification(data);
+    // Send notifications in background with tracking via Promise.allSettled
+    (async () => {
+      const notificationPromises = [
+        { name: 'Admin Notification', promise: sendAdminNotification(data) },
+        { name: 'User Confirmation', promise: sendUserConfirmation(data) },
+        { name: 'WhatsApp Notification', promise: sendWhatsAppNotification(data) }
+      ];
+      
+      try {
+        const results = await Promise.allSettled(
+          notificationPromises.map(n => n.promise)
+        );
+        
+        // Check if all notifications failed
+        const allFailed = results.every(result => result.status === 'rejected');
+        const someFailed = results.some(result => result.status === 'rejected');
+        
+        if (allFailed) {
+          console.error('⚠️ CRITICAL: All contact form notifications failed for submission:', {
+            contactId: created.id,
+            userEmail: data.email,
+            errors: results.map((result, index) => ({
+              notification: notificationPromises[index].name,
+              error: result.reason?.message || result.reason
+            }))
+          });
+        } else if (someFailed) {
+          // Log individual failures
+          results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+              console.error(`Failed to send ${notificationPromises[index].name} for contact form:`, {
+                contactId: created.id,
+                userEmail: data.email,
+                error: result.reason?.message || result.reason
+              });
+            }
+          });
+        } else {
+          console.log('✅ All contact form notifications sent successfully for:', {
+            contactId: created.id,
+            userEmail: data.email
+          });
+        }
+      } catch (error) {
+        // This should never happen with allSettled, but handle just in case
+        console.error('Unexpected error in notification tracking:', {
+          contactId: created.id,
+          error: error.message || error
+        });
+      }
+    })();
     
     res.status(201).json({ 
       ok: true, 
