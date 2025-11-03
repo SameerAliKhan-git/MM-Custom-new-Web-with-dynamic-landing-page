@@ -8,12 +8,14 @@
     "serve:api": "node server/index.mjs",
     "dev:client": "vite",
     "build": "tsc -b && vite build",
+    "vercel-build": "prisma generate && npm run build",
     "preview": "vite preview",
     "lint": "echo 'No linter configured'",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --name init",
     "db:studio": "prisma studio",
-    "seed": "node server/seed.mjs"
+    "seed": "node server/seed.mjs",
+    "migrate:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",

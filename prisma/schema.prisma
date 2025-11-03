@@ -7,9 +7,9 @@ generator client {
 }
 
 datasource db {
-  // Default to SQLite for local development. To switch to PostgreSQL or MySQL,
-  // change provider accordingly and update DATABASE_URL in your .env
-  provider = "sqlite"
+  // For production: Use PostgreSQL
+  // For local development: You can use "sqlite" and DATABASE_URL="file:./dev.db"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
