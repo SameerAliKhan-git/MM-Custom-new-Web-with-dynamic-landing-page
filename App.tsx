@@ -24,6 +24,9 @@ import { Governance } from "./components/Governance"
 import { Programmes } from "./components/Programmes"
 import DonationPage from "./components/DonationPage"
 import ChildWelfare from "./components/ChildWelfare"
+import { OldAgeWelfare } from "./components/OldAgeWelfare"
+import SkillingYouth from "./components/SkillingYouth"
+import Sustainability from "./components/Sustainability"
 import { GiveInCelebration } from "./components/GiveInCelebration"
 import { isLoggedIn, getRole } from "./components/auth"
 import { Toaster } from "./components/ui/sonner"
@@ -124,6 +127,30 @@ export default function App() {
             element={
               <main className="relative z-0">
                 <ChildWelfare />
+              </main>
+            }
+          />
+          <Route
+            path="/elderly-care"
+            element={
+              <main className="relative z-0">
+                <OldAgeWelfare />
+              </main>
+            }
+          />
+          <Route
+            path="/youth-skills"
+            element={
+              <main className="relative z-0">
+                <SkillingYouth />
+              </main>
+            }
+          />
+          <Route
+            path="/sustainability"
+            element={
+              <main className="relative z-0">
+                <Sustainability />
               </main>
             }
           />

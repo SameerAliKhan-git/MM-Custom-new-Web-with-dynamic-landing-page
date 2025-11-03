@@ -432,7 +432,7 @@ export function Contact() {
             <div className="w-full h-[450px]">
               <iframe
                 title="Mahima Ministries Branches"
-                src="https://www.google.com/maps/d/u/0/embed?mid=1Lo6VCadzKNTqci16XyQe6sF5Q_C6fGI&ehbc=2E312F"
+                src="https://www.google.com/maps/d/u/3/embed?mid=1x7xByMF2oAfOY3AZv98XNPdNaR_yfYo&ehbc=2E312F"
                 width="100%"
                 height="100%"
                 className="border-0"

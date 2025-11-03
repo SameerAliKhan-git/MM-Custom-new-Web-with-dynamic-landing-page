@@ -71,128 +71,107 @@ export function VisionMissionValues() {
   }, [api]);
 
   return (
-    <section id="vmv" className="relative">
-      {/* Teal banner */}
-      <div className="bg-secondary-solid text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-          <h1 className="text-xl sm:text-2xl font-semibold">Vision | Mission | Values</h1>
-          <div className="hidden sm:flex gap-3">
-            <a href="/about" className="underline/50 hover:underline">About us</a>
-            <span aria-hidden>•</span>
-            <a href="/programmes" className="underline/50 hover:underline">Our Programmes</a>
-          </div>
-        </div>
+    <section id="vmv" className="relative bg-white">
+      {/* Hero Banner */}
+      <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
+        <img 
+          src="/hero/hero-1.jpg"
+          alt="Vision Mission Values"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
       </div>
 
-      {/* Hero Carousel - match About Us styling */}
-      <div className="relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="relative rounded-2xl overflow-hidden shadow-lg">
-            <Carousel setApi={setApi} className="group">
-              <CarouselContent>
-                {heroImages.map((img, i) => (
-                  <CarouselItem key={img.src}>
-                    <div className="relative h-[220px] sm:h-[320px] md:h-[420px]">
-                      <ImageWithFallback
-                        src={img.src}
-                        alt={img.alt}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="bg-white/90 text-foreground hover:bg-white left-3" />
-              <CarouselNext className="bg-white/90 text-foreground hover:bg-white right-3" />
-            </Carousel>
+      {/* Banner Section */}
+      <div className="bg-secondary-solid text-white py-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Vision | Mission | Values</h1>
+            <div className="flex items-center justify-center gap-2 text-sm md:text-base opacity-90">
+              <span>Home</span>
+              <span>/</span>
+              <span>About Us</span>
+              <span>/</span>
+              <span>Vision Mission Values</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Mission Statement section (after hero, before VMV cards) */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="group" ref={statementReveal.ref}>
-          <div className={`mx-auto max-w-5xl transition-all duration-500 ${statementReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-            <div className="flex items-center gap-4 mb-4">
-              <h2 className="text-2xl md:text-3xl font-semibold text-foreground">Our mission statement</h2>
-              <span className="hidden md:block h-1 bg-primary/80 rounded-full flex-1" />
-            </div>
-            <div className="space-y-4 text-foreground/90">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-6xl mx-auto space-y-12">
+          <section className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Our mission statement</h2>
+            <div className="space-y-4 text-base md:text-lg leading-relaxed text-gray-700">
               <p>
                 We strive to ensure that every child and vulnerable person has access to care, education, and the opportunity to thrive. Through community-rooted programmes, we support families, strengthen youth, and care for the elderly and people in need with dignity and compassion.
               </p>
               <p>
                 Our work spans multiple initiatives led by a dedicated team and supported by partners and well-wishers. Transparency and accountability guide how we plan, implement, and report our impact.
               </p>
-              <h3 className="text-lg md:text-xl font-semibold">As an independent, non-governmental social development organisation:</h3>
-              <ul className="mt-2 space-y-2 text-foreground/90">
-                <li className="flex gap-3"><span className="text-primary">—</span><span>We support children in need of care and protection.</span></li>
-                <li className="flex gap-3"><span className="text-primary">—</span><span>We respect diverse cultures and work with communities for sustainable development.</span></li>
-                <li className="flex gap-3"><span className="text-primary">—</span><span>We uphold child rights and safeguarding across all programmes.</span></li>
+              <h3 className="text-lg md:text-xl font-semibold text-gray-900 pt-2">As an independent, non-governmental social development organisation:</h3>
+              <ul className="mt-2 space-y-2 text-gray-700">
+                <li className="flex gap-3"><span className="text-primary font-bold">•</span><span>We support children in need of care and protection.</span></li>
+                <li className="flex gap-3"><span className="text-primary font-bold">•</span><span>We respect diverse cultures and work with communities for sustainable development.</span></li>
+                <li className="flex gap-3"><span className="text-primary font-bold">•</span><span>We uphold child rights and safeguarding across all programmes.</span></li>
               </ul>
             </div>
-          </div>
-        </div>
-      </div>
+          </section>
 
-      {/* VMV Sections - glass cards with reveal (uniform heights) */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid gap-6 lg:grid-cols-3 items-stretch">
-          <div className="group h-full" ref={visionReveal.ref}>
-            <article className={`h-full glass-card rounded-2xl border shadow-sm p-6 flex flex-col transition-all duration-500 group-hover:shadow-md group-hover:-translate-y-0.5 ${visionReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-          <div className="mb-4 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-10 bg-primary rounded-full" />
-            <h2 className="text-xl font-semibold">Vision</h2>
-          </div>
-          <p className="text-muted-foreground leading-relaxed">
-            A world where every child and vulnerable person thrives with dignity, education, and opportunity.
-          </p>
-            </article>
-          </div>
+          {/* VMV Sections - clean cards with white background */}
+          <section className="grid gap-6 lg:grid-cols-3">
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="inline-block h-1.5 w-10 bg-primary rounded-full" />
+                <h2 className="text-xl font-semibold text-gray-900">Vision</h2>
+              </div>
+              <p className="text-gray-700 leading-relaxed">
+                A world where every child and vulnerable person thrives with dignity, education, and opportunity.
+              </p>
+            </div>
 
-          <div className="group h-full" ref={missionReveal.ref}>
-            <article className={`h-full glass-card rounded-2xl border shadow-sm p-6 flex flex-col transition-all duration-500 group-hover:shadow-md group-hover:-translate-y-0.5 ${missionReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-          <div className="mb-4 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-10 bg-primary rounded-full" />
-            <h2 className="text-xl font-semibold">Mission</h2>
-          </div>
-          <p className="text-muted-foreground leading-relaxed">
-            To deliver compassionate care, quality education, and sustainable livelihood support through community-driven programmes and transparent stewardship.
-          </p>
-            </article>
-          </div>
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="inline-block h-1.5 w-10 bg-primary rounded-full" />
+                <h2 className="text-xl font-semibold text-gray-900">Mission</h2>
+              </div>
+              <p className="text-gray-700 leading-relaxed">
+                To deliver compassionate care, quality education, and sustainable livelihood support through community-driven programmes and transparent stewardship.
+              </p>
+            </div>
 
-          <div className="group h-full" ref={valuesReveal.ref}>
-            <article className={`h-full glass-card rounded-2xl border shadow-sm p-6 flex flex-col transition-all duration-500 group-hover:shadow-md group-hover:-translate-y-0.5 ${valuesReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-          <div className="mb-4 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-10 bg-primary rounded-full" />
-            <h2 className="text-xl font-semibold">Values</h2>
-          </div>
-          <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-            <li>Dignity and Respect</li>
-            <li>Integrity and Transparency</li>
-            <li>Child Safety First</li>
-            <li>Collaboration and Inclusion</li>
-            <li>Stewardship and Accountability</li>
-          </ul>
-            </article>
-          </div>
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="inline-block h-1.5 w-10 bg-primary rounded-full" />
+                <h2 className="text-xl font-semibold text-gray-900">Values</h2>
+              </div>
+              <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                <li>Dignity and Respect</li>
+                <li>Integrity and Transparency</li>
+                <li>Child Safety First</li>
+                <li>Collaboration and Inclusion</li>
+                <li>Stewardship and Accountability</li>
+              </ul>
+            </div>
+          </section>
         </div>
       </div>
 
       {/* CTA */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-        <div className="group" ref={ctaReveal.ref}>
-          <div className={`glass-card rounded-2xl border shadow-sm p-6 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all duration-500 group-hover:shadow-md group-hover:-translate-y-0.5 ${ctaReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-          <div>
-            <h3 className="text-lg font-semibold">Explore our work</h3>
-            <p className="text-sm text-muted-foreground">See programmes and stories aligned to our Vision, Mission, and Values.</p>
-          </div>
-          <div className="flex gap-3">
-            <a href="/programmes" className="rounded-full px-5 py-2.5 bg-primary text-white hover:opacity-90 shadow">Our Programmes</a>
-            <a href="/stories-change" className="rounded-full px-5 py-2.5 bg-white text-foreground border hover:bg-white/80 shadow">Stories of Change</a>
-          </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-gray-50 rounded-lg p-8 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Explore our work</h3>
+                <p className="text-sm text-gray-600">See programmes and stories aligned to our Vision, Mission, and Values.</p>
+              </div>
+              <div className="flex gap-3">
+                <a href="/programmes" className="rounded-full px-5 py-2.5 bg-primary text-white hover:opacity-90 shadow-sm transition-opacity">Our Programmes</a>
+                <a href="/contact" className="rounded-full px-5 py-2.5 bg-white text-gray-900 border border-gray-300 hover:bg-gray-100 shadow-sm transition-colors">Contact Us</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

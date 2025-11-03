@@ -96,18 +96,6 @@ function validateOriginHeaders(req, res) {
   }
   
   // Require at least one header for CSRF protection
-  if (!origin && !referer) {
-    return res.status(403).json({ 
-      error: 'Missing origin or referer header' 
-    });
-  }
-  
-  return null; // Validation passed
-}      });
-    }
-  }
-  
-  // Require at least one header for CSRF protection
   // Prevents requests without Origin or Referer from bypassing validation
   if (!origin && !referer) {
     return res.status(403).json({ 

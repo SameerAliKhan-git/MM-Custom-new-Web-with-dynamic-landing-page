@@ -46,73 +46,66 @@ export function AboutPage() {
   }, [api]);
 
   return (
-    <section id="about" className="relative bg-accent">
-      {/* Teal banner */}
-      <div className="bg-secondary-solid text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-          <h1 className="text-xl sm:text-2xl font-semibold">About Us</h1>
-        </div>
+    <section id="about" className="relative bg-white">
+      {/* Hero Banner */}
+      <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
+        <img 
+          src="/about-1.jpg"
+          alt="About Mahima Ministries"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
       </div>
 
-      {/* Hero Carousel */}
-      <div className="relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="relative rounded-2xl overflow-hidden shadow-lg">
-            <Carousel setApi={setApi} className="group">
-              <CarouselContent>
-                {heroImages.map((src, i) => (
-                  <CarouselItem key={i}>
-                    <div className="relative h-[220px] sm:h-[320px] md:h-[420px]">
-                      <ImageWithFallback
-                        src={src}
-                        alt={`About hero ${i + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="bg-white/90 text-foreground hover:bg-white left-3" />
-              <CarouselNext className="bg-white/90 text-foreground hover:bg-white right-3" />
-            </Carousel>
+      {/* Banner Section */}
+      <div className="bg-secondary-solid text-white py-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">About Us</h1>
+            <div className="flex items-center justify-center gap-2 text-sm md:text-base opacity-90">
+              <span>Home</span>
+              <span>/</span>
+              <span>About Us</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        {/* Intro */}
-        <div className="mb-8 glass-card rounded-2xl p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
-            <h2 className="text-xl sm:text-2xl font-semibold">About Us</h2>
-          </div>
-          <p className="text-foreground/90">
-            Mahima Ministries is a non-government organization working at the grass roots level by caring for and touching the lives of people who are in distress.
-          </p>
-        </div>
-
-        {/* Focus Groups */}
-        <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="glass-card rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-2">Our main focus is serving the following groups:</h3>
-            <ul className="list-disc pl-5 space-y-1 text-foreground/90">
-              <li>Orphans & abandoned, SC/ST & BPL children</li>
-              <li>Mentally ill and destitute elderly adults</li>
-              <li>HIV/AIDS patients without anyone to care for them</li>
-              <li>Community care and development</li>
-            </ul>
-          </div>
-          <div className="glass-card rounded-2xl p-6">
-            <p className="text-foreground/90">
-              We are committed to care irrespective of religion, caste, creed or ethnicity, by providing them counseling, food, shelter, clothing, education and medical treatment with a holistic approach. Our community work focuses on providing good drinking water and awareness seminars in rural areas.
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-6xl mx-auto space-y-12">
+          {/* Intro */}
+          <section className="space-y-6">
+            <p className="text-base md:text-lg leading-relaxed text-gray-700">
+              Mahima Ministries is a non-government organization working at the grass roots level by caring for and touching the lives of people who are in distress.
             </p>
-          </div>
-        </div>
+          </section>
 
-        {/* History */}
-        <div className="mb-8 glass-card rounded-2xl p-6">
+          {/* Focus Groups */}
+          <section className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Our Focus</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
+                <h3 className="text-lg font-semibold mb-3 text-gray-900">Our main focus is serving the following groups:</h3>
+                <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                  <li>Orphans & abandoned, SC/ST & BPL children</li>
+                  <li>Mentally ill and destitute elderly adults</li>
+                  <li>HIV/AIDS patients without anyone to care for them</li>
+                  <li>Community care and development</li>
+                </ul>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
+                <p className="text-gray-700 leading-relaxed">
+                  We are committed to care irrespective of religion, caste, creed or ethnicity, by providing them counseling, food, shelter, clothing, education and medical treatment with a holistic approach. Our community work focuses on providing good drinking water and awareness seminars in rural areas.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* History */}
+          <section className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">History</h2>
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
           <div className="mb-4 flex items-center gap-3">
             <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
             <h2 className="text-xl sm:text-2xl font-semibold">History</h2>
@@ -129,19 +122,41 @@ export function AboutPage() {
         </div>
 
         {/* Projects */}
-        <div className="glass-card rounded-2xl p-6">
+        <div className="mb-8 glass-card rounded-2xl p-6">
           <div className="mb-4 flex items-center gap-3">
             <span className="inline-block h-1.5 w-16 bg-primary rounded-full" />
             <h2 className="text-xl sm:text-2xl font-semibold">Our Projects</h2>
           </div>
           <ul className="list-disc pl-5 space-y-1 text-foreground/90">
-            <li>Mahima Ministries CCI for Boys and Girls – Ameenpur</li>
-            <li>Mahima Ministries UP School -Ameenpur</li>
-            <li>Mahima Ministries Old Age Home – Kothagadi, VIkarabad</li>
-            <li>Mahima Ministries Community Centre – Sidloor, Vikarabad</li>
-            <li>Mahima Ministries Open Shelter Home for Boys – Sangareddy</li>
-            <li>Mahima Ministries Vocational training for CCI Children</li>
-          </ul>
+                {/* <li>Mahima Ministries CCI for Boys and Girls – Ameenpur</li> */}
+                <li>Mahima Ministries UP School -Ameenpur</li>
+                <li>Mahima Ministries Destitute and Elderly Care Home – Ameenpur, Hyderabad</li>
+                <li>Mahima Ministries Vocational training for Youth - Ameenpur</li>
+                <li>Mahima Ministries Skill Development Centre – Ameenpur</li>
+                <li>Mahima Ministries Old Age Home – Kothagadi, Vikarabad</li>
+                <li>Mahima Ministries Community Centre – Sidloor, Vikarabad</li>
+                <li>Mahima Ministries Open Shelter Home for Boys – Sangareddy</li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Branches Map */}
+          <section className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Our Branches</h2>
+            <div className="rounded-lg overflow-hidden shadow-sm">
+              <div className="w-full h-[450px]">
+                <iframe
+                  title="Mahima Ministries Branches"
+                  src="https://www.google.com/maps/d/u/3/embed?mid=1x7xByMF2oAfOY3AZv98XNPdNaR_yfYo&ehbc=2E312F"
+                  width="100%"
+                  height="100%"
+                  className="border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </section>
