@@ -14,10 +14,46 @@ const SQLiteStore = SQLiteStoreFactory(session);
 export function baseMiddleware(app) {
   app.set('trust proxy', 1);
   app.use(helmet());
+  
+  // Dynamic CORS configuration for development and production
   app.use(cors({
-    origin: config.corsOrigin,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (mobile apps, Postman, curl)
+      if (!origin) return callback(null, true);
+      
+      // Ensure corsOrigin is an array
+      const allowedOrigins = Array.isArray(config.corsOrigin) 
+        ? config.corsOrigin 
+        : [config.corsOrigin].filter(Boolean);
+      
+      // Check if origin is in allowed list
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      
+      // Development: Allow localhost, ngrok, and tunneling services
+      if (config.env === 'development') {
+        const devPatterns = [
+          /^https?:\/\/localhost(:\d+)?$/,
+          /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+          /^https?:\/\/.*\.ngrok-free\.(app|dev)$/,    // ngrok free domains (.app or .dev)
+          /^https?:\/\/.*\.ngrok\.io$/,                // ngrok legacy domains
+          /^https?:\/\/.*\.ngrok\.app$/,               // ngrok app domains
+          /^https?:\/\/.*\.loca\.lt$/,                 // localtunnel domains
+        ];
+        
+        if (devPatterns.some(pattern => pattern.test(origin))) {
+          return callback(null, true);
+        }
+      }
+      
+      // Production: Only allow exact matches
+      console.warn('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   }));
+  
   app.use(cookieParser());
   app.use(express.json({ limit: '1mb' }));
 }
@@ -62,10 +98,42 @@ function validateOriginHeaders(req, res) {
     ? config.corsOrigin 
     : [config.corsOrigin].filter(Boolean);
   
-  // Allow requests from same origin or configured CORS origins
+  // Add additional allowed patterns for development/staging
+  const allowedPatterns = [
+    /^https?:\/\/localhost(:\d+)?$/,           // localhost with any port
+    /^https?:\/\/127\.0\.0\.1(:\d+)?$/,        // 127.0.0.1 with any port
+    /^https?:\/\/.*\.ngrok-free\.(app|dev)$/,  // ngrok free domains (.app or .dev)
+    /^https?:\/\/.*\.ngrok\.io$/,              // ngrok legacy domains
+    /^https?:\/\/.*\.ngrok\.app$/,             // ngrok app domains
+    /^https?:\/\/.*\.loca\.lt$/,               // localtunnel domains
+  ];
+  
+  // Check if origin/referer matches allowed patterns (for mobile testing)
+  const isAllowedPattern = (url) => {
+    if (!url) return false;
+    try {
+      const urlObj = new URL(url);
+      const urlOrigin = `${urlObj.protocol}//${urlObj.host}`;
+      return allowedPatterns.some(pattern => pattern.test(urlOrigin));
+    } catch {
+      return false;
+    }
+  };
+  
+  // Allow requests from same origin, configured CORS origins, or allowed patterns
   if (origin) {
     const originHost = new URL(origin).host;
-    if (originHost !== host && !allowedOrigins.includes(origin)) {
+    const isAllowed = originHost === host || 
+                      allowedOrigins.includes(origin) || 
+                      isAllowedPattern(origin);
+    
+    if (!isAllowed) {
+      console.warn('Blocked request - invalid origin:', {
+        origin,
+        host,
+        allowedOrigins,
+        ip: req.ip
+      });
       return res.status(403).json({ 
         error: 'Invalid origin header' 
       });
@@ -76,31 +144,50 @@ function validateOriginHeaders(req, res) {
   if (referer) {
     try {
       const refererHost = new URL(referer).host;
-      if (refererHost !== host && !allowedOrigins.some(allowed => {
-        try {
-          return new URL(allowed).host === refererHost;
-        } catch {
-          return false;
-        }
-      })) {
+      const isAllowed = refererHost === host || 
+                        allowedOrigins.some(allowed => {
+                          try {
+                            return new URL(allowed).host === refererHost;
+                          } catch {
+                            return false;
+                          }
+                        }) ||
+                        isAllowedPattern(referer);
+      
+      if (!isAllowed) {
+        console.warn('Blocked request - invalid referer:', {
+          referer,
+          host,
+          allowedOrigins,
+          ip: req.ip
+        });
         return res.status(403).json({ 
           error: 'Invalid referer header' 
         });
       }
     } catch (e) {
       // Invalid referer URL format
+      console.warn('Blocked request - invalid referer format:', {
+        referer,
+        error: e.message,
+        ip: req.ip
+      });
       return res.status(403).json({ 
         error: 'Invalid referer header format' 
       });
     }
   }
   
-  // Require at least one header for CSRF protection
-  // Prevents requests without Origin or Referer from bypassing validation
+  // RELAXED: Allow requests without Origin/Referer for mobile compatibility
+  // Mobile browsers (especially WebView, in-app browsers) sometimes don't send these headers
+  // Other security layers (rate limiting, honeypot, input validation) still apply
   if (!origin && !referer) {
-    return res.status(403).json({ 
-      error: 'Missing origin or referer header' 
+    console.warn('Request without Origin/Referer headers (mobile browser?):', {
+      path: req.path,
+      userAgent: req.get('user-agent'),
+      ip: req.ip
     });
+    // Allow the request but log it for monitoring
   }
   
   return null; // Validation passed

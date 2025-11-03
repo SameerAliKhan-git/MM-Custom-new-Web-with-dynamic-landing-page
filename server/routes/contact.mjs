@@ -57,8 +57,9 @@ const contactSchema = z.object({
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().email('Valid email is required'),
   phone: z.string().min(1, 'Phone is required'),
-  countryCode: z.string().optional(),
+  countryCode: z.string().default('+91'),
   whatsapp: z.string().optional(),
+  whatsappCountryCode: z.string().default('+91'),
   donate: z.enum(['Yes', 'No', 'Maybe']).optional(),
   message: z.string().min(1, 'Message is required')
 });
@@ -322,14 +323,17 @@ router.post('/contact', contactFormLimiter, async (req, res, next) => {
   try {
     const data = contactSchema.parse(req.body);
     
-    // Save to database
+    // Save to database - format all fields into the message field
     const name = `${data.firstName} ${data.lastName}`;
-    const whatsappInfo = data.whatsapp ? `\nWhatsApp: ${data.countryCode || ''} ${data.whatsapp}` : '';
+    const phoneInfo = `Phone: ${data.countryCode || '+91'} ${data.phone}`;
+    const whatsappInfo = data.whatsapp ? `\nWhatsApp: ${data.whatsappCountryCode || data.countryCode || '+91'} ${data.whatsapp}` : '';
+    const donateInfo = data.donate ? `\nInterested in Donating: ${data.donate}` : '';
+    
     const created = await prisma.contactMessage.create({ 
       data: {
         name,
         email: data.email,
-        message: `Phone: ${data.phone}${whatsappInfo}\nInterested in Donating: ${data.donate || 'Not specified'}\n\n${data.message}`
+        message: `${phoneInfo}${whatsappInfo}${donateInfo}\n\n${data.message}`
       }
     });
     
