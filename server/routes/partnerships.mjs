@@ -26,6 +26,7 @@ const partnershipSchema = z.object({
   phone: z.string().min(1, 'Phone is required'),
   countryCode: z.string().default('+91'),
   whatsapp: z.string().optional(),
+  whatsappCountryCode: z.string().default('+91'),
   company: z.string().min(1, 'Company name is required'),
   address: z.string().min(1, 'Address is required'),
   partnerType: z.enum(['CORPORATE', 'INSTITUTIONAL'], { required_error: 'Partner type is required' })

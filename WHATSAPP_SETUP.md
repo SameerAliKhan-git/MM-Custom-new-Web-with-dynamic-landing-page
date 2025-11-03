@@ -1,6 +1,6 @@
 # WhatsApp Notification Setup Guide
 
-Partnership inquiries will now be sent to your WhatsApp number **+917416053348** automatically!
+Partnership inquiries will now be sent to your WhatsApp number **<YOUR_WHATSAPP_NUMBER>** automatically!
 
 ## 🚀 Quick Setup (Using Twilio)
 
@@ -30,23 +30,25 @@ Open your `.env` file and replace these values:
 TWILIO_ACCOUNT_SID=AC1234567890abcdef1234567890abcdef  # Your actual Account SID
 TWILIO_AUTH_TOKEN=your_actual_auth_token_here          # Your actual Auth Token
 TWILIO_WHATSAPP_FROM=whatsapp:+14155238886             # The Twilio WhatsApp number
-ADMIN_WHATSAPP_NUMBER=whatsapp:+917416053348           # Your WhatsApp (already set)
+ADMIN_WHATSAPP_NUMBER=whatsapp:+91XXXXXXXXXX           # Your WhatsApp number with country code
 ```
 
-**Important:** Keep the `whatsapp:` prefix for both numbers!
+**Important:** 
+- Replace `+91XXXXXXXXXX` with your actual WhatsApp number (including country code)
+- Keep the `whatsapp:` prefix for both numbers!
 
 ### Step 5: Restart the Server
 ```bash
 npm run dev
-```
-
 ### Step 6: Test It!
 Submit a test partnership inquiry at: http://localhost:5176/partnerships
 
 You should receive:
-1. ✅ Email to mahimaministriesindia@gmail.com
+1. ✅ Email to <YOUR_EMAIL> (configured via ADMIN_EMAIL in .env)
 2. ✅ Confirmation email to the user
-3. ✅ **WhatsApp message to +917416053348** 📱
+3. ✅ **WhatsApp message to <YOUR_WHATSAPP_NUMBER>** 📱
+
+## 📝 WhatsApp Message Format17416053348** 📱
 
 ## 📝 WhatsApp Message Format
 
@@ -103,7 +105,8 @@ If you prefer not to use Twilio, you can use WhatsApp Business API directly:
 **Solution:** 
 - Verify you've joined the Twilio Sandbox
 - Check the phone number format includes `whatsapp:` prefix
-- Ensure +917416053348 is registered with WhatsApp
+- Ensure your WhatsApp number (configured in ADMIN_WHATSAPP_NUMBER) is registered with WhatsApp
+- Verify the number format is correct: `whatsapp:+[country_code][phone_number]` (e.g., `whatsapp:+91XXXXXXXXXX`)
 
 ### Issue: "Sandbox prefix in messages"
 **Solution:** This is normal for sandbox. Upgrade to production for clean messages.

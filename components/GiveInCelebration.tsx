@@ -2,26 +2,26 @@ import { Button } from "./ui/button"
 import { Mail, Gift, Heart, Cake } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
+// Simple reveal animation hook matching Contact/VMV pages
+const useReveal = () => {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setVisible(true)),
+      { threshold: 0.15 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+  return { ref, visible }
+}
+
 export function GiveInCelebration() {
   // State for active celebration type
   const [activeCelebration, setActiveCelebration] = useState<'birthday' | 'wedding' | 'occasions' | null>(null)
-
-  // Simple reveal animation matching Contact/VMV pages
-  const useReveal = () => {
-    const ref = useRef<HTMLDivElement | null>(null)
-    const [visible, setVisible] = useState(false)
-    useEffect(() => {
-      const el = ref.current
-      if (!el) return
-      const obs = new IntersectionObserver(
-        (entries) => entries.forEach((e) => e.isIntersecting && setVisible(true)),
-        { threshold: 0.15 }
-      )
-      obs.observe(el)
-      return () => obs.disconnect()
-    }, [])
-    return { ref, visible }
-  }
 
   const birthdayReveal = useReveal()
   const weddingReveal = useReveal()

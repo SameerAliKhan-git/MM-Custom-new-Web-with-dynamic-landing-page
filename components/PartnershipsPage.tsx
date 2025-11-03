@@ -3,24 +3,15 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import { countries } from './countryData';
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  countryCode: string;
-  whatsapp: string;
-  company: string;
-  address: string;
-}
+import { PartnershipForm, PartnershipFormData } from './PartnershipForm';
 
 export function PartnershipsPage() {
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [activePartnership, setActivePartnership] = useState<'corporate' | 'institutional' | null>(null);
-  const [corporateFormData, setCorporateFormData] = useState<FormData>({
+  const [corporateFormData, setCorporateFormData] = useState<PartnershipFormData>({
     name: '', email: '', phone: '', countryCode: '+91', whatsapp: '', company: '', address: ''
   });
-  const [institutionalFormData, setInstitutionalFormData] = useState<FormData>({
+  const [institutionalFormData, setInstitutionalFormData] = useState<PartnershipFormData>({
     name: '', email: '', phone: '', countryCode: '+91', whatsapp: '', company: '', address: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,9 +19,8 @@ export function PartnershipsPage() {
   const [corporateWhatsappError, setCorporateWhatsappError] = useState('');
   const [institutionalPhoneError, setInstitutionalPhoneError] = useState('');
   const [institutionalWhatsappError, setInstitutionalWhatsappError] = useState('');
-  const [csrfToken, setCsrfToken] = useState('');
 
-  // Fetch CSRF token on component mount
+  // Fetch CSRF token on component mount to ensure cookie is set
   useEffect(() => {
     const fetchCsrfToken = async () => {
       try {
@@ -574,147 +564,17 @@ export function PartnershipsPage() {
                   </p>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-6 md:p-8 lg:p-10 shadow-sm border border-gray-200">
-                  <form className="space-y-6" onSubmit={(e) => handleFormSubmit(e, 'CORPORATE')}>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Your Name */}
-                      <div>
-                        <input
-                          type="text"
-                          placeholder="Your Name"
-                          value={corporateFormData.name}
-                          onChange={(e) => setCorporateFormData({...corporateFormData, name: e.target.value})}
-                          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-
-                      {/* Your Email */}
-                      <div>
-                        <input
-                          type="email"
-                          placeholder="Your Email"
-                          value={corporateFormData.email}
-                          onChange={(e) => setCorporateFormData({...corporateFormData, email: e.target.value})}
-                          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Country Code & Phone */}
-                      <div>
-                        <div className="flex gap-2">
-                          <select
-                            value={corporateFormData.countryCode}
-                            onChange={(e) => {
-                              setCorporateFormData({...corporateFormData, countryCode: e.target.value});
-                              setCorporatePhoneError('');
-                            }}
-                            className="w-32 px-2 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm"
-                            required
-                            disabled={isSubmitting}
-                          >
-                            {countries.map((country) => (
-                              <option key={country.code} value={country.dialCode}>
-                                {country.flag} {country.dialCode} {country.name}
-                              </option>
-                            ))}
-                          </select>
-                          <input
-                            type="tel"
-                            placeholder="Phone Number"
-                            value={corporateFormData.phone}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/[^0-9]/g, '');
-                              setCorporateFormData({...corporateFormData, phone: value});
-                              setCorporatePhoneError('');
-                            }}
-                            className={`flex-1 px-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all ${
-                              corporatePhoneError ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                            required
-                            disabled={isSubmitting}
-                          />
-                        </div>
-                        {corporatePhoneError && (
-                          <p className="text-red-500 text-sm mt-1">{corporatePhoneError}</p>
-                        )}
-                      </div>
-
-                      {/* WhatsApp Number (Optional) */}
-                      <div>
-                        <div className="flex gap-2">
-                          <div className="w-32 flex items-center justify-center px-2 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 text-sm font-medium">
-                            {countries.find(c => c.dialCode === corporateFormData.countryCode)?.flag} {corporateFormData.countryCode}
-                          </div>
-                          <input
-                            type="tel"
-                            placeholder="WhatsApp (Optional)"
-                            value={corporateFormData.whatsapp}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/[^0-9]/g, '');
-                              setCorporateFormData({...corporateFormData, whatsapp: value});
-                              setCorporateWhatsappError('');
-                            }}
-                            className={`flex-1 px-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all ${
-                              corporateWhatsappError ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                            disabled={isSubmitting}
-                          />
-                        </div>
-                        {corporateWhatsappError && (
-                          <p className="text-red-500 text-sm mt-1">{corporateWhatsappError}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Company Name */}
-                      <div>
-                        <input
-                          type="text"
-                          placeholder="Company Name"
-                          value={corporateFormData.company}
-                          onChange={(e) => setCorporateFormData({...corporateFormData, company: e.target.value})}
-                          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-
-                      {/* Empty space for layout */}
-                      <div></div>
-                    </div>
-
-                    {/* Address */}
-                    <div>
-                      <textarea
-                        placeholder="Address"
-                        rows={5}
-                        value={corporateFormData.address}
-                        onChange={(e) => setCorporateFormData({...corporateFormData, address: e.target.value})}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none"
-                        required
-                        disabled={isSubmitting}
-                      ></textarea>
-                    </div>
-
-                    {/* Submit Button */}
-                    <div className="flex justify-center pt-4">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="bg-primary hover:bg-orange-600 text-white px-12 py-3 rounded-full font-semibold text-lg transition-all shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                      >
-                        {isSubmitting ? 'Submitting...' : 'Submit'}
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                <PartnershipForm
+                  formData={corporateFormData}
+                  setFormData={setCorporateFormData}
+                  phoneError={corporatePhoneError}
+                  setPhoneError={setCorporatePhoneError}
+                  whatsappError={corporateWhatsappError}
+                  setWhatsappError={setCorporateWhatsappError}
+                  isSubmitting={isSubmitting}
+                  onSubmit={(e) => handleFormSubmit(e, 'CORPORATE')}
+                  countries={countries}
+                />
               </section>
             </div>
           )}
@@ -881,147 +741,17 @@ export function PartnershipsPage() {
                   </p>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-6 md:p-8 lg:p-10 shadow-sm border border-gray-200">
-                  <form className="space-y-6" onSubmit={(e) => handleFormSubmit(e, 'INSTITUTIONAL')}>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Your Name */}
-                      <div>
-                        <input
-                          type="text"
-                          placeholder="Your Name"
-                          value={institutionalFormData.name}
-                          onChange={(e) => setInstitutionalFormData({...institutionalFormData, name: e.target.value})}
-                          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-
-                      {/* Your Email */}
-                      <div>
-                        <input
-                          type="email"
-                          placeholder="Your Email"
-                          value={institutionalFormData.email}
-                          onChange={(e) => setInstitutionalFormData({...institutionalFormData, email: e.target.value})}
-                          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Country Code & Phone */}
-                      <div>
-                        <div className="flex gap-2">
-                          <select
-                            value={institutionalFormData.countryCode}
-                            onChange={(e) => {
-                              setInstitutionalFormData({...institutionalFormData, countryCode: e.target.value});
-                              setInstitutionalPhoneError('');
-                            }}
-                            className="w-32 px-2 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm"
-                            required
-                            disabled={isSubmitting}
-                          >
-                            {countries.map((country) => (
-                              <option key={country.code} value={country.dialCode}>
-                                {country.flag} {country.dialCode} {country.name}
-                              </option>
-                            ))}
-                          </select>
-                          <input
-                            type="tel"
-                            placeholder="Phone Number"
-                            value={institutionalFormData.phone}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/[^0-9]/g, '');
-                              setInstitutionalFormData({...institutionalFormData, phone: value});
-                              setInstitutionalPhoneError('');
-                            }}
-                            className={`flex-1 px-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all ${
-                              institutionalPhoneError ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                            required
-                            disabled={isSubmitting}
-                          />
-                        </div>
-                        {institutionalPhoneError && (
-                          <p className="text-red-500 text-sm mt-1">{institutionalPhoneError}</p>
-                        )}
-                      </div>
-
-                      {/* WhatsApp Number (Optional) */}
-                      <div>
-                        <div className="flex gap-2">
-                          <div className="w-32 flex items-center justify-center px-2 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-600 text-sm font-medium">
-                            {countries.find(c => c.dialCode === institutionalFormData.countryCode)?.flag} {institutionalFormData.countryCode}
-                          </div>
-                          <input
-                            type="tel"
-                            placeholder="WhatsApp (Optional)"
-                            value={institutionalFormData.whatsapp}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/[^0-9]/g, '');
-                              setInstitutionalFormData({...institutionalFormData, whatsapp: value});
-                              setInstitutionalWhatsappError('');
-                            }}
-                            className={`flex-1 px-4 py-3 bg-white border rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all ${
-                              institutionalWhatsappError ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                            disabled={isSubmitting}
-                          />
-                        </div>
-                        {institutionalWhatsappError && (
-                          <p className="text-red-500 text-sm mt-1">{institutionalWhatsappError}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {/* Company Name */}
-                      <div>
-                        <input
-                          type="text"
-                          placeholder="Company Name"
-                          value={institutionalFormData.company}
-                          onChange={(e) => setInstitutionalFormData({...institutionalFormData, company: e.target.value})}
-                          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-
-                      {/* Empty space for layout */}
-                      <div></div>
-                    </div>
-
-                    {/* Address */}
-                    <div>
-                      <textarea
-                        placeholder="Address"
-                        rows={5}
-                        value={institutionalFormData.address}
-                        onChange={(e) => setInstitutionalFormData({...institutionalFormData, address: e.target.value})}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none"
-                        required
-                        disabled={isSubmitting}
-                      ></textarea>
-                    </div>
-
-                    {/* Submit Button */}
-                    <div className="flex justify-center pt-4">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="bg-primary hover:bg-orange-600 text-white px-12 py-3 rounded-full font-semibold text-lg transition-all shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                      >
-                        {isSubmitting ? 'Submitting...' : 'Submit'}
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                <PartnershipForm
+                  formData={institutionalFormData}
+                  setFormData={setInstitutionalFormData}
+                  phoneError={institutionalPhoneError}
+                  setPhoneError={setInstitutionalPhoneError}
+                  whatsappError={institutionalWhatsappError}
+                  setWhatsappError={setInstitutionalWhatsappError}
+                  isSubmitting={isSubmitting}
+                  onSubmit={(e) => handleFormSubmit(e, 'INSTITUTIONAL')}
+                  countries={countries}
+                />
               </section>
             </div>
           )}

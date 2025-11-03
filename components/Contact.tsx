@@ -63,6 +63,7 @@ export function Contact() {
     phone: '',
     countryCode: '+91',
     whatsapp: '',
+    whatsappCountryCode: '+91',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -71,23 +72,33 @@ export function Contact() {
   // Handle checkbox change for "Same as Phone"
   const handleSameAsPhoneChange = (checked: boolean) => {
     setSameAsPhone(checked)
-    if (checked) {
-      // Copy phone number to WhatsApp field
-      setFormData({...formData, whatsapp: formData.phone})
-    } else {
-      // Clear WhatsApp field when unchecked
-      setFormData({...formData, whatsapp: ''})
-    }
+    // Use functional state update to avoid stale state
+    // When checked, sync both WhatsApp number and country code with phone
+    setFormData(prev => ({
+      ...prev,
+      whatsapp: checked ? prev.phone : '',
+      whatsappCountryCode: checked ? prev.countryCode : prev.whatsappCountryCode
+    }))
   }
 
   // When phone number changes and checkbox is checked, update WhatsApp too
   const handlePhoneChange = (value: string) => {
-    setFormData({...formData, phone: value})
-    if (sameAsPhone) {
-      setFormData({...formData, phone: value, whatsapp: value})
-    }
+    // Use functional state updater to apply changes atomically
+    setFormData(prev => ({
+      ...prev,
+      phone: value,
+      ...(sameAsPhone ? { whatsapp: value } : {})
+    }))
   }
 
+  // When phone country code changes and checkbox is checked, update WhatsApp country code too
+  const handlePhoneCountryCodeChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      countryCode: value,
+      ...(sameAsPhone ? { whatsappCountryCode: value } : {})
+    }))
+  }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -102,19 +113,55 @@ export function Contact() {
         })
       })
 
-      const result = await response.json()
+      // Handle response parsing with proper error handling for non-JSON responses
+      let result: { message?: string } = {}
+      const contentType = response.headers.get('content-type')
+      
+      if (contentType && contentType.includes('application/json')) {
+        // Safe to parse as JSON
+        try {
+          result = await response.json()
+        } catch (jsonError) {
+          console.error('Failed to parse JSON response:', jsonError)
+          result = { message: 'Invalid JSON response from server' }
+        }
+      } else {
+        // Non-JSON response - read as text for debugging
+        try {
+          const textResponse = await response.text()
+          console.error('Non-JSON response received:', {
+            status: response.status,
+            statusText: response.statusText,
+            contentType,
+            body: textResponse
+          })
+          result = { 
+            message: response.ok 
+              ? 'Request processed but received unexpected response format' 
+              : 'Server error: Invalid response format'
+          }
+        } catch (textError) {
+          console.error('Failed to read response text:', textError)
+          result = { message: 'Unable to read server response' }
+        }
+      }
 
       if (response.ok) {
         toast.success(result.message || 'Thank you! We received your message.')
         // Reset form
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', countryCode: '+91', whatsapp: '', message: '' })
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', countryCode: '+91', whatsapp: '', whatsappCountryCode: '+91', message: '' })
         setDonate(undefined)
         setSameAsPhone(false)
       } else {
         toast.error(result.message || 'Failed to send message. Please try again.')
       }
     } catch (error) {
-      console.error('Error submitting contact form:', error)
+      // Log only sanitized error information without exposing sensitive form data
+      console.error('Error submitting contact form:', {
+        errorType: error instanceof Error ? error.name : 'Unknown',
+        errorMessage: error instanceof Error ? error.message : 'Network or submission error',
+        timestamp: new Date().toISOString()
+      })
       toast.error('An error occurred. Please try again or contact us directly.')
     } finally {
       setIsSubmitting(false)
@@ -232,15 +279,34 @@ export function Contact() {
                 </div>
                 <div className="space-y-2 sm:col-span-2">
                   <Label htmlFor="phone">Phone No.</Label>
-                  <Input 
-                    id="phone" 
-                    placeholder="Your phone number" 
-                    value={formData.phone}
-                    onChange={(e) => handlePhoneChange(e.target.value)}
-                    className="bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" 
-                    required
-                    disabled={isSubmitting}
-                  />
+                  <div className="flex gap-2">
+                    <Select 
+                      value={formData.countryCode} 
+                      onValueChange={handlePhoneCountryCodeChange}
+                      disabled={isSubmitting}
+                    >
+                      <SelectTrigger className="w-[140px] bg-white/70 border-white/40 text-foreground">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <div className="font-semibold px-2 py-1.5 text-xs text-muted-foreground">Popular</div>
+                        {topCountries.map((country) => (
+                          <SelectItem key={country.code} value={country.dialCode}>
+                            {country.flag} {country.dialCode}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Input 
+                      id="phone" 
+                      placeholder="Your phone number" 
+                      value={formData.phone}
+                      onChange={(e) => handlePhoneChange(e.target.value)}
+                      className="flex-1 bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40" 
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2 sm:col-span-2">
                   <div className="flex items-center space-x-2">
@@ -262,8 +328,8 @@ export function Contact() {
                   <Label htmlFor="whatsapp">WhatsApp Number {!sameAsPhone && '(Optional)'}</Label>
                   <div className="flex gap-2">
                     <Select 
-                      value={formData.countryCode} 
-                      onValueChange={(value) => setFormData({...formData, countryCode: value})}
+                      value={formData.whatsappCountryCode} 
+                      onValueChange={(value) => setFormData(prev => ({...prev, whatsappCountryCode: value}))}
                       disabled={isSubmitting || sameAsPhone}
                     >
                       <SelectTrigger className="w-[140px] bg-white/70 border-white/40 text-foreground">
@@ -280,9 +346,9 @@ export function Contact() {
                     </Select>
                     <Input 
                       id="whatsapp"
-                      placeholder={sameAsPhone ? "Same as phone number" : "WhatsApp number"}
+                      placeholder={sameAsPhone ? `Same as phone number (${formData.whatsappCountryCode} ${formData.whatsapp})` : "WhatsApp number"}
                       value={formData.whatsapp}
-                      onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
+                      onChange={(e) => setFormData(prev => ({...prev, whatsapp: e.target.value}))}
                       className="flex-1 bg-white/70 border-white/40 text-foreground placeholder:text-foreground/60 focus-visible:ring-white/40"
                       disabled={isSubmitting || sameAsPhone}
                       readOnly={sameAsPhone}

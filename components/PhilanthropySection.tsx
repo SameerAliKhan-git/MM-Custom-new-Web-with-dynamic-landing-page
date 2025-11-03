@@ -226,22 +226,30 @@ export function PhilanthropyPage() {
                     <a 
                       href="mailto:mahimaministriesindia@gmail.com" 
                       className="text-sm md:text-base font-semibold text-primary hover:underline transition-all"
+                      aria-label="Send email to Mahima Ministries"
+                      title="Email us at mahimaministriesindia@gmail.com"
                     >
                       mahimaministriesindia@gmail.com
                     </a>
                   </div>
                   <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-50 rounded-full">
-                    <span className="text-sm text-gray-700">Phone:</span>
+                    <span className="text-sm text-gray-700">Office Phone:</span>
                     <a 
                       href="tel:+919246502264" 
                       className="text-sm md:text-base font-semibold text-primary hover:underline transition-all"
+                      aria-label="Call office phone number +91 9246502264"
+                      title="Office: +91 9246502264"
                     >
                       +91 9246502264
                     </a>
-                    <span className="text-gray-400">|</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-gray-50 rounded-full">
+                    <span className="text-sm text-gray-700">Mobile:</span>
                     <a 
                       href="tel:+919246272675" 
                       className="text-sm md:text-base font-semibold text-primary hover:underline transition-all"
+                      aria-label="Call mobile number +91 9246272675"
+                      title="Mobile: +91 9246272675"
                     >
                       +91 9246272675
                     </a>

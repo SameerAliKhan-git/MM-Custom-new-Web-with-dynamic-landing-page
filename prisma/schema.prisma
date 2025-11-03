@@ -86,16 +86,17 @@ model PasswordResetToken {
 }
 
 model PartnershipInquiry {
-  id           String   @id @default(cuid())
-  name         String
-  email        String
-  phone        String
-  countryCode  String   @default("+91")
-  whatsapp     String?
-  company      String
-  address      String
-  partnerType  String   // CORPORATE | INSTITUTIONAL
-  createdAt    DateTime @default(now())
-  handled      Boolean  @default(false)
-  notes        String?
+  id                  String   @id @default(cuid())
+  name                String
+  email               String
+  phone               String
+  countryCode         String   @default("+91")
+  whatsapp            String?
+  whatsappCountryCode String   @default("+91")
+  company             String
+  address             String
+  partnerType         String   // CORPORATE | INSTITUTIONAL
+  createdAt           DateTime @default(now())
+  handled             Boolean  @default(false)
+  notes               String?
 }
