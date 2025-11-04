@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-size: 16px;
+  /* Site palette (Pumpkin/Teal/Parchment) */
+  --background: #F5F5F5; /* Neutral background */
+  --foreground: #333333; /* Charcoal text */
+  --card: #ffffff;
+  --card-foreground: #333333;
+  --popover: #ffffff;
+  --popover-foreground: #333333;
+  --primary: #ff7518; /* Pumpkin Orange */
+  --primary-foreground: #ffffff; /* readable on pumpkin */
+  --secondary: #004D40; /* Deep Teal */
+  --secondary-foreground: #ffffff;
+  --muted: #ECECEC; /* subtle gray for muted surfaces */
+  --muted-foreground: #666666;
+  --accent: #F0EAD6; /* Parchment */
+  --accent-foreground: #333333;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: transparent;
+  --input-background: #f3f3f5;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #ff7518;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: #F0EAD6; /* use accent in sidebar */
+  --sidebar-foreground: #333333;
+  --sidebar-primary: #004D40; /* teal accents */
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #FFE5C9; /* light pumpkin tint */
+  --sidebar-accent-foreground: #333333;
+  --sidebar-border: #E6E6E6;
+  --sidebar-ring: #ff7518;
+}
+
+.dark {
+  --background: #1f1f1f;
+  --foreground: #F5F5F5;
+  --card: #242424;
+  --card-foreground: #F5F5F5;
+  --popover: #242424;
+  --popover-foreground: #F5F5F5;
+  --primary: #ff8a3a; /* slightly lighter pumpkin for dark */
+  --primary-foreground: #1f1f1f;
+  --secondary: #0b6b5a;
+  --secondary-foreground: #ffffff;
+  --muted: #2a2a2a;
+  --muted-foreground: #c7c7c7;
+  --accent: #3a3a3a;
+  --accent-foreground: #F5F5F5;
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: #2a2a2a;
+  --input: #2a2a2a;
+  --ring: #ff8a3a;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: #1f1f1f;
+  --sidebar-foreground: #F5F5F5;
+  --sidebar-primary: #0b6b5a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #F5F5F5;
+  --sidebar-border: #2a2a2a;
+  --sidebar-ring: #ff8a3a;
+}
+
+
+@layer base {
+  * {
+    /* Use CSS variables directly to avoid relying on Tailwind color utility generation */
+    border-color: var(--border);
+    /* Outline color aligns with ring token */
+    outline-color: var(--ring);
+  }
+
+  body {
+    /* Apply theme background and text colors from CSS variables */
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: 2rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: 1rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: 1rem;
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: 1rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: 1rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: 1rem;
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+/* 3D Card Flip Animation Styles */
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  /* Ensure smooth animations */
+  .group:hover .group-hover\:rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+
+  /* Liquid glass card utilities */
+  .glass-card {
+    position: relative;
+    overflow: hidden;
+    /* base surface is transparent; visual wash is provided by ::before */
+    background: transparent;
+    /* match the "Watch Our Story" button border (white/20) */
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    /* create a new paint layer to avoid odd clipping with transforms */
+    contain: paint;
+    isolation: isolate;
+    will-change: transform;
+    /* default gradient focus point */
+    --x: 50%;
+    --y: 50%;
+  }
+
+  /* Base wash so the frosted look covers the entire card */
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    /* match the "Watch Our Story" button base tint (bg-white/10) */
+    background: rgba(255, 255, 255, 0.10);
+    /* match the small backdrop blur */
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  .glass-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+    /* layered gradients for liquid look (kept subtle on top of the button-like base) */
+    background:
+      radial-gradient(600px 260px at var(--x) var(--y), color-mix(in oklab, var(--primary) 22%, transparent) 0%, transparent 60%),
+      radial-gradient(400px 200px at calc(100% - var(--x)) calc(100% - var(--y)), color-mix(in oklab, var(--accent) 18%, transparent) 0%, transparent 65%),
+      linear-gradient(135deg, color-mix(in oklab, var(--primary) 6%, transparent), color-mix(in oklab, var(--accent) 8%, transparent));
+    opacity: .5;
+    transition: transform .6s ease, opacity .3s ease;
+  }
+
+  .group:hover .glass-card::after {
+    transform: scale(1.05) rotate(1deg);
+    opacity: .9;
+  }
+
+  /* ensure children render above overlays */
+  .glass-card > * { position: relative; z-index: 2; }
+
+  /* motion safety */
+  @media (prefers-reduced-motion: reduce) {
+    .glass-card::after { transition: none; }
+  }
+
+  /* Site palette helpers */
+  .bg-primary-gradient {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--primary) 70%, white) 0%,
+      var(--primary) 100%
+    );
+  }
+
+  .bg-secondary-tint {
+    /* subtle section wash based on secondary token */
+    background: color-mix(in oklab, var(--secondary) 85%, white);
+  }
+
+  /* Carousel dots using site primary palette */
+  .dot-primary-active { background-color: var(--primary); opacity: 0.7; }
+  .dot-primary-inactive { background-color: var(--primary); opacity: 0.4; }
+
+  /* Solid primary section background + readable text color */
+  .bg-primary-solid { background-color: var(--primary); }
+  .text-primary-foreground-color { color: var(--primary-foreground); }
+
+  /* Secondary token helpers */
+  .bg-secondary-solid { background-color: var(--secondary); }
+  .text-secondary-color { color: var(--secondary); }
+  .hover\:text-secondary-color:hover { color: var(--secondary); }
+  .hover\:bg-secondary-solid:hover { background-color: var(--secondary); }
+
+  /* SVG helpers */
+  .stroke-primary-deep { stroke: color-mix(in oklab, var(--primary) 70%, black); }
+
+  /* Animation duration helpers */
+  .anim-duration-3000 { animation-duration: 3s; }
+  .anim-duration-4000 { animation-duration: 4s; }
+  .anim-duration-5000 { animation-duration: 5s; }
+}
